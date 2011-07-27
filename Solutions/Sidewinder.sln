@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{64A5B926-0515-418C-96DC-F2EC44441552}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{FD93BE50-A6ED-4167-B534-9A1F587DFE2C}"
+	ProjectSection(SolutionItems) = preProject
+		Build\Common\AssemblyVersion.cs = Build\Common\AssemblyVersion.cs
+		Build\Common\CommonAssemblyInfo.cs = Build\Common\CommonAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidewinder", "Sidewinder\Sidewinder.csproj", "{058948F5-E41B-4A63-9E25-8DC38B15CDAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidewinder.Tests", "Sidewinder.Tests\Sidewinder.Tests.csproj", "{50516039-97CD-47E1-8FA3-BE6B23036F92}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{058948F5-E41B-4A63-9E25-8DC38B15CDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058948F5-E41B-4A63-9E25-8DC38B15CDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058948F5-E41B-4A63-9E25-8DC38B15CDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058948F5-E41B-4A63-9E25-8DC38B15CDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50516039-97CD-47E1-8FA3-BE6B23036F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50516039-97CD-47E1-8FA3-BE6B23036F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50516039-97CD-47E1-8FA3-BE6B23036F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50516039-97CD-47E1-8FA3-BE6B23036F92}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD93BE50-A6ED-4167-B534-9A1F587DFE2C} = {64A5B926-0515-418C-96DC-F2EC44441552}
+	EndGlobalSection
+EndGlobal

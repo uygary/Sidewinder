@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Sidewinder</id>
+    <version>1.0.0.0</version>
+    <title>Sidewinder</title>
+    <authors>James Simmonds</authors>
+    <owners>James Simmonds</owners>
+    <licenseUrl>http://sidewinder.codeplex.com/license</licenseUrl>
+    <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
+    <iconUrl>http://download.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=Wolfpack&amp;DownloadId=140622&amp;Build=17672</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A component to provide automatic updates to your application via NuGet</description>
+    <summary>A component to provide automatic updates to your application via NuGet</summary>
+    <language>en-GB</language>
+    <tags>Sidewinder nuget update auto</tags>
+  </metadata>
+</package>
