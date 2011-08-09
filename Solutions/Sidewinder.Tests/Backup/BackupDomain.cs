@@ -10,7 +10,7 @@ namespace Sidewinder.Tests.Backup
     {
         private string myDirectoryToBackup;
         private string myBackupToDirectory;
-        private IBackupAgent myBackupAgent;
+        private IPipelineStep<UpdaterContext> myBackupStep;
 
         private void TheDirectory_ShouldBeBackedUp(string directory)
         {
@@ -19,17 +19,22 @@ namespace Sidewinder.Tests.Backup
 
         private void ItIsBackedup()
         {
-            myBackupAgent = new TestBackupAgent();
-            myBackupAgent.Backup(new BackupConfig
+            myBackupStep = new TestBackupStep();
+            myBackupStep.Execute(new UpdaterContext
                                      {
-                                         DirectoryToBackup = myDirectoryToBackup,
-                                         BackupTo = myBackupToDirectory
+                                         Config = new UpdateConfig
+                                                      {
+                                                          Backup = true,
+                                                          BackupFolder = myBackupToDirectory,
+                                                          InstallFolder = myDirectoryToBackup,
+                                                          TargetPackage = "TestPackage"
+                                                      }
                                      });
         }
 
         private void TheBackupArtifactsAreCreated()
         {
-            string backupFile = Path.Combine(myBackupToDirectory, TestBackupAgent.BackupFile);
+            string backupFile = Path.Combine(myBackupToDirectory, TestBackupStep.BackupFile);
             Assert.That(File.Exists(backupFile), Is.True);
         }
 

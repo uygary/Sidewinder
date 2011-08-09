@@ -1,6 +1,8 @@
+using Sidewinder.Updater;
+
 namespace Sidewinder.Tests.StandIns
 {
-    public class TestBackupAgent : DefaultBackupAgent
+    public class TestBackupStep : BackupApplication
     {
         public const string BackupFile = "test.zip";
 

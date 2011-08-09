@@ -7,6 +7,13 @@ namespace Sidewinder.Interfaces.Entities
 
     public class DistributeFiles
     {
-        public string TargetProcess { get; set; }
+        public string TargetProcessFilename { get; set; }
+        public int SecondsToWait { get; set; }
+
+        public DistributeFiles()
+        {
+            // default timeout to wait for the running process to terminate
+            SecondsToWait = 10;
+        }
     }
 }

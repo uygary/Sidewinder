@@ -14,10 +14,16 @@ namespace Sidewinder
         public UpdateConfigBuilder()
         {
             myConfig = new UpdateConfig
-                           {
+                           {        
                                NuGetFeedUrl = "https://go.microsoft.com/fwlink/?LinkID=206669",
                                Backup = true
                            };
+        }
+
+        public UpdateConfigBuilder NuGetFeed(string url)
+        {
+            myConfig.NuGetFeedUrl = url;
+            return this;
         }
 
         public UpdateConfigBuilder Package(string name)
@@ -58,6 +64,10 @@ namespace Sidewinder
                 config.DownloadFolder = GetFolderOrDefault(myConfig.DownloadFolder, DefaultDownloadFolder);
                 config.InstallFolder = SmartLocation.GetLocation(myConfig.InstallFolder);
             }
+
+            // finally append the target package name to the download folder to allow
+            // multiple packages to be downloaded (future feature)
+            config.DownloadFolder = Path.Get(config.DownloadFolder, config.TargetPackage).FullPath;
 
             return config;
         }

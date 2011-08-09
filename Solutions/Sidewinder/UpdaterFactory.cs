@@ -1,5 +1,6 @@
 using System;
 using Sidewinder.Interfaces;
+using Sidewinder.Updater;
 
 namespace Sidewinder
 {
@@ -8,16 +9,16 @@ namespace Sidewinder
     /// </summary>
     public class UpdaterFactory
     {
-        public static IUpdateAgent Try(Action<UpdateConfigBuilder> setup)
+        public static IUpdateAgent Setup(Action<UpdateConfigBuilder> setup)
         {
-            var updater = new DefaultUpdateAgent();
+            var agent = new EmbeddedUpdateAgent();
 
             var builder = new UpdateConfigBuilder();
             setup(builder);
             var config = builder.Build();
 
-            updater.Initialise(config);
-            return updater;
+            agent.Initialise(config);
+            return agent;
         }
     }
 }

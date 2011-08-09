@@ -20,8 +20,8 @@ namespace Sidewinder.Tests.Backup
         public void BackupAll()
         {
             myStory.WithScenario("")
-                .Given(TheDirectory_ShouldBeBackedUp, @"testdata\install")
-                    .And(TheBackupLocation_IsUsed, @"testdata\install\_nestedbackups")
+                .Given(TheDirectory_ShouldBeBackedUp, @"testdata\install_backup")
+                    .And(TheBackupLocation_IsUsed, @"testdata\install_backup\_nestedbackups")
                 .When(ItIsBackedup)
                 .Then(TheBackupArtifactsAreCreated)
                 .ExecuteWithReport();

@@ -3,9 +3,9 @@ using Sidewinder.Interfaces.Entities;
 
 namespace Sidewinder.Interfaces
 {
-    public interface IUpdateAgent
+    public interface IDistributionAgent
     {
-        IUpdateAgent Initialise(UpdateConfig config);
+        IDistributionAgent Initialise(DistributorConfig config);
         bool Execute();
     }
 }
