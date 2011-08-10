@@ -93,9 +93,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(TargetDir)$(TargetName).* ..\..\..\..\..\..\Wolfpack\trunk\solutions\references /Y /R /I
-xcopy $(TargetDir)Ionic.Zip.dll ..\..\..\..\..\..\Wolfpack\trunk\solutions\references /Y /R /I
-xcopy $(TargetDir)Fluent*.dll ..\..\..\..\..\..\Wolfpack\trunk\solutions\references /Y /R /I</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
