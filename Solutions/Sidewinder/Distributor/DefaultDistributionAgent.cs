@@ -13,17 +13,12 @@ namespace Sidewinder.Distributor
         protected DistributorConfig myConfig;
         protected Pipeline<DistributorContext> myPipeline;
 
-        public DefaultDistributionAgent()
+        public DefaultDistributionAgent(DistributorConfig config)
         {
+            myConfig = config;
             myPipeline = Pipeline<DistributorContext>.Run(new GetPackageBinariesLocation())
                 .Then(new WaitForProcessShutdown())
                 .Then(new CopyPackageFiles());
-        }
-
-        public IDistributionAgent Initialise(DistributorConfig config)
-        {
-            myConfig = config;
-            return this;
         }
 
         public bool Execute()

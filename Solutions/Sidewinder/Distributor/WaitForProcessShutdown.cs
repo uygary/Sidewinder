@@ -25,14 +25,14 @@ namespace Sidewinder.Distributor
 
             do
             {               
-                if (Process.GetProcesses().Where(p => string.Compare(p.MainModule.FileName, context.Config.Process.TargetProcessFilename) == 0)
+                if (Process.GetProcesses().Where(p => string.Compare(p.MainModule.FileName, context.Config.Package.TargetProcessFilename) == 0)
                         .FirstOrDefault() == null)
                     return true;
                 
-                if (timer.Elapsed.Seconds > context.Config.Process.SecondsToWait)
+                if (timer.Elapsed.Seconds > context.Config.Package.SecondsToWait)
                 {
                     // timeout waiting for launching process to terminate
-                    Console.WriteLine("\tParent process still running after {0}s...aborting", context.Config.Process.SecondsToWait);
+                    Console.WriteLine("\tParent process still running after {0}s...aborting", context.Config.Package.SecondsToWait);
                     return false;
                 }
                 

@@ -1,3 +1,5 @@
+using System;
+using Fluent.IO;
 using Sidewinder.Interfaces.Entities;
 
 namespace Sidewinder
@@ -18,6 +20,24 @@ namespace Sidewinder
                                  // finalise config from myConfig
                              };
             return config;
+        }
+
+        public DistributorConfigBuilder InstallTo(string folder)
+        {
+            myConfig.InstallFolder = folder;
+            return this;
+        }
+
+        public DistributorConfigBuilder PackageIs(DistributeFiles package)
+        {
+            myConfig.Package = package;
+
+            if (!string.IsNullOrWhiteSpace(myConfig.InstallFolder))
+                return this;
+
+            // the install folder must be the one the contains the exe that launched us
+            myConfig.InstallFolder = Path.Get(package.TargetProcessFilename).Parent().FullPath;
+            return this;
         }
     }
 }

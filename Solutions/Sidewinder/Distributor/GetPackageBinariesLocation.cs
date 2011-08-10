@@ -19,9 +19,9 @@ namespace Sidewinder.Distributor
         {
             var folder = Path.Get(context.Config.DownloadFolder, "lib");
 
-            if (!string.IsNullOrWhiteSpace(context.Config.PackageFrameworkHint))
+            if (!string.IsNullOrWhiteSpace(context.Config.Package.FrameworkHint))
             {
-                folder = folder.Combine(context.Config.PackageFrameworkHint);
+                folder = folder.Combine(context.Config.Package.FrameworkHint);
             }
 
             context.BinariesFolder = folder.FullPath;

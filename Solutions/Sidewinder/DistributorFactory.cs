@@ -9,15 +9,13 @@ namespace Sidewinder
     /// </summary>
     public class DistributorFactory
     {
-        public static IDistributionAgent Try(Action<DistributorConfigBuilder> setup)
+        public static IDistributionAgent Setup(Action<DistributorConfigBuilder> setup)
         {
-            var agent = new DefaultDistributionAgent();
-
             var builder = new DistributorConfigBuilder();
             setup(builder);
             var config = builder.Build();
 
-            agent.Initialise(config);
+            var agent = new DefaultDistributionAgent(config);
             return agent;
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Sidewinder.Interfaces.Entities;
 
@@ -7,14 +8,22 @@ namespace Sidewinder
     {
         private static void Main(string[] args)
         {
+            var retCode = 0;
             SidewinderCommands commands;
 
-            if (GetCommands(out commands))
+            if (!GetCommands(out commands))
             {
-                // add other commands here
-                //return DistributeFilesAfterDownload(commands);
+                return;
             }
 
+            if (commands.DistributeFiles != null)
+            {
+                retCode = DistributorFactory.Setup(config => config.InstallTo(@"c:\temp\sidewinder_wp")
+                                                       .PackageIs(commands.DistributeFiles))
+                                                       .Execute() ? 0 : -1;
+            }
+
+            Environment.ExitCode = retCode; 
         }
 
         protected static bool GetCommands(out SidewinderCommands commands)

@@ -17,18 +17,13 @@ namespace Sidewinder.Updater
         protected UpdateConfig myConfig;
         protected Pipeline<UpdaterContext> myPipeline;
 
-        public EmbeddedUpdateAgent()
+        public EmbeddedUpdateAgent(UpdateConfig config)
         {
+            myConfig = config;
             myPipeline = Pipeline<UpdaterContext>.Run(new GetNuGetPackage())
                 .Then(new DownloadPackageFiles())
                 .Then(new BackupApplication())
                 .Then(new WriteUpdateCommandFile());
-        }
-
-        public IUpdateAgent Initialise(UpdateConfig config)
-        {
-            myConfig = config;
-            return this;
         }
 
         public bool Execute()

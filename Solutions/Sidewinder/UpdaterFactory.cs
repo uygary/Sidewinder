@@ -11,13 +11,11 @@ namespace Sidewinder
     {
         public static IUpdateAgent Setup(Action<UpdateConfigBuilder> setup)
         {
-            var agent = new EmbeddedUpdateAgent();
-
             var builder = new UpdateConfigBuilder();
             setup(builder);
             var config = builder.Build();
 
-            agent.Initialise(config);
+            var agent = new EmbeddedUpdateAgent(config);
             return agent;
         }
     }
