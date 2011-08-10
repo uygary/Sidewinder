@@ -11,6 +11,13 @@ namespace Sidewinder.Interfaces.Entities
         public string FrameworkHint { get; set; }
         public int SecondsToWait { get; set; }
 
+        private string myDownloadFolder;
+        public string DownloadFolder
+        {
+            get { return myDownloadFolder; }
+            set { myDownloadFolder = SmartLocation.GetLocation(value); }
+        }
+
         public DistributeFiles()
         {
             // default timeout to wait for the running process to terminate

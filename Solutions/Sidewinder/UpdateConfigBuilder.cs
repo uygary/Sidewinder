@@ -32,6 +32,12 @@ namespace Sidewinder
             return this;
         }
 
+        public UpdateConfigBuilder FrameworkHint(string hint)
+        {
+            myConfig.FrameworkHint = hint;
+            return this;
+        }
+
         public UpdateConfigBuilder DoNotBackup()
         {
             myConfig.Backup = false;
@@ -46,7 +52,10 @@ namespace Sidewinder
                                  NuGetFeedUrl = myConfig.NuGetFeedUrl,
                                  BackupFolder = GetFolderOrDefault(myConfig.BackupFolder, DefaultBackupFolder),
                                  InstallFolder = GetFolderOrDefault(myConfig.InstallFolder, Path.Get(Process.GetCurrentProcess().MainModule.FileName).Parent().FullPath), 
-                                 TargetPackage = myConfig.TargetPackage
+                                 TargetPackage = myConfig.TargetPackage,
+                                 BackupFoldersToIgnore = myConfig.BackupFoldersToIgnore,
+                                 DownloadFolder = myConfig.DownloadFolder,
+                                 FrameworkHint = myConfig.FrameworkHint
                              };
 
             if (string.IsNullOrWhiteSpace(myConfig.DownloadFolder))

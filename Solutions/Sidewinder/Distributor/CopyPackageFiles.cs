@@ -1,8 +1,8 @@
 
+using System;
 using Fluent.IO;
 using Sidewinder.Interfaces;
 using Sidewinder.Interfaces.Entities;
-using FluentAssertions;
 
 namespace Sidewinder.Distributor
 {
@@ -13,8 +13,14 @@ namespace Sidewinder.Distributor
     {
         public void EntryConditions(DistributorContext context)
         {
-            context.Config.DownloadFolder.Should().NotBeNullOrEmpty();
-            context.Config.InstallFolder.Should().NotBeNullOrEmpty();
+            if (context == null)
+                throw new ArgumentNullException("context");
+            if (context.Config == null)
+                throw new ArgumentException("Config property is null", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.Package.DownloadFolder))
+                throw new ArgumentException("Config.Package.DownloadFolder property not set", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.InstallFolder))
+                throw new ArgumentException("Config.InstallFolder property not set", "context");
         }
 
         public bool Execute(DistributorContext context)
@@ -22,13 +28,13 @@ namespace Sidewinder.Distributor
             Path.Get(context.Config.InstallFolder).CreateDirectory();
 
             // copy the content files
-            Path.Get(context.Config.DownloadFolder, "Content")
+            Path.Get(context.Config.Package.DownloadFolder, "Content")
                 .Copy(context.Config.InstallFolder, Overwrite.Never, true);
 
             Path.Get(context.BinariesFolder)
                 .Copy(context.Config.InstallFolder, Overwrite.Always, true);
 
-            Path.Get(context.Config.DownloadFolder, "Tools")
+            Path.Get(context.Config.Package.DownloadFolder, "Tools")
                 .Copy(context.Config.InstallFolder, Overwrite.Always, true);
             return true;
         }

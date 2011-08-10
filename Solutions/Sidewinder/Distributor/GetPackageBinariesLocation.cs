@@ -1,7 +1,7 @@
+using System;
 using Fluent.IO;
 using Sidewinder.Interfaces;
 using Sidewinder.Interfaces.Entities;
-using FluentAssertions;
 
 namespace Sidewinder.Distributor
 {
@@ -12,12 +12,17 @@ namespace Sidewinder.Distributor
     {
         public void EntryConditions(DistributorContext context)
         {
-            context.Config.DownloadFolder.Should().NotBeNullOrEmpty();
+            if (context == null)
+                throw new ArgumentNullException("context");
+            if (context.Config == null)
+                throw new ArgumentException("Config property is null", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.Package.DownloadFolder))
+                throw new ArgumentException("Config.DownloadFolder property not set", "context");
         }
 
         public bool Execute(DistributorContext context)
         {
-            var folder = Path.Get(context.Config.DownloadFolder, "lib");
+            var folder = Path.Get(context.Config.Package.DownloadFolder, "lib");
 
             if (!string.IsNullOrWhiteSpace(context.Config.Package.FrameworkHint))
             {
@@ -30,7 +35,8 @@ namespace Sidewinder.Distributor
 
         public void ExitConditions(DistributorContext context)
         {
-            context.BinariesFolder.Should().NotBeNullOrEmpty();
+            if (string.IsNullOrWhiteSpace(context.BinariesFolder))
+                throw new ArgumentException("BinariesFolder property not set", "context");
         }
     }
 }

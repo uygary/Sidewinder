@@ -13,6 +13,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidewinder", "Sidewinder\Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sidewinder.Tests", "Sidewinder.Tests\Sidewinder.Tests.csproj", "{50516039-97CD-47E1-8FA3-BE6B23036F92}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{6D9F2108-E0DF-494E-8950-C45C57896CBF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sidewinder", "Sidewinder", "{786BD787-B899-47B0-843E-5421AD73FE84}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\Sidewinder\Sidewinder.nuspec = NuGet\Sidewinder\Sidewinder.nuspec
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{82F22CD8-ACD6-4480-A430-7860CDA36313}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net40", "Net40", "{5496129D-9ADD-4B4D-AB2C-C28E022CE371}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\Sidewinder\lib\Net40\delete.me = NuGet\Sidewinder\lib\Net40\delete.me
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,5 +47,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FD93BE50-A6ED-4167-B534-9A1F587DFE2C} = {64A5B926-0515-418C-96DC-F2EC44441552}
+		{786BD787-B899-47B0-843E-5421AD73FE84} = {6D9F2108-E0DF-494E-8950-C45C57896CBF}
+		{82F22CD8-ACD6-4480-A430-7860CDA36313} = {786BD787-B899-47B0-843E-5421AD73FE84}
+		{5496129D-9ADD-4B4D-AB2C-C28E022CE371} = {82F22CD8-ACD6-4480-A430-7860CDA36313}
 	EndGlobalSection
 EndGlobal

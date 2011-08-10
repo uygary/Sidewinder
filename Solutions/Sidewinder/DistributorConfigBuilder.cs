@@ -1,4 +1,4 @@
-using System;
+
 using Fluent.IO;
 using Sidewinder.Interfaces.Entities;
 
@@ -17,7 +17,8 @@ namespace Sidewinder
         {
             var config = new DistributorConfig
                              {
-                                 // finalise config from myConfig
+                                 InstallFolder = myConfig.InstallFolder,
+                                 Package = myConfig.Package
                              };
             return config;
         }

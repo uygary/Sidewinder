@@ -21,7 +21,9 @@ namespace Sidewinder.Updater
             {
                 DistributeFiles = new DistributeFiles
                 {
-                    TargetProcessFilename = Process.GetCurrentProcess().MainModule.FileName
+                    TargetProcessFilename = Process.GetCurrentProcess().MainModule.FileName,
+                    DownloadFolder = context.Config.DownloadFolder,
+                    FrameworkHint = context.Config.FrameworkHint
                 }
             };
             SerialisationHelper<SidewinderCommands>.DataContractSerialize(commandFile, command);

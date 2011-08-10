@@ -6,7 +6,6 @@ using Sidewinder.Interfaces;
 using Sidewinder.Interfaces.Entities;
 using System.Linq;
 using Path = Fluent.IO.Path;
-using FluentAssertions;
 
 namespace Sidewinder.Updater
 {
@@ -14,8 +13,14 @@ namespace Sidewinder.Updater
     {
         public void EntryConditions(UpdaterContext context)
         {
-            context.Config.InstallFolder.Should().NotBeNullOrEmpty();
-            context.Config.BackupFolder.Should().NotBeNullOrEmpty();
+            if (context == null)
+                throw new ArgumentNullException("context");
+            if (context.Config == null)
+                throw new ArgumentException("Config property is null", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.InstallFolder))
+                throw new ArgumentException("Config.InstallFolder property not set", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.BackupFolder))
+                throw new ArgumentException("Config.BackupFolder property not set", "context");
         }
 
         public bool Execute(UpdaterContext context)

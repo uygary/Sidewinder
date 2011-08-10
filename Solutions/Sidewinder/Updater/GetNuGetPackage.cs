@@ -3,7 +3,6 @@ using System.Reflection;
 using NuGet;
 using Sidewinder.Interfaces;
 using Sidewinder.Interfaces.Entities;
-using FluentAssertions;
 
 namespace Sidewinder.Updater
 {
@@ -11,9 +10,14 @@ namespace Sidewinder.Updater
     {
         public void EntryConditions(UpdaterContext context)
         {
-            context.Config.Should().NotBeNull();
-            context.Config.NuGetFeedUrl.Should().NotBeNullOrEmpty();
-            context.Config.TargetPackage.Should().NotBeNullOrEmpty();
+            if (context == null)
+                throw new ArgumentNullException("context");
+            if (context.Config == null)
+                throw new ArgumentException("Config property is null", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.NuGetFeedUrl))
+                throw new ArgumentException("Config.NuGetFeedUrl property not set", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.TargetPackage))
+                throw new ArgumentException("Config.TargetPackage property not set", "context");
         }
 
         public bool Execute(UpdaterContext context)
@@ -37,8 +41,10 @@ namespace Sidewinder.Updater
 
         public void ExitConditions(UpdaterContext context)
         {
-            context.CurrentVersion.Should().NotBeNull();
-            context.Package.Should().NotBeNull();
+            if (context.CurrentVersion == null)
+                throw new ArgumentException("CurrentVersion property not set", "context");
+            if (context.Package == null)
+                throw new ArgumentException("Package property not set", "context");
         }
     }
 }

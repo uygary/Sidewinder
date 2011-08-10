@@ -18,6 +18,7 @@ namespace Sidewinder
 
             if (commands.DistributeFiles != null)
             {
+                Console.WriteLine("\tDetected DistributeFiles command...executing...");
                 retCode = DistributorFactory.Setup(config => config.InstallTo(@"c:\temp\sidewinder_wp")
                                                        .PackageIs(commands.DistributeFiles))
                                                        .Execute() ? 0 : -1;

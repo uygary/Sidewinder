@@ -37,8 +37,11 @@ namespace Sidewinder.Tests.Copy
                                   BinariesFolder = myUpdateBinariesFolder,
                                   Config = new DistributorConfig
                                                {
-                                                   DownloadFolder = myUpdateFolder,
-                                                   InstallFolder = myInstallationFolder
+                                                   InstallFolder = myInstallationFolder,
+                                                   Package = new DistributeFiles
+                                                                 {
+                                                                     DownloadFolder = myUpdateFolder
+                                                                 }
                                                }
                               };
 

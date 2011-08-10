@@ -25,7 +25,10 @@ namespace Sidewinder.Distributor
 
             do
             {               
-                if (Process.GetProcesses().Where(p => string.Compare(p.MainModule.FileName, context.Config.Package.TargetProcessFilename) == 0)
+                if (Process.GetProcesses().Where(p => 
+                    (string.Compare(p.ProcessName, "System") != 0) &&
+                    (string.Compare(p.ProcessName, "Idle") != 0) &&
+                    (string.Compare(p.MainModule.FileName, context.Config.Package.TargetProcessFilename) == 0))
                         .FirstOrDefault() == null)
                     return true;
                 

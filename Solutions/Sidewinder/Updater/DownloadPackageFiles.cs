@@ -4,7 +4,6 @@ using System.Linq;
 using NuGet;
 using Sidewinder.Interfaces;
 using Sidewinder.Interfaces.Entities;
-using FluentAssertions;
 
 namespace Sidewinder.Updater
 {
@@ -12,8 +11,14 @@ namespace Sidewinder.Updater
     {
         public void EntryConditions(UpdaterContext context)
         {
-            context.Package.Should().NotBeNull();
-            context.Config.DownloadFolder.Should().NotBeNullOrEmpty();
+            if (context == null)
+                throw new ArgumentNullException("context");
+            if (context.Config == null)
+                throw new ArgumentException("Config property is null", "context");
+            if (context.Package == null)
+                throw new ArgumentException("Package property not set", "context");
+            if (string.IsNullOrWhiteSpace(context.Config.DownloadFolder))
+                throw new ArgumentException("Config.DownloadFolder property not set", "context");
         }
 
         public bool Execute(UpdaterContext context)
