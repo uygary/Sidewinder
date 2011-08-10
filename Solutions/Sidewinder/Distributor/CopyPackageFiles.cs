@@ -17,7 +17,7 @@ namespace Sidewinder.Distributor
                 throw new ArgumentNullException("context");
             if (context.Config == null)
                 throw new ArgumentException("Config property is null", "context");
-            if (string.IsNullOrWhiteSpace(context.Config.Package.DownloadFolder))
+            if (string.IsNullOrWhiteSpace(context.Config.Command.DownloadFolder))
                 throw new ArgumentException("Config.Package.DownloadFolder property not set", "context");
             if (string.IsNullOrWhiteSpace(context.Config.InstallFolder))
                 throw new ArgumentException("Config.InstallFolder property not set", "context");
@@ -25,17 +25,31 @@ namespace Sidewinder.Distributor
 
         public bool Execute(DistributorContext context)
         {
+            Console.WriteLine("\tCopying update files to {0}...", context.Config.InstallFolder);
             Path.Get(context.Config.InstallFolder).CreateDirectory();
 
             // copy the content files
-            Path.Get(context.Config.Package.DownloadFolder, "Content")
-                .Copy(context.Config.InstallFolder, Overwrite.Never, true);
+            if (Path.Get(context.Config.Command.DownloadFolder, "Content").Exists)
+            {
+                Console.WriteLine("\t\tCopying Content files...");
+                Path.Get(context.Config.Command.DownloadFolder, "Content")
+                    .Copy(context.Config.InstallFolder, Overwrite.Never, true);
+            }
 
-            Path.Get(context.BinariesFolder)
-                .Copy(context.Config.InstallFolder, Overwrite.Always, true);
+            if (Path.Get(context.BinariesFolder).Exists)
+            {
+                Console.WriteLine("\t\tCopying Binaries from {0}...", context.BinariesFolder);
+                Path.Get(context.BinariesFolder)
+                    .Copy(context.Config.InstallFolder, Overwrite.Always, true);
+            }
 
-            Path.Get(context.Config.Package.DownloadFolder, "Tools")
-                .Copy(context.Config.InstallFolder, Overwrite.Always, true);
+            if (Path.Get(context.Config.Command.DownloadFolder, "Tools").Exists)
+            {
+                Console.WriteLine("\t\tCopying Tool files...");
+                Path.Get(context.Config.Command.DownloadFolder, "Tools")
+                    .Copy(context.Config.InstallFolder, Overwrite.Always, true);
+            }
+
             return true;
         }
 

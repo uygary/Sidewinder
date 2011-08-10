@@ -16,17 +16,17 @@ namespace Sidewinder.Distributor
                 throw new ArgumentNullException("context");
             if (context.Config == null)
                 throw new ArgumentException("Config property is null", "context");
-            if (string.IsNullOrWhiteSpace(context.Config.Package.DownloadFolder))
+            if (string.IsNullOrWhiteSpace(context.Config.Command.DownloadFolder))
                 throw new ArgumentException("Config.DownloadFolder property not set", "context");
         }
 
         public bool Execute(DistributorContext context)
         {
-            var folder = Path.Get(context.Config.Package.DownloadFolder, "lib");
+            var folder = Path.Get(context.Config.Command.DownloadFolder, "lib");
 
-            if (!string.IsNullOrWhiteSpace(context.Config.Package.FrameworkHint))
+            if (!string.IsNullOrWhiteSpace(context.Config.Command.FrameworkHint))
             {
-                folder = folder.Combine(context.Config.Package.FrameworkHint);
+                folder = folder.Combine(context.Config.Command.FrameworkHint);
             }
 
             context.BinariesFolder = folder.FullPath;

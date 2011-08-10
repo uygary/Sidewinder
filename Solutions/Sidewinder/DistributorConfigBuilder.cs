@@ -18,7 +18,7 @@ namespace Sidewinder
             var config = new DistributorConfig
                              {
                                  InstallFolder = myConfig.InstallFolder,
-                                 Package = myConfig.Package
+                                 Command = myConfig.Command
                              };
             return config;
         }
@@ -29,15 +29,15 @@ namespace Sidewinder
             return this;
         }
 
-        public DistributorConfigBuilder PackageIs(DistributeFiles package)
+        public DistributorConfigBuilder CommandIs(DistributeFiles command)
         {
-            myConfig.Package = package;
+            myConfig.Command = command;
 
             if (!string.IsNullOrWhiteSpace(myConfig.InstallFolder))
                 return this;
 
             // the install folder must be the one the contains the exe that launched us
-            myConfig.InstallFolder = Path.Get(package.TargetProcessFilename).Parent().FullPath;
+            myConfig.InstallFolder = Path.Get(command.TargetProcessFilename).Parent().FullPath;
             return this;
         }
     }

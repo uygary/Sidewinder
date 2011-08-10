@@ -38,7 +38,7 @@ namespace Sidewinder.Tests.Copy
                                   Config = new DistributorConfig
                                                {
                                                    InstallFolder = myInstallationFolder,
-                                                   Package = new DistributeFiles
+                                                   Command = new DistributeFiles
                                                                  {
                                                                      DownloadFolder = myUpdateFolder
                                                                  }

@@ -1,5 +1,7 @@
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Sidewinder.Interfaces;
 
 namespace Sidewinder.Pipeline
@@ -24,6 +26,9 @@ namespace Sidewinder.Pipeline
 
         public bool Execute(T context)
         {
+            var timer = new Stopwatch();
+
+            timer.Start();
             foreach (var step in mySteps)
             {
                 step.EntryConditions(context);
@@ -31,6 +36,9 @@ namespace Sidewinder.Pipeline
                     return false;
                 step.ExitConditions(context);
             }
+
+            timer.Stop();
+            Console.WriteLine("\tPipeline<{0}> completed in {1}s", typeof(T).Name, timer.Elapsed.TotalSeconds);
 
             return true;
         }

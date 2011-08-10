@@ -20,7 +20,7 @@ namespace Sidewinder
             {
                 Console.WriteLine("\tDetected DistributeFiles command...executing...");
                 retCode = DistributorFactory.Setup(config => config.InstallTo(@"c:\temp\sidewinder_wp")
-                                                       .PackageIs(commands.DistributeFiles))
+                                                       .CommandIs(commands.DistributeFiles))
                                                        .Execute() ? 0 : -1;
             }
 
@@ -30,13 +30,31 @@ namespace Sidewinder
         protected static bool GetCommands(out SidewinderCommands commands)
         {
             commands = null;
+
             var commandFile = Fluent.IO.Path.Current.Combine(Constants.SidewinderCommandFile).FullPath;
+            if (File.Exists(commandFile))
+            {
+                commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
+                return true;
+            }
+            
+            // try the parent (if we are in the lib folder)
+            commandFile = Fluent.IO.Path.Get(commandFile).Parent().Parent().Combine(Constants.SidewinderCommandFile).FullPath;
+            if (File.Exists(commandFile))
+            {
+                commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
+                return true;
+            }
+            
+            // try the parent (if we are in the lib\framework folder)
+            commandFile = Fluent.IO.Path.Get(commandFile).Parent().Parent().Combine(Constants.SidewinderCommandFile).FullPath;
+            if (File.Exists(commandFile))
+            {
+                commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
+                return true;
+            }
 
-            if (!File.Exists(commandFile))
-                return false;
-            commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
-            return true;
+            return false;
         }
-
     }
 }

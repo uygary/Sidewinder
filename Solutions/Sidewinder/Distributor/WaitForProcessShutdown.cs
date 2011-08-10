@@ -28,14 +28,14 @@ namespace Sidewinder.Distributor
                 if (Process.GetProcesses().Where(p => 
                     (string.Compare(p.ProcessName, "System") != 0) &&
                     (string.Compare(p.ProcessName, "Idle") != 0) &&
-                    (string.Compare(p.MainModule.FileName, context.Config.Package.TargetProcessFilename) == 0))
+                    (string.Compare(p.MainModule.FileName, context.Config.Command.TargetProcessFilename) == 0))
                         .FirstOrDefault() == null)
                     return true;
                 
-                if (timer.Elapsed.Seconds > context.Config.Package.SecondsToWait)
+                if (timer.Elapsed.Seconds > context.Config.Command.SecondsToWait)
                 {
                     // timeout waiting for launching process to terminate
-                    Console.WriteLine("\tParent process still running after {0}s...aborting", context.Config.Package.SecondsToWait);
+                    Console.WriteLine("\tParent process still running after {0}s...aborting", context.Config.Command.SecondsToWait);
                     return false;
                 }
                 

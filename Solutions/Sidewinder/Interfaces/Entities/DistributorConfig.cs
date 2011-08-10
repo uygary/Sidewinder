@@ -4,7 +4,7 @@ namespace Sidewinder.Interfaces.Entities
 {
     public class DistributorConfig
     {
-        public DistributeFiles Package { get; set; }
+        public DistributeFiles Command { get; set; }
 
         private string myInstallFolder;
         public string InstallFolder
