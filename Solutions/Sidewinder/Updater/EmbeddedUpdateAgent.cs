@@ -23,11 +23,20 @@ namespace Sidewinder.Updater
             myPipeline = Pipeline<UpdaterContext>.Run(new GetNuGetPackage())
                 .Then(new DownloadPackageFiles())
                 .Then(new BackupApplication())
-                .Then(new WriteUpdateCommandFile());
+                .Then(new WriteUpdateCommandFile())
+                .Then(new LaunchUpdater());
         }
 
         public bool Execute()
         {
+            Console.WriteLine("\tRunning Update Pipeline...");
+            Console.WriteLine("\t\tConfig.Backup: {0}", myConfig.Backup);
+            Console.WriteLine("\t\tConfig.BackupFolder: {0}", myConfig.BackupFolder);
+            Console.WriteLine("\t\tConfig.DownloadFolder: {0}", myConfig.DownloadFolder);
+            Console.WriteLine("\t\tConfig.FrameworkHint: {0}", myConfig.FrameworkHint);
+            Console.WriteLine("\t\tConfig.InstallFolder: {0}", myConfig.InstallFolder);
+            Console.WriteLine("\t\tConfig.NuGetFeedUrl: {0}", myConfig.NuGetFeedUrl);
+            Console.WriteLine("\t\tConfig.TargetPackage: {0}", myConfig.TargetPackage);
             return myPipeline.Execute(new UpdaterContext
                                    {
                                        Config = myConfig

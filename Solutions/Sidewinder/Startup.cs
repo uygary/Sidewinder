@@ -22,6 +22,8 @@ namespace Sidewinder
                 retCode = DistributorFactory.Setup(config => config.InstallTo(@"c:\temp\sidewinder_wp")
                                                        .CommandIs(commands.DistributeFiles))
                                                        .Execute() ? 0 : -1;
+
+                Console.ReadKey();
             }
 
             Environment.ExitCode = retCode; 
@@ -31,7 +33,7 @@ namespace Sidewinder
         {
             commands = null;
 
-            var commandFile = Fluent.IO.Path.Current.Combine(Constants.SidewinderCommandFile).FullPath;
+            var commandFile = Fluent.IO.Path.Get(SmartLocation.GetBinFolder(), Constants.SidewinderCommandFile).FullPath;
             if (File.Exists(commandFile))
             {
                 commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);

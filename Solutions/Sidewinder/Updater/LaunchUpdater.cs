@@ -15,12 +15,16 @@ namespace Sidewinder.Updater
 
         public bool Execute(UpdaterContext context)
         {
-            var updaterFilename = Fluent.IO.Path.Get(context.Config.DownloadFolder).Combine(Constants.SidewinderUpdater).FullPath;
-            Console.WriteLine("\tLaunching updated application @{0}...", updaterFilename);
+            var folder = Fluent.IO.Path.Get(context.Config.DownloadFolder, "lib");
+            if (!string.IsNullOrWhiteSpace(context.Config.FrameworkHint))
+                folder = Fluent.IO.Path.Get(folder.FullPath, context.Config.FrameworkHint);
+
+            var updaterFilename = folder.Combine(Constants.SidewinderUpdater).FullPath;
+            Console.WriteLine("\tLaunching Sidewinder @{0}...", updaterFilename);
 
             if (!File.Exists(updaterFilename))
             {
-                Console.WriteLine("\t\tApp update does not exist...terminating update process :(");
+                Console.WriteLine("\t\tSidewinder does not exist...terminating update process :(");
                 return false;
             }
 
