@@ -19,10 +19,10 @@ namespace Sidewinder
             if (commands.DistributeFiles != null)
             {
                 Console.WriteLine("\tDetected DistributeFiles command...executing...");
-                retCode = DistributorFactory.Setup(config => config.InstallTo(@"c:\temp\sidewinder_wp")
-                                                       .CommandIs(commands.DistributeFiles))
+                retCode = DistributorFactory.Setup(config => config.CommandIs(commands.DistributeFiles))
                                                        .Execute() ? 0 : -1;
 
+                Console.WriteLine("Press a key to continue...");
                 Console.ReadKey();
             }
 
