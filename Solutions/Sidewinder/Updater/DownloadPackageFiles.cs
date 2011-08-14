@@ -15,24 +15,28 @@ namespace Sidewinder.Updater
                 throw new ArgumentNullException("context");
             if (context.Config == null)
                 throw new ArgumentException("Config property is null", "context");
-            if (context.Package == null)
-                throw new ArgumentException("Package property not set", "context");
-            if (string.IsNullOrWhiteSpace(context.Config.DownloadFolder))
-                throw new ArgumentException("Config.DownloadFolder property not set", "context");
+            if (context.Updates == null)
+                throw new ArgumentException("Updates property not set", "context");
         }
 
         public bool Execute(UpdaterContext context)
         {
-            Console.WriteLine("\t\tDownloading package content to: {0}...", context.Config.DownloadFolder);
-            Fluent.IO.Path.CreateDirectory(context.Config.DownloadFolder);
-            var files = context.Package.GetFiles();
+            context.Updates.ForEach(update =>
+                                        {
+                                            var downloadFolder = Fluent.IO.Path.Get(context.Config.DownloadFolder,
+                                                                                    update.Target.Name).FullPath;
+                                            Console.WriteLine("Downloading package '{0}' content to: {1}...", 
+                                                update.Target.Name,
+                                                downloadFolder);
+                                            Fluent.IO.Path.CreateDirectory(downloadFolder);
+                                            var files = update.Package.GetFiles();
 
-            files.ToList().ForEach(file =>
-            {
-                Console.WriteLine("\t\tDownloading file: {0}...", file.Path);
-                DownloadFile(context, file);
-            });
-
+                                            files.ToList().ForEach(file =>
+                                            {
+                                                Console.WriteLine("\t{0}", file.Path);
+                                                DownloadFile(context, file);
+                                            });                                            
+                                        });
             return true;
         }
 

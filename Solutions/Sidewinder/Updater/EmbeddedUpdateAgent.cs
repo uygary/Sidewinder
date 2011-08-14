@@ -20,7 +20,8 @@ namespace Sidewinder.Updater
         public EmbeddedUpdateAgent(UpdateConfig config)
         {
             myConfig = config;
-            myPipeline = Pipeline<UpdaterContext>.Run(new GetNuGetPackage())
+            myPipeline = Pipeline<UpdaterContext>.Run(new Initialise())
+                .Then(new GetNuGetPackages())
                 .Then(new DownloadPackageFiles())
                 .Then(new BackupApplication())
                 .Then(new WriteUpdateCommandFile())
@@ -33,10 +34,8 @@ namespace Sidewinder.Updater
             Console.WriteLine("\t\tConfig.Backup: {0}", myConfig.Backup);
             Console.WriteLine("\t\tConfig.BackupFolder: {0}", myConfig.BackupFolder);
             Console.WriteLine("\t\tConfig.DownloadFolder: {0}", myConfig.DownloadFolder);
-            Console.WriteLine("\t\tConfig.FrameworkHint: {0}", myConfig.FrameworkHint);
             Console.WriteLine("\t\tConfig.InstallFolder: {0}", myConfig.InstallFolder);
-            Console.WriteLine("\t\tConfig.NuGetFeedUrl: {0}", myConfig.NuGetFeedUrl);
-            Console.WriteLine("\t\tConfig.TargetPackage: {0}", myConfig.TargetPackage);
+            Console.WriteLine("\t\tConfig.TargetPackage: {0}", myConfig.TargetPackages);
             return myPipeline.Execute(new UpdaterContext
                                    {
                                        Config = myConfig

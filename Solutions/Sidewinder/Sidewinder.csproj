@@ -66,6 +66,8 @@
     <Compile Include="Distributor\WaitForProcessShutdown.cs" />
     <Compile Include="Interfaces\Entities\DistributorContext.cs" />
     <Compile Include="Interfaces\Entities\DistributorConfig.cs" />
+    <Compile Include="Interfaces\Entities\TargetPackage.cs" />
+    <Compile Include="Interfaces\Entities\UpdatedPackage.cs" />
     <Compile Include="Interfaces\Entities\UpdaterContext.cs" />
     <Compile Include="Interfaces\IDistributionAgent.cs" />
     <Compile Include="Interfaces\Entities\BackupConfig.cs" />
@@ -81,9 +83,10 @@
     <Compile Include="UpdateConfigBuilder.cs" />
     <Compile Include="UpdaterFactory.cs" />
     <Compile Include="Updater\BackupApplication.cs" />
+    <Compile Include="Updater\Initialise.cs" />
     <Compile Include="Updater\EmbeddedUpdateAgent.cs" />
     <Compile Include="Updater\DownloadPackageFiles.cs" />
-    <Compile Include="Updater\GetNuGetPackage.cs" />
+    <Compile Include="Updater\GetNuGetPackages.cs" />
     <Compile Include="Updater\LaunchUpdater.cs" />
     <Compile Include="Updater\WriteUpdateCommandFile.cs" />
   </ItemGroup>

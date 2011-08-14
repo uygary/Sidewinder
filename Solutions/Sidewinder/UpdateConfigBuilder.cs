@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using Fluent.IO;
 using Sidewinder.Interfaces.Entities;
 
@@ -15,28 +18,57 @@ namespace Sidewinder
         {
             myConfig = new UpdateConfig
                            {        
-                               NuGetFeedUrl = "https://go.microsoft.com/fwlink/?LinkID=206669",
-                               Backup = true
+                               Backup = true,
+                               TargetPackages = new List<TargetPackage>()
                            };
         }
 
-        public UpdateConfigBuilder NuGetFeed(string url)
-        {
-            myConfig.NuGetFeedUrl = url;
-            return this;
-        }
-
+        /// <summary>
+        /// This will add the named package to the list to update - it will use the
+        /// current running app version as the version number
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public UpdateConfigBuilder Package(string name)
         {
-            myConfig.TargetPackage = name;
+            return Package(name, Assembly.GetEntryAssembly().GetName().Version);
+        }
+
+        /// <summary>
+        /// This will add the named, versioned package to the list to update. It will 
+        /// use the offical nuget feed as the source and the default framework version
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="version">The currently installed version number</param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Package(string name, Version version)
+        {
+            return Package(new TargetPackage
+                               {
+                                   Name = name,
+                                   Version = version
+                               });
+        }
+
+        /// <summary>
+        /// This will add the target package to the list to check for updates. Use this if
+        /// you need to check a custom feed or set the frameworkhint to help sidewinder locate
+        /// your binaries
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Package(TargetPackage package)
+        {
+            if (myConfig.TargetPackages == null)
+                myConfig.TargetPackages = new List<TargetPackage>();
+
+            if (string.IsNullOrWhiteSpace(package.NuGetFeedUrl))
+                package.NuGetFeedUrl = Constants.OfficialNuGetFeedUrl;
+
+            myConfig.TargetPackages.Add(package);
             return this;
         }
 
-        public UpdateConfigBuilder FrameworkHint(string hint)
-        {
-            myConfig.FrameworkHint = hint;
-            return this;
-        }
 
         public UpdateConfigBuilder DoNotBackup()
         {
@@ -49,12 +81,10 @@ namespace Sidewinder
             var config = new UpdateConfig
                              {
                                  Backup = myConfig.Backup,                                 
-                                 NuGetFeedUrl = myConfig.NuGetFeedUrl,
                                  BackupFolder = GetFolderOrDefault(myConfig.BackupFolder, DefaultBackupFolder),
                                  InstallFolder = GetFolderOrDefault(myConfig.InstallFolder, Path.Get(Process.GetCurrentProcess().MainModule.FileName).Parent().FullPath), 
-                                 TargetPackage = myConfig.TargetPackage,
+                                 TargetPackages = myConfig.TargetPackages,
                                  BackupFoldersToIgnore = myConfig.BackupFoldersToIgnore,
-                                 FrameworkHint = myConfig.FrameworkHint
                              };
 
             if (string.IsNullOrWhiteSpace(myConfig.DownloadFolder))
@@ -75,7 +105,7 @@ namespace Sidewinder
 
             // finally append the target package name to the download folder to allow
             // multiple packages to be downloaded (future feature)
-            config.DownloadFolder = Path.Get(config.DownloadFolder, config.TargetPackage).FullPath;
+            //config.DownloadFolder = Path.Get(config.DownloadFolder, config.TargetPackages).FullPath;
 
             return config;
         }

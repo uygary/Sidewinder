@@ -27,7 +27,7 @@ namespace Sidewinder.Tests.Backup
                                                           Backup = true,
                                                           BackupFolder = myBackupToDirectory,
                                                           InstallFolder = myDirectoryToBackup,
-                                                          TargetPackage = "TestPackage"
+                                                          TargetPackages = "TestPackage"
                                                       }
                                      });
         }
