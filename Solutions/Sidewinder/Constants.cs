@@ -5,7 +5,9 @@ namespace Sidewinder
         public class NuGet
         {
             public const string OfficialFeedUrl = "https://go.microsoft.com/fwlink/?LinkID=206669";
+            public const string ContentFolder = "content";
             public const string LibFolder = "lib";
+            public const string ToolsFolder = "tools";
         }
         
 

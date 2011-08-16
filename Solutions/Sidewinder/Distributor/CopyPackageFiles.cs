@@ -7,7 +7,7 @@ using Sidewinder.Interfaces.Entities;
 namespace Sidewinder.Distributor
 {
     /// <summary>
-    /// This step will copy the files from the nuget package to the application installation folder
+    /// This step will copy the files from each nuget package update
     /// </summary>
     public class CopyPackageFiles : IPipelineStep<DistributorContext>
     {
@@ -25,31 +25,49 @@ namespace Sidewinder.Distributor
 
         public bool Execute(DistributorContext context)
         {
-            Console.WriteLine("\tCopying update files to {0}...", context.Config.InstallFolder);
-            Path.Get(context.Config.InstallFolder).CreateDirectory();
+            var updates = context.Config.Command.Updates;
 
-            // copy the content files
-            if (Path.Get(context.Config.Command.DownloadFolder, "Content").Exists)
-            {
-                Console.WriteLine("\t\tCopying Content files...");
-                Path.Get(context.Config.Command.DownloadFolder, "Content")
-                    .Copy(context.Config.InstallFolder, Overwrite.Never, true);
-            }
+            updates.ForEach(update =>
+                                {
+                                    Console.WriteLine("\tProcessing package {0} -> {1}...", 
+                                        update.Target.Name,
+                                        context.Config.InstallFolder);
 
-            if (Path.Get(context.BinariesFolder).Exists)
-            {
-                Console.WriteLine("\t\tCopying Binaries from {0}...", context.BinariesFolder);
-                Path.Get(context.BinariesFolder)
-                    .Copy(context.Config.InstallFolder, Overwrite.Always, true);
-            }
+                                    // create it just in case
+                                    Path.Get(context.Config.InstallFolder).CreateDirectory();
 
-            if (Path.Get(context.Config.Command.DownloadFolder, "Tools").Exists)
-            {
-                Console.WriteLine("\t\tCopying Tool files...");
-                Path.Get(context.Config.Command.DownloadFolder, "Tools")
-                    .Copy(context.Config.InstallFolder, Overwrite.Always, true);
-            }
+                                    // copy the content files
+                                    var contentPath = Path.Get(context.Config.Command.DownloadFolder,
+                                                           update.Target.Name,
+                                                           Constants.NuGet.ContentFolder);
+                                    if (contentPath.Exists)
+                                    {
+                                        Console.WriteLine("\t\tCopying Content files...");
+                                        contentPath.Copy(context.Config.InstallFolder, Overwrite.Never, true);
+                                    }
 
+                                    // copy binaries
+                                    var binPath = Path.Get(context.Config.Command.DownloadFolder,
+                                                           update.Target.Name,
+                                                           Constants.NuGet.LibFolder,
+                                                           update.Target.FrameworkHint);
+
+                                    if (binPath.Exists)
+                                    {
+                                        Console.WriteLine("\t\tCopying Binaries from {0}...", binPath.FullPath);
+                                        binPath.Copy(context.Config.InstallFolder, Overwrite.Always, true);
+                                    }
+
+                                    // copy tools
+                                    var toolsPath = Path.Get(context.Config.Command.DownloadFolder,
+                                                           update.Target.Name,
+                                                           Constants.NuGet.ToolsFolder);
+                                    if (toolsPath.Exists)
+                                    {
+                                        Console.WriteLine("\t\tCopying Tool files...");
+                                        toolsPath.Copy(context.Config.InstallFolder, Overwrite.Always, true);
+                                    }
+                                });
             return true;
         }
 

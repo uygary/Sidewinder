@@ -102,31 +102,31 @@
     <Content Include="TestData\Install_backup\_nestedupdate\_nestedupdate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\Content\content.txt">
+    <Content Include="TestData\Update\TestPkg\Content\content.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\Content\Content_Sub1\content_sub1.txt">
+    <Content Include="TestData\Update\TestPkg\Content\Content_Sub1\content_sub1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\Content\Content_Sub2\content_sub2.txt">
+    <Content Include="TestData\Update\TestPkg\Content\Content_Sub2\content_sub2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\Tools\tools.txt">
+    <Content Include="TestData\Update\TestPkg\Tools\tools.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\Tools\Tools_Sub1\tools_sub1.txt">
+    <Content Include="TestData\Update\TestPkg\Tools\Tools_Sub1\tools_sub1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\Tools\Tools_Sub2\tools_sub2.txt">
+    <Content Include="TestData\Update\TestPkg\Tools\Tools_Sub2\tools_sub2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\lib\lib.txt">
+    <Content Include="TestData\Update\TestPkg\lib\lib.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\lib\net35\net35.txt">
+    <Content Include="TestData\Update\TestPkg\lib\net35\net35.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\Update\lib\net40\net40.txt">
+    <Content Include="TestData\Update\TestPkg\lib\net40\net40.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

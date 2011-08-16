@@ -51,11 +51,17 @@ namespace Sidewinder.Updater
                                                                    Console.WriteLine("\t{0}", file.Path);
                                                                    DownloadFile(context,file);
                                                                });
-                                    context.Updates.Add(new UpdatedPackage
-                                                            {
-                                                                NewVersion = update.Version,
-                                                                Target = target.Value
-                                                            });
+
+                                    // add to list of updates (as long as it's not sidewinder itself)
+                                    if (string.Compare(update.Id, Constants.Sidewinder.NuGetPackageName,
+                                        StringComparison.InvariantCultureIgnoreCase) != 0)
+                                    {
+                                        context.Updates.Add(new UpdatedPackage
+                                                                {
+                                                                    NewVersion = update.Version,
+                                                                    Target = target.Value
+                                                                });
+                                    }
                                 });
 
             return (context.Updates.Count > 0);

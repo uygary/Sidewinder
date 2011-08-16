@@ -7,7 +7,7 @@ using Sidewinder.Pipeline;
 namespace Sidewinder.Distributor
 {
     /// <summary>
-    /// This contains all the code to self update this application via NuGet
+    /// This contains the set of instructions to distribute any updates downloaded
     /// </summary>
     public class DefaultDistributionAgent : IDistributionAgent
     {
@@ -17,8 +17,7 @@ namespace Sidewinder.Distributor
         public DefaultDistributionAgent(DistributorConfig config)
         {
             myConfig = config;
-            myPipeline = Pipeline<DistributorContext>.Run(new GetPackageBinariesLocation())
-                .Then(new WaitForProcessShutdown())
+            myPipeline = Pipeline<DistributorContext>.Run(new WaitForProcessShutdown())
                 .Then(new CopyPackageFiles())
                 .Then(new CleanUp());
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Fluent.IO;
 using Sidewinder.Interfaces.Entities;
 using FluentAssertions;
@@ -8,16 +9,10 @@ namespace Sidewinder.Tests.Copy
     {
         private string myInstallationFolder;
         private string myUpdateFolder;
-        private string myUpdateBinariesFolder;
 
         private void TheDirectory_ContainsThePackageFiles(string folder)
         {
             myUpdateFolder = folder;
-        }
-        
-        private void TheDirectory_ContainsThePackageBinaryFiles(string folder)
-        {
-            myUpdateBinariesFolder = folder;
         }
 
         private void TheInstallLocation_IsUsed(string folder)
@@ -34,13 +29,23 @@ namespace Sidewinder.Tests.Copy
         {
             var context = new DistributorContext
                               {
-                                  BinariesFolder = myUpdateBinariesFolder,
                                   Config = new DistributorConfig
                                                {
                                                    InstallFolder = myInstallationFolder,
                                                    Command = new DistributeFiles
                                                                  {
-                                                                     DownloadFolder = myUpdateFolder
+                                                                     DownloadFolder = myUpdateFolder,
+                                                                     Updates = new List<UpdatedPackage>
+                                                                                   {
+                                                                                       new UpdatedPackage
+                                                                                           {
+                                                                                               Target = new TargetPackage
+                                                                                                            {
+                                                                                                                FrameworkHint = "net40",
+                                                                                                                Name = "TestPkg"
+                                                                                                            }
+                                                                                           }
+                                                                                   }
                                                                  }
                                                }
                               };

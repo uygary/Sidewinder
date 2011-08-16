@@ -68,7 +68,6 @@
     <Compile Include="DirectoryWalker.cs" />
     <Compile Include="Distributor\CleanUp.cs" />
     <Compile Include="Distributor\CopyPackageFiles.cs" />
-    <Compile Include="Distributor\GetPackageBinariesLocation.cs" />
     <Compile Include="Distributor\DefaultDistributionAgent.cs" />
     <Compile Include="Distributor\WaitForProcessShutdown.cs" />
     <Compile Include="Interfaces\Entities\DistributorContext.cs" />

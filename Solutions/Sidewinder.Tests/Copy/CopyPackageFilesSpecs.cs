@@ -27,7 +27,6 @@ namespace Sidewinder.Tests.Copy
         {
             myStory.WithScenario("The installation folder is empty")
                 .Given(TheDirectory_ContainsThePackageFiles, @"testdata\update")
-                    .And(TheDirectory_ContainsThePackageBinaryFiles, @"testdata\update\lib\net40")
                     .And(TheInstallLocation_IsUsed, @"testdata\install_write")
                     .And(TheInstallationLocationIsCleaned)
                 .When(TheFilesAreCopied)
