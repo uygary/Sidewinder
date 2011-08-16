@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
 using Fluent.IO;
 using Sidewinder.Interfaces.Entities;
 
@@ -19,19 +18,24 @@ namespace Sidewinder
             myConfig = new UpdateConfig
                            {        
                                Backup = true,
-                               TargetPackages = new List<TargetPackage>()
+                               TargetPackages = new Dictionary<string, TargetPackage>(),
+                               BackupFoldersToIgnore = new List<string>
+                                                           {
+                                                               DefaultDownloadFolder,
+                                                               DefaultBackupFolder
+                                                           }
                            };
         }
 
         /// <summary>
-        /// This will add the named package to the list to update - it will use the
-        /// current running app version as the version number
+        /// This will add the named package to the list to update. 
+        /// The latest version will be downloaded
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public UpdateConfigBuilder Package(string name)
         {
-            return Package(name, Assembly.GetEntryAssembly().GetName().Version);
+            return Package(name);
         }
 
         /// <summary>
@@ -39,7 +43,7 @@ namespace Sidewinder
         /// use the offical nuget feed as the source and the default framework version
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="version">The currently installed version number</param>
+        /// <param name="version">The version number of the current package</param>
         /// <returns></returns>
         public UpdateConfigBuilder Package(string name, Version version)
         {
@@ -60,12 +64,12 @@ namespace Sidewinder
         public UpdateConfigBuilder Package(TargetPackage package)
         {
             if (myConfig.TargetPackages == null)
-                myConfig.TargetPackages = new List<TargetPackage>();
+                myConfig.TargetPackages = new Dictionary<string, TargetPackage>();
 
             if (string.IsNullOrWhiteSpace(package.NuGetFeedUrl))
-                package.NuGetFeedUrl = Constants.OfficialNuGetFeedUrl;
+                package.NuGetFeedUrl = Constants.NuGet.OfficialFeedUrl;
 
-            myConfig.TargetPackages.Add(package);
+            myConfig.TargetPackages.Add(package.Name, package);
             return this;
         }
 

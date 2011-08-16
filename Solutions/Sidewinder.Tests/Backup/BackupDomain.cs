@@ -20,15 +20,17 @@ namespace Sidewinder.Tests.Backup
         private void ItIsBackedup()
         {
             myBackupStep = new TestBackupStep();
+
+            var config = new UpdateConfig
+                             {
+                                 Backup = true,
+                                 BackupFolder = myBackupToDirectory,
+                                 InstallFolder = myDirectoryToBackup,
+                             };
+
             myBackupStep.Execute(new UpdaterContext
                                      {
-                                         Config = new UpdateConfig
-                                                      {
-                                                          Backup = true,
-                                                          BackupFolder = myBackupToDirectory,
-                                                          InstallFolder = myDirectoryToBackup,
-                                                          TargetPackages = "TestPackage"
-                                                      }
+                                         Config = config
                                      });
         }
 

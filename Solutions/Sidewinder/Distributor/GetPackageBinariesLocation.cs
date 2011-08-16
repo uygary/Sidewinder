@@ -22,15 +22,16 @@ namespace Sidewinder.Distributor
 
         public bool Execute(DistributorContext context)
         {
-            var folder = Path.Get(context.Config.Command.DownloadFolder, "lib");
+            throw new NotImplementedException();
+            //var folder = Path.Get(context.Config.Command.DownloadFolder, "lib");
 
-            if (!string.IsNullOrWhiteSpace(context.Config.Command.FrameworkHint))
-            {
-                folder = folder.Combine(context.Config.Command.FrameworkHint);
-            }
+            //if (!string.IsNullOrWhiteSpace(context.Config.Command.FrameworkHint))
+            //{
+            //    folder = folder.Combine(context.Config.Command.FrameworkHint);
+            //}
 
-            context.BinariesFolder = folder.FullPath;
-            return true;
+            //context.BinariesFolder = folder.FullPath;
+            //return true;
         }
 
         public void ExitConditions(DistributorContext context)

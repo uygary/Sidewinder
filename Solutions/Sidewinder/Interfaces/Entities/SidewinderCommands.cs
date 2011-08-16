@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Sidewinder.Interfaces.Entities
 {
     public class SidewinderCommands
@@ -8,7 +10,7 @@ namespace Sidewinder.Interfaces.Entities
     public class DistributeFiles
     {
         public string TargetProcessFilename { get; set; }
-        public string FrameworkHint { get; set; }
+        public List<UpdatedPackage> Updates { get; set; }
         public int SecondsToWait { get; set; }
 
         private string myDownloadFolder;

@@ -74,7 +74,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CleanUp\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sidewinder\Sidewinder.csproj">
       <Project>{058948F5-E41B-4A63-9E25-8DC38B15CDAB}</Project>

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Fluent.IO;
 using Sidewinder.Interfaces;
 using Sidewinder.Interfaces.Entities;
 
@@ -14,8 +15,8 @@ namespace Sidewinder.Updater
         }
 
         public bool Execute(UpdaterContext context)
-        {            
-            var commandFile = Fluent.IO.Path.Get(context.Config.DownloadFolder).Combine(Constants.SidewinderCommandFile).FullPath;
+        {
+            var commandFile = Path.Get(context.Config.DownloadFolder).Combine(Constants.Sidewinder.CommandFile).FullPath;
 
             Console.WriteLine("\tWriting command file to {0}", commandFile);
             var command = new SidewinderCommands
@@ -24,9 +25,10 @@ namespace Sidewinder.Updater
                 {
                     TargetProcessFilename = Process.GetCurrentProcess().MainModule.FileName,
                     DownloadFolder = context.Config.DownloadFolder,
-                    FrameworkHint = context.Config.FrameworkHint
+                    Updates = context.Updates
                 }
             };
+
             SerialisationHelper<SidewinderCommands>.DataContractSerialize(commandFile, command);
             return true;
         }

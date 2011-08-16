@@ -56,10 +56,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Build\Common\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Build\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Constants.cs" />
     <Compile Include="DistributorConfigBuilder.cs" />
     <Compile Include="DistributorFactory.cs" />
     <Compile Include="DirectoryWalker.cs" />
+    <Compile Include="Distributor\CleanUp.cs" />
     <Compile Include="Distributor\CopyPackageFiles.cs" />
     <Compile Include="Distributor\GetPackageBinariesLocation.cs" />
     <Compile Include="Distributor\DefaultDistributionAgent.cs" />
@@ -83,11 +90,10 @@
     <Compile Include="UpdateConfigBuilder.cs" />
     <Compile Include="UpdaterFactory.cs" />
     <Compile Include="Updater\BackupApplication.cs" />
-    <Compile Include="Updater\Initialise.cs" />
     <Compile Include="Updater\EmbeddedUpdateAgent.cs" />
-    <Compile Include="Updater\DownloadPackageFiles.cs" />
+    <Compile Include="Updater\FindSidewinder.cs" />
     <Compile Include="Updater\GetNuGetPackages.cs" />
-    <Compile Include="Updater\LaunchUpdater.cs" />
+    <Compile Include="Updater\LaunchSidewinder.cs" />
     <Compile Include="Updater\WriteUpdateCommandFile.cs" />
   </ItemGroup>
   <ItemGroup>

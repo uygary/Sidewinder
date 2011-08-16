@@ -19,7 +19,8 @@ namespace Sidewinder.Distributor
             myConfig = config;
             myPipeline = Pipeline<DistributorContext>.Run(new GetPackageBinariesLocation())
                 .Then(new WaitForProcessShutdown())
-                .Then(new CopyPackageFiles());
+                .Then(new CopyPackageFiles())
+                .Then(new CleanUp());
         }
 
         public bool Execute()
@@ -27,7 +28,6 @@ namespace Sidewinder.Distributor
             Console.WriteLine("\tRunning Distribution Pipeline...");
             Console.WriteLine("\t\tInstallFolder: {0}", myConfig.InstallFolder);
             Console.WriteLine("\t\tCommand.DownloadFolder: {0}", myConfig.Command.DownloadFolder);
-            Console.WriteLine("\t\tCommand.FrameworkHint: {0}", myConfig.Command.FrameworkHint);
             Console.WriteLine("\t\tCommand.SecondsToWait: {0}", myConfig.Command.SecondsToWait);
             Console.WriteLine("\t\tCommand.TargetProcessFilename: {0}", myConfig.Command.TargetProcessFilename);
             return myPipeline.Execute(new DistributorContext
@@ -35,6 +35,5 @@ namespace Sidewinder.Distributor
                 Config = myConfig
             });
         }
-
     }
 }

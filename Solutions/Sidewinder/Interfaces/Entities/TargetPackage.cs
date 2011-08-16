@@ -6,7 +6,7 @@ namespace Sidewinder.Interfaces.Entities
     {
         public TargetPackage()
         {
-            NuGetFeedUrl = Constants.OfficialNuGetFeedUrl;
+            NuGetFeedUrl = Constants.NuGet.OfficialFeedUrl;
         }
 
         public string Name { get; set; }

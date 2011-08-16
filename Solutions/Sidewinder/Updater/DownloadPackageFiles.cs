@@ -15,8 +15,6 @@ namespace Sidewinder.Updater
                 throw new ArgumentNullException("context");
             if (context.Config == null)
                 throw new ArgumentException("Config property is null", "context");
-            if (context.Updates == null)
-                throw new ArgumentException("Updates property not set", "context");
         }
 
         public bool Execute(UpdaterContext context)
@@ -43,19 +41,6 @@ namespace Sidewinder.Updater
         public void ExitConditions(UpdaterContext context)
         {
             
-        }
-
-        protected virtual void DownloadFile(UpdaterContext context, IPackageFile file)
-        {
-            using (var stream = file.GetStream())
-            {
-                var filename = Path.GetFileName(file.Path);
-                var folder = Fluent.IO.Path.Get(context.Config.DownloadFolder).Combine(file.Path).Parent().FullPath;
-                Directory.CreateDirectory(folder);
-
-                using (var destination = File.Create(Path.Combine(folder, filename)))
-                    stream.CopyTo(destination);
-            }
         }
 
     }

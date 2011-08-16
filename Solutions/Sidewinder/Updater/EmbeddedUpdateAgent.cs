@@ -20,12 +20,11 @@ namespace Sidewinder.Updater
         public EmbeddedUpdateAgent(UpdateConfig config)
         {
             myConfig = config;
-            myPipeline = Pipeline<UpdaterContext>.Run(new Initialise())
+            myPipeline = Pipeline<UpdaterContext>.Run(new FindSidewinder())
                 .Then(new GetNuGetPackages())
-                .Then(new DownloadPackageFiles())
                 .Then(new BackupApplication())
                 .Then(new WriteUpdateCommandFile())
-                .Then(new LaunchUpdater());
+                .Then(new LaunchSidewinder());
         }
 
         public bool Execute()

@@ -33,7 +33,7 @@ namespace Sidewinder
         {
             commands = null;
 
-            var commandFile = Fluent.IO.Path.Get(SmartLocation.GetBinFolder(), Constants.SidewinderCommandFile).FullPath;
+            var commandFile = Fluent.IO.Path.Get(SmartLocation.GetBinFolder(), Constants.Sidewinder.CommandFile).FullPath;
             if (File.Exists(commandFile))
             {
                 commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
@@ -41,7 +41,7 @@ namespace Sidewinder
             }
             
             // try the parent (if we are in the lib folder)
-            commandFile = Fluent.IO.Path.Get(commandFile).Parent().Parent().Combine(Constants.SidewinderCommandFile).FullPath;
+            commandFile = Fluent.IO.Path.Get(commandFile).Parent().Parent().Combine(Constants.Sidewinder.CommandFile).FullPath;
             if (File.Exists(commandFile))
             {
                 commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
@@ -49,7 +49,7 @@ namespace Sidewinder
             }
             
             // try the parent (if we are in the lib\framework folder)
-            commandFile = Fluent.IO.Path.Get(commandFile).Parent().Parent().Combine(Constants.SidewinderCommandFile).FullPath;
+            commandFile = Fluent.IO.Path.Get(commandFile).Parent().Parent().Combine(Constants.Sidewinder.CommandFile).FullPath;
             if (File.Exists(commandFile))
             {
                 commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
