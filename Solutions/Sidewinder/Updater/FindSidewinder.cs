@@ -33,18 +33,32 @@ namespace Sidewinder.Updater
                                                               FrameworkHint = "net40",
                                                               Name = Constants.Sidewinder.NuGetPackageName
                                                           });
+                    Console.WriteLine("\tAdded Sidewinder to targets");
                 }
 
                 return true;
             }
 
             // sidewinder package exists - grab the file version number
+            Version ver = null;
             var sidewinderPath = Path.Get(context.Config.DownloadFolder, Constants.Sidewinder.UpdateFolder,
                          Constants.Sidewinder.ExeFilename).FullPath;
-            var ver = FileVersionInfo.GetVersionInfo(sidewinderPath);
+            if (Path.Get(sidewinderPath).Exists)
+            {
+                var fileVersionInfo = FileVersionInfo.GetVersionInfo(sidewinderPath);
+                ver = new Version(fileVersionInfo.FileVersion);
+            }
 
-            throw new NotImplementedException("Add existing sidewinder install to target packages");
-
+            if (context.Config.TargetPackages.ContainsKey(Constants.Sidewinder.NuGetPackageName))
+                context.Config.TargetPackages.Remove(Constants.Sidewinder.NuGetPackageName);
+            context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
+                                                                  new TargetPackage
+                                                                  {
+                                                                      FrameworkHint = "net40",
+                                                                      Name = Constants.Sidewinder.NuGetPackageName,
+                                                                      Version = ver
+                                                                  });
+            Console.WriteLine("\tAdded Sidewinder to targets (checking for update)");
             return true;
         }
 

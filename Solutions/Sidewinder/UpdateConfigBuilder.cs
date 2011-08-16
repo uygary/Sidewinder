@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using Fluent.IO;
 using Sidewinder.Interfaces.Entities;
 
@@ -28,28 +29,73 @@ namespace Sidewinder
         }
 
         /// <summary>
-        /// This will add the named package to the list to update. 
-        /// The latest version will be downloaded
+        /// This will add the latest version of the named package to the list 
+        /// to update. This will be downloaded and updated irrespective of the 
+        /// currently installed version from the default (official) nuget feed.
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="frameworkHint"></param>
         /// <returns></returns>
-        public UpdateConfigBuilder Package(string name)
+        public UpdateConfigBuilder Get(string name, string frameworkHint)
         {
-            return Package(name);
+            return Update(name, null, frameworkHint, Constants.NuGet.OfficialFeedUrl);
+        }
+
+        /// <summary>
+        /// This will add the latest version of the named package to the list 
+        /// to update. This will be downloaded and updated irrespective of the 
+        /// currently installed version.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="frameworkHint"></param>
+        /// <param name="feedUrl"></param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Get(string name, string frameworkHint, string feedUrl)
+        {
+            return Update(name, null, frameworkHint);
+        }
+
+        /// <summary>
+        /// This will add the named package to the list to update using the current
+        /// version number of the running application from the default (official) nuget feed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="frameworkHint"></param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Update(string name, string frameworkHint)
+        {
+            return Update(name, Assembly.GetEntryAssembly().GetName().Version, frameworkHint, Constants.NuGet.OfficialFeedUrl);
+        }
+
+        /// <summary>
+        /// This will add the named package to the list to update using the current
+        /// version number of the running application
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="frameworkHint"></param>
+        /// <param name="feedUrl"></param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Update(string name, string frameworkHint, string feedUrl)
+        {
+            return Update(name, Assembly.GetEntryAssembly().GetName().Version, frameworkHint, feedUrl);
         }
 
         /// <summary>
         /// This will add the named, versioned package to the list to update. It will 
-        /// use the offical nuget feed as the source and the default framework version
+        /// use the offical nuget feed as the source
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version">The version number of the current package</param>
+        /// <param name="frameworkHint"></param>
+        /// <param name="feedUrl"></param>
         /// <returns></returns>
-        public UpdateConfigBuilder Package(string name, Version version)
+        public UpdateConfigBuilder Update(string name, Version version, string frameworkHint, string feedUrl)
         {
-            return Package(new TargetPackage
+            return Update(new TargetPackage
                                {
                                    Name = name,
+                                   NuGetFeedUrl = feedUrl,
+                                   FrameworkHint = frameworkHint,
                                    Version = version
                                });
         }
@@ -61,7 +107,7 @@ namespace Sidewinder
         /// </summary>
         /// <param name="package"></param>
         /// <returns></returns>
-        public UpdateConfigBuilder Package(TargetPackage package)
+        public UpdateConfigBuilder Update(TargetPackage package)
         {
             if (myConfig.TargetPackages == null)
                 myConfig.TargetPackages = new Dictionary<string, TargetPackage>();

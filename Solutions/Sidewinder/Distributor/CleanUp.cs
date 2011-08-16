@@ -28,7 +28,7 @@ namespace Sidewinder.Distributor
 
         public void ExitConditions(DistributorContext context)
         {
-            
+            // TODO: check all the download\package folders have been deleted (except for sidewinder)
         }
     }
 }

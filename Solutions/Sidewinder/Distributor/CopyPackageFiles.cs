@@ -29,7 +29,7 @@ namespace Sidewinder.Distributor
 
             updates.ForEach(update =>
                                 {
-                                    Console.WriteLine("\tProcessing package {0} -> {1}...", 
+                                    Console.WriteLine("\tProcessing update package {0}->{1}...", 
                                         update.Target.Name,
                                         context.Config.InstallFolder);
 
