@@ -31,9 +31,13 @@ namespace Sidewinder.Pipeline
             timer.Start();
             foreach (var step in mySteps)
             {
+                Console.WriteLine("Executing step: {0}", step.GetType().Name);
                 step.EntryConditions(context);
                 if (!step.Execute(context))
+                {
+                    Console.WriteLine("**WARNING** Pipeline aborting!");
                     return false;
+                }
                 step.ExitConditions(context);
             }
 
