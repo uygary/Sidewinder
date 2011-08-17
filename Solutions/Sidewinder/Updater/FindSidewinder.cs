@@ -33,8 +33,8 @@ namespace Sidewinder.Updater
                                                               FrameworkHint = "net40",
                                                               Name = Constants.Sidewinder.NuGetPackageName,
 
-                                                              // TEMP - REMOVE FOR PROD
-                                                              NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
+                                                              // Testing only
+                                                              //NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
                                                           });
                     Console.WriteLine("\tAdded Sidewinder to targets");
                 }
@@ -61,8 +61,8 @@ namespace Sidewinder.Updater
                                                                       Name = Constants.Sidewinder.NuGetPackageName,
                                                                       Version = ver,
 
-                                                                      // TEMP - REMOVE FOR PROD
-                                                                      NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
+                                                                      // Testing only
+                                                                      //NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
                                                                   });
             Console.WriteLine("\tAdded Sidewinder to targets (update)");
             return true;
