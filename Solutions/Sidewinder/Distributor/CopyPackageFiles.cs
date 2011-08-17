@@ -42,8 +42,9 @@ namespace Sidewinder.Distributor
                                                            Constants.NuGet.ContentFolder);
                                     if (contentPath.Exists)
                                     {
-                                        Console.WriteLine("\t\tCopying Content files...");
+                                        Console.Write("\t\tCopying Content files...");
                                         contentPath.Copy(context.Config.InstallFolder, Overwrite.Never, true);
+                                        Console.WriteLine("done!");
                                     }
 
                                     // copy binaries
@@ -54,8 +55,9 @@ namespace Sidewinder.Distributor
 
                                     if (binPath.Exists)
                                     {
-                                        Console.WriteLine("\t\tCopying Binaries from {0}...", binPath.FullPath);
+                                        Console.Write("\t\tCopying Binaries from {0}...", binPath.FullPath);
                                         binPath.Copy(context.Config.InstallFolder, Overwrite.Always, true);
+                                        Console.WriteLine("done!");
                                     }
 
                                     // copy tools
@@ -64,8 +66,9 @@ namespace Sidewinder.Distributor
                                                            Constants.NuGet.ToolsFolder);
                                     if (toolsPath.Exists)
                                     {
-                                        Console.WriteLine("\t\tCopying Tool files...");
+                                        Console.Write("\t\tCopying Tool files...");
                                         toolsPath.Copy(context.Config.InstallFolder, Overwrite.Always, true);
+                                        Console.WriteLine("done!");
                                     }
                                 });
             return true;

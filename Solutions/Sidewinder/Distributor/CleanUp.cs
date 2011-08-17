@@ -18,9 +18,10 @@ namespace Sidewinder.Distributor
 
         public bool Execute(DistributorContext context)
         {
+            // delete all update package folders apart from sidewinder
             Path.Get(context.Config.Command.DownloadFolder)
-                .Directories(folder => string.Compare(folder.DirectoryName, Constants.Sidewinder.NuGetPackageName,
-                                                      StringComparison.InvariantCultureIgnoreCase) != 0)
+                .Directories()
+                .Where(path => (string.Compare(path.FileName, Constants.Sidewinder.NuGetPackageName) != 0))
                 .Delete(true);
 
             return true;
