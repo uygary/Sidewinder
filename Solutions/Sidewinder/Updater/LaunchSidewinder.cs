@@ -17,9 +17,9 @@ namespace Sidewinder.Updater
         {
             var sidewinder = context.Config.TargetPackages[Constants.Sidewinder.NuGetPackageName];
 
-            var sidewinderPath = Fluent.IO.Path.Get(context.Config.DownloadFolder, 
-                "lib",
-                Constants.Sidewinder.UpdateFolder,
+            var sidewinderPath = Fluent.IO.Path.Get(context.Config.DownloadFolder,
+                Constants.Sidewinder.NuGetPackageName,
+                "lib",                
                 sidewinder.FrameworkHint, 
                 Constants.Sidewinder.ExeFilename).FullPath;
             Console.WriteLine("\tLaunching Sidewinder @{0}...", sidewinderPath);

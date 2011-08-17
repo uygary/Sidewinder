@@ -19,7 +19,7 @@ namespace Sidewinder.Distributor
         public bool Execute(DistributorContext context)
         {
             Path.Get(context.Config.Command.DownloadFolder)
-                .Directories(folder => string.Compare(folder.DirectoryName, Constants.Sidewinder.UpdateFolder,
+                .Directories(folder => string.Compare(folder.DirectoryName, Constants.Sidewinder.NuGetPackageName,
                                                       StringComparison.InvariantCultureIgnoreCase) != 0)
                 .Delete(true);
 

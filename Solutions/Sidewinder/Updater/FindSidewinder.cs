@@ -31,7 +31,10 @@ namespace Sidewinder.Updater
                                                       new TargetPackage
                                                           {
                                                               FrameworkHint = "net40",
-                                                              Name = Constants.Sidewinder.NuGetPackageName
+                                                              Name = Constants.Sidewinder.NuGetPackageName,
+
+                                                              // TEMP - REMOVE FOR PROD
+                                                              NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
                                                           });
                     Console.WriteLine("\tAdded Sidewinder to targets");
                 }
@@ -41,7 +44,7 @@ namespace Sidewinder.Updater
 
             // sidewinder package exists - grab the file version number
             Version ver = null;
-            var sidewinderPath = Path.Get(context.Config.DownloadFolder, Constants.Sidewinder.UpdateFolder,
+            var sidewinderPath = Path.Get(context.Config.DownloadFolder, Constants.Sidewinder.NuGetPackageName,
                          Constants.Sidewinder.ExeFilename).FullPath;
             if (Path.Get(sidewinderPath).Exists)
             {
@@ -56,9 +59,12 @@ namespace Sidewinder.Updater
                                                                   {
                                                                       FrameworkHint = "net40",
                                                                       Name = Constants.Sidewinder.NuGetPackageName,
-                                                                      Version = ver
+                                                                      Version = ver,
+
+                                                                      // TEMP - REMOVE FOR PROD
+                                                                      NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
                                                                   });
-            Console.WriteLine("\tAdded Sidewinder to targets (checking for update)");
+            Console.WriteLine("\tAdded Sidewinder to targets (update)");
             return true;
         }
 

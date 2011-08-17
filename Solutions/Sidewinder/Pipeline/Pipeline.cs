@@ -42,7 +42,7 @@ namespace Sidewinder.Pipeline
             }
 
             timer.Stop();
-            Console.WriteLine("\tPipeline<{0}> completed in {1}s", typeof(T).Name, timer.Elapsed.TotalSeconds);
+            Console.WriteLine("Pipeline<{0}> completed in {1}s", typeof(T).Name, timer.Elapsed.TotalSeconds);
 
             return true;
         }

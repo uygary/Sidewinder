@@ -14,7 +14,6 @@ namespace Sidewinder
         public class Sidewinder
         {
             public const string CommandFile = "_sidewinder.xml";
-            public const string UpdateFolder = "_sidewinder";
             public const string ExeFilename = "sidewinder.exe";
             public const string NuGetPackageName = "sidewinder";
         }
