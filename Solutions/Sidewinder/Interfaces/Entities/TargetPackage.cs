@@ -11,7 +11,8 @@ namespace Sidewinder.Interfaces.Entities
 
         public string Name { get; set; }
         public Version Version { get; set; }
-        public string FrameworkHint { get; set; }
         public string NuGetFeedUrl { get; set; }
+        public bool UpdateDependencies { get; set; }
+        public bool Force { get; set; }
     }
 }

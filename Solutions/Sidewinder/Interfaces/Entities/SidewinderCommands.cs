@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Sidewinder.Interfaces.Entities
@@ -9,6 +10,7 @@ namespace Sidewinder.Interfaces.Entities
 
     public class DistributeFiles
     {
+        public Version TargetFrameworkVersion { get; set; }
         public string TargetProcessFilename { get; set; }
         public List<UpdatedPackage> Updates { get; set; }
         public int SecondsToWait { get; set; }

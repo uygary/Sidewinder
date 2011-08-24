@@ -47,18 +47,15 @@ namespace Sidewinder.Distributor
                                         Console.WriteLine("done!");
                                     }
 
-                                    // copy binaries
-                                    var binPath = Path.Get(context.Config.Command.DownloadFolder,
-                                                           update.Target.Name,
-                                                           Constants.NuGet.LibFolder,
-                                                           update.Target.FrameworkHint);
+                                    // copy binaries - this will find the best lib\framework folder as the source
+                                    // matched against the target framework requested
+                                    var binPath = Framework.GetLibFrameworkPath(context.Config.Command.DownloadFolder,
+                                                                                update.Target.Name,
+                                                                                context.Config.Command.TargetFrameworkVersion);
 
-                                    if (binPath.Exists)
-                                    {
-                                        Console.Write("\t\tCopying Binaries from {0}...", binPath.FullPath);
-                                        binPath.Copy(context.Config.InstallFolder, Overwrite.Always, true);
-                                        Console.WriteLine("done!");
-                                    }
+                                    Console.Write("\t\tCopying Binaries from {0}...", binPath.FullPath);
+                                    binPath.Copy(context.Config.InstallFolder, Overwrite.Always, true);
+                                    Console.WriteLine("done!");
 
                                     // copy tools
                                     var toolsPath = Path.Get(context.Config.Command.DownloadFolder,

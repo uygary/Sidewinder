@@ -71,6 +71,7 @@
     <Compile Include="Distributor\CopyPackageFiles.cs" />
     <Compile Include="Distributor\DefaultDistributionAgent.cs" />
     <Compile Include="Distributor\WaitForProcessShutdown.cs" />
+    <Compile Include="Framework.cs" />
     <Compile Include="Interfaces\Entities\DistributorContext.cs" />
     <Compile Include="Interfaces\Entities\DistributorConfig.cs" />
     <Compile Include="Interfaces\Entities\TargetPackage.cs" />

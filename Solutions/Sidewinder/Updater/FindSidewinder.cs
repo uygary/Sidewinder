@@ -30,11 +30,7 @@ namespace Sidewinder.Updater
                     context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
                                                       new TargetPackage
                                                           {
-                                                              FrameworkHint = "net40",
-                                                              Name = Constants.Sidewinder.NuGetPackageName,
-
-                                                              // Testing only
-                                                              //NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
+                                                              Name = Constants.Sidewinder.NuGetPackageName
                                                           });
                     Console.WriteLine("\tAdded Sidewinder to targets");
                 }
@@ -57,12 +53,8 @@ namespace Sidewinder.Updater
             context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
                                                                   new TargetPackage
                                                                   {
-                                                                      FrameworkHint = "net40",
                                                                       Name = Constants.Sidewinder.NuGetPackageName,
-                                                                      Version = ver,
-
-                                                                      // Testing only
-                                                                      //NuGetFeedUrl = "http://www.myget.org/F/sidewinder"
+                                                                      Version = ver
                                                                   });
             Console.WriteLine("\tAdded Sidewinder to targets (update)");
             return true;

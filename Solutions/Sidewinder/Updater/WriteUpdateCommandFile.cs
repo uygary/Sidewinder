@@ -23,6 +23,7 @@ namespace Sidewinder.Updater
             {
                 DistributeFiles = new DistributeFiles
                 {
+                    TargetFrameworkVersion = context.Config.TargetFrameworkVersion,
                     TargetProcessFilename = Process.GetCurrentProcess().MainModule.FileName,
                     DownloadFolder = context.Config.DownloadFolder,
                     Updates = context.Updates

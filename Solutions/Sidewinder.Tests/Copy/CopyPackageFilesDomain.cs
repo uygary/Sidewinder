@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Fluent.IO;
 using Sidewinder.Interfaces.Entities;
@@ -34,16 +35,18 @@ namespace Sidewinder.Tests.Copy
                                                    InstallFolder = myInstallationFolder,
                                                    Command = new DistributeFiles
                                                                  {
+                                                                     TargetFrameworkVersion = new Version(4,0),
                                                                      DownloadFolder = myUpdateFolder,
                                                                      Updates = new List<UpdatedPackage>
                                                                                    {
                                                                                        new UpdatedPackage
                                                                                            {
-                                                                                               Target = new TargetPackage
-                                                                                                            {
-                                                                                                                FrameworkHint = "net40",
-                                                                                                                Name = "TestPkg"
-                                                                                                            }
+                                                                                               Target =
+                                                                                                   new TargetPackage
+                                                                                                       {
+                                                                                                           Name =
+                                                                                                               "TestPkg"
+                                                                                                       }
                                                                                            }
                                                                                    }
                                                                  }
