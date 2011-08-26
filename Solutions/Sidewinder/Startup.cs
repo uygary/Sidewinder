@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using Sidewinder.Interfaces.Entities;
-using System.Linq;
 
 namespace Sidewinder
 {
@@ -19,7 +18,7 @@ namespace Sidewinder
                     // https://github.com/littlebits/args
                     var command = Args.Configuration.Configure<CmdlineArgs>().CreateAndBind(args);
 
-                    Console.WriteLine("\tDetected DistributeFiles command...executing...");
+                    Console.WriteLine("Updating package {0}...", command.Package);
                     retCode = UpdaterFactory.Setup(config =>
                                                        {
                                                            var feed = command.Feed;
@@ -99,7 +98,7 @@ namespace Sidewinder
         {
             commands = null;
 
-            Console.WriteLine("\tLooking for Command file found at {0}...", commandFile);
+            Console.WriteLine("\tLooking here...{0}...", commandFile);
 
             if (!File.Exists(commandFile))
                 return false;

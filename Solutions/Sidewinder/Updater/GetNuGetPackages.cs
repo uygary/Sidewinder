@@ -25,7 +25,13 @@ namespace Sidewinder.Updater
                 target => GetNuGetPackage(context, target.Value));
 
             // if there are no updates then abort the pipeline
-            return (context.Updates.Count > 0);
+            if (context.Updates.Count == 0)
+            {
+                Console.WriteLine("\tNo updates found!");
+                return false;
+            }
+
+            return true;
         }
 
         public void ExitConditions(UpdaterContext context)
@@ -66,7 +72,7 @@ namespace Sidewinder.Updater
             // o forcing a download
             // o no version has been specified
             // o upgrade to existing version available
-            if (!((target.Force || target.Version == null) || (update.Version <= target.Version)))
+            if (!target.Force  && ((target.Version != null) && (target.Version >= update.Version)))
             {
                 Console.WriteLine("\t\tNo update available...running the latest version!");
                 return;

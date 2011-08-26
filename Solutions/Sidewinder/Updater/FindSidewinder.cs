@@ -40,8 +40,11 @@ namespace Sidewinder.Updater
 
             // sidewinder package exists - grab the file version number
             Version ver = null;
-            var sidewinderPath = Path.Get(context.Config.DownloadFolder, Constants.Sidewinder.NuGetPackageName,
-                         Constants.Sidewinder.ExeFilename).FullPath;
+            var sidewinderPath = Path.Get(context.Config.DownloadFolder, 
+                Constants.Sidewinder.NuGetPackageName,
+                Constants.NuGet.LibFolder,
+                "net40",
+                Constants.Sidewinder.ExeFilename).FullPath;
             if (Path.Get(sidewinderPath).Exists)
             {
                 var fileVersionInfo = FileVersionInfo.GetVersionInfo(sidewinderPath);
@@ -56,7 +59,7 @@ namespace Sidewinder.Updater
                                                                       Name = Constants.Sidewinder.NuGetPackageName,
                                                                       Version = ver
                                                                   });
-            Console.WriteLine("\tAdded Sidewinder to targets (update)");
+            Console.WriteLine("\tAdded Sidewinder {0}to targets (update)", ver == null ? string.Empty : ver + " ");
             return true;
         }
 

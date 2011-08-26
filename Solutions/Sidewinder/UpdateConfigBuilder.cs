@@ -195,6 +195,7 @@ namespace Sidewinder
                                  InstallFolder = GetFolderOrDefault(myConfig.InstallFolder, Path.Get(Process.GetCurrentProcess().MainModule.FileName).Parent().FullPath), 
                                  TargetPackages = myConfig.TargetPackages,
                                  BackupFoldersToIgnore = myConfig.BackupFoldersToIgnore,
+                                 TargetFrameworkVersion = myConfig.TargetFrameworkVersion
                              };
 
             if (string.IsNullOrWhiteSpace(myConfig.DownloadFolder))
