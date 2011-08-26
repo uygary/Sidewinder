@@ -34,6 +34,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Args">
+      <HintPath>..\packages\Args.1.0.3\lib\Net40\Args.dll</HintPath>
+    </Reference>
     <Reference Include="Fluent.IO">
       <HintPath>..\packages\FluentPath.1.0.0\lib\Net4\Fluent.IO.dll</HintPath>
     </Reference>
@@ -68,12 +71,17 @@
     <Compile Include="DistributorFactory.cs" />
     <Compile Include="DirectoryWalker.cs" />
     <Compile Include="Distributor\CleanUp.cs" />
+    <Compile Include="Distributor\UpdateInstalledPackages.cs" />
     <Compile Include="Distributor\CopyPackageFiles.cs" />
     <Compile Include="Distributor\DefaultDistributionAgent.cs" />
     <Compile Include="Distributor\WaitForProcessShutdown.cs" />
     <Compile Include="Framework.cs" />
+    <Compile Include="Interfaces\Entities\CmdlineArgs.cs" />
+    <Compile Include="Interfaces\Entities\InstalledPackage.cs" />
+    <Compile Include="Interfaces\Entities\NuGetPackage.cs" />
     <Compile Include="Interfaces\Entities\DistributorContext.cs" />
     <Compile Include="Interfaces\Entities\DistributorConfig.cs" />
+    <Compile Include="Interfaces\Entities\InstalledPackages.cs" />
     <Compile Include="Interfaces\Entities\TargetPackage.cs" />
     <Compile Include="Interfaces\Entities\UpdatedPackage.cs" />
     <Compile Include="Interfaces\Entities\UpdaterContext.cs" />
@@ -91,6 +99,7 @@
     <Compile Include="UpdateConfigBuilder.cs" />
     <Compile Include="UpdaterFactory.cs" />
     <Compile Include="Updater\BackupApplication.cs" />
+    <Compile Include="Updater\DiscoverInstalledPackages.cs" />
     <Compile Include="Updater\EmbeddedUpdateAgent.cs" />
     <Compile Include="Updater\FindSidewinder.cs" />
     <Compile Include="Updater\GetNuGetPackages.cs" />

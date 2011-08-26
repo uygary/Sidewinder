@@ -6,6 +6,7 @@ copy Sidewinder\bin\debug\sidewinder.pdb NuGet\Sidewinder\lib\net40
 copy Sidewinder\bin\debug\NuGet.Core.dll NuGet\Sidewinder\lib\net40
 copy Sidewinder\bin\debug\Ionic.Zip.dll NuGet\Sidewinder\lib\net40
 copy Sidewinder\bin\debug\Fluent.IO.dll NuGet\Sidewinder\lib\net40
+copy Sidewinder\bin\debug\Args.dll NuGet\Sidewinder\lib\net40
 
 popd
 pushd ..\

@@ -20,6 +20,7 @@ namespace Sidewinder
                            {        
                                Backup = true,
                                TargetPackages = new Dictionary<string, TargetPackage>(),
+                               // try to guess the runtime from the app we are running inside
                                TargetFrameworkVersion = GetRuntimeVersion(),
                                BackupFoldersToIgnore = new List<string>
                                                            {
@@ -34,14 +35,14 @@ namespace Sidewinder
             return new Version(Assembly.GetEntryAssembly().ImageRuntimeVersion.TrimStart('v'));
         }
 
+        public UpdateConfigBuilder TargetFrameworkVersion11()
+        {
+            return TargetFrameworkVersion(new Version(1, 1));
+        }
+
         public UpdateConfigBuilder TargetFrameworkVersion20()
         {
             return TargetFrameworkVersion(new Version(2, 0));
-        }
-
-        public UpdateConfigBuilder TargetFrameworkVersion35()
-        {
-            return TargetFrameworkVersion(new Version(3, 5));
         }
 
         public UpdateConfigBuilder TargetFrameworkVersion40()
@@ -64,7 +65,21 @@ namespace Sidewinder
         /// <returns></returns>
         public UpdateConfigBuilder Get(string name)
         {
-            return Update(name, null, Constants.NuGet.OfficialFeedUrl);
+            return Get(name, Constants.NuGet.OfficialFeedUrl, false);
+        }
+
+        /// <summary>
+        /// This will add the latest version of the named package to the list 
+        /// to update. This will be downloaded and updated irrespective of the 
+        /// currently installed version from the default (official) nuget feed.
+        /// All dependent NuGet packages will be updated as well.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="force"></param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Get(string name, bool force)
+        {
+            return Get(name, Constants.NuGet.OfficialFeedUrl, force);
         }
 
         /// <summary>
@@ -77,7 +92,26 @@ namespace Sidewinder
         /// <returns></returns>
         public UpdateConfigBuilder Get(string name, string feedUrl)
         {
-            return Update(name, feedUrl);
+            return Get(name, feedUrl, false);
+        }
+
+        /// <summary>
+        /// This will add the latest version of the named package to the list 
+        /// to update. This will be downloaded and updated irrespective of the 
+        /// currently installed version.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="feedUrl"></param>
+        /// <param name="force"></param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Get(string name, string feedUrl, bool force)
+        {
+            return Update(new TargetPackage
+                              {
+                                  Force = force,
+                                  Name = name,
+                                  NuGetFeedUrl = feedUrl,
+                              });
         }
 
         /// <summary>
@@ -140,6 +174,11 @@ namespace Sidewinder
             return this;
         }
 
+        public UpdateConfigBuilder InstallInto(string folder)
+        {
+            myConfig.InstallFolder = folder;
+            return this;
+        }
 
         public UpdateConfigBuilder DoNotBackup()
         {

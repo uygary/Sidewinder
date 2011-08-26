@@ -13,20 +13,47 @@ namespace Sidewinder
                 var retCode = 0;
                 SidewinderCommands commands;
 
-                if (!GetCommands(out commands))
+                if (args.Length > 0)
+                {
+                    // https://github.com/littlebits/args
+                    var command = Args.Configuration.Configure<CmdlineArgs>().CreateAndBind(args);
+
+                    Console.WriteLine("\tDetected DistributeFiles command...executing...");
+                    retCode = UpdaterFactory.Setup(config =>
+                                                       {
+                                                           // parse packages
+
+                                                           config.InstallInto(command.InstallFolder);
+
+                                                           if (command.Net11)
+                                                               config.TargetFrameworkVersion11();
+                                                           if (command.Net20)
+                                                               config.TargetFrameworkVersion20();
+                                                           if (command.Net40)
+                                                               config.TargetFrameworkVersion40();
+                                                       })
+                                  .Execute()
+                                  ? 0
+                                  : -1;
+                }
+                else if (!GetCommandFile(out commands))
                 {
                     Console.WriteLine("**WARNING** No command file detected - aborting!");
-                    return;
                 }
-
-                if (commands.DistributeFiles != null)
+                else
                 {
-                    Console.WriteLine("\tDetected DistributeFiles command...executing...");
-                    retCode = DistributorFactory.Setup(config => config.CommandIs(commands.DistributeFiles))
-                                                           .Execute() ? 0 : -1;
 
-                    Console.WriteLine("Press a key to continue...");
-                    Console.ReadKey();
+                    if (commands.DistributeFiles != null)
+                    {
+                        Console.WriteLine("\tDetected DistributeFiles command...executing...");
+                        retCode = DistributorFactory.Setup(config => config.CommandIs(commands.DistributeFiles))
+                                      .Execute()
+                                      ? 0
+                                      : -1;
+
+                        Console.WriteLine("Press a key to continue...");
+                        Console.ReadKey();
+                    }
                 }
 
                 Environment.ExitCode = retCode;
@@ -38,7 +65,7 @@ namespace Sidewinder
             }
         }
 
-        protected static bool GetCommands(out SidewinderCommands commands)
+        protected static bool GetCommandFile(out SidewinderCommands commands)
         {
             commands = null;
 

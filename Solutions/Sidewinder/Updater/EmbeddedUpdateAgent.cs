@@ -21,7 +21,8 @@ namespace Sidewinder.Updater
         {
             myConfig = config;
             myPipeline = Pipeline<UpdaterContext>.Run(new FindSidewinder())
-                .Then(new GetNuGetPackages())
+                .Then(new DiscoverInstalledPackages())
+                .Then(new GetNuGetPackages())                
                 .Then(new BackupApplication())
                 .Then(new WriteUpdateCommandFile())
                 .Then(new LaunchSidewinder());
@@ -34,6 +35,7 @@ namespace Sidewinder.Updater
             Console.WriteLine("\t\tConfig.BackupFolder: {0}", myConfig.BackupFolder);
             Console.WriteLine("\t\tConfig.DownloadFolder: {0}", myConfig.DownloadFolder);
             Console.WriteLine("\t\tConfig.InstallFolder: {0}", myConfig.InstallFolder);
+            Console.WriteLine("\t\tConfig.TargetFrameworkVersion: {0}", myConfig.TargetFrameworkVersion);
             Console.WriteLine("\t\tConfig.TargetPackages...");
             myConfig.TargetPackages.ToList().ForEach(tp =>
                                                          {

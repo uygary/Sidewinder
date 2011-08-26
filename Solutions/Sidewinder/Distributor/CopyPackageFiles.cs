@@ -47,8 +47,8 @@ namespace Sidewinder.Distributor
                                         Console.WriteLine("done!");
                                     }
 
-                                    // copy binaries - this will find the best lib\framework folder as the source
-                                    // matched against the target framework requested
+                                    // copy binaries - this will find the best match lib\framework folder within the
+                                    // package matched against the target framework requested
                                     var binPath = Framework.GetLibFrameworkPath(context.Config.Command.DownloadFolder,
                                                                                 update.Target.Name,
                                                                                 context.Config.Command.TargetFrameworkVersion);

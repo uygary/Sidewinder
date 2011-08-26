@@ -21,10 +21,10 @@ namespace Sidewinder.Updater
 
         public bool Execute(UpdaterContext context)
         {
-            var targets = context.Config.TargetPackages.ToList();
+            context.Config.TargetPackages.ToList().ForEach(
+                target => GetNuGetPackage(context, target.Value));
 
-            targets.ForEach(target => GetNuGetPackage(context, target.Value));
-
+            // if there are no updates then abort the pipeline
             return (context.Updates.Count > 0);
         }
 
@@ -35,6 +35,14 @@ namespace Sidewinder.Updater
 
         protected virtual void GetNuGetPackage(UpdaterContext context, TargetPackage target)
         {
+            if (context.InstalledPackages.ContainsKey(target.Name))
+            {
+                // update target version number from the installed package
+                // if it exists - this will ensure an update only if a new
+                // version is available
+                target.Version = context.InstalledPackages[target.Name].Version;
+            }
+
             if (target.Version == null)
             {
                 Console.WriteLine("\tGetting the latest version of {0} from {1}...",
@@ -48,24 +56,23 @@ namespace Sidewinder.Updater
                                   target.Version);
             }
 
-            var repo = PackageRepositoryFactory.Default.CreateRepository(target.NuGetFeedUrl);
-            var update = repo.FindPackage(target.Name);
-
-            if (update == null)
+            IPackage update;
+            if (!FindPackage(context, target, out update))
             {
-                Console.WriteLine("\t\t**WARNING** Package {0} does not exist on feed {1}",
-                    target.Name,
-                    target.NuGetFeedUrl);
                 return;
             }
 
-            if ((target.Version != null) &&
-                (update.Version <= target.Version))
+            // should we download it? yes if...
+            // o forcing a download
+            // o no version has been specified
+            // o upgrade to existing version available
+            if (!((target.Force || target.Version == null) || (update.Version <= target.Version)))
             {
                 Console.WriteLine("\t\tNo update available...running the latest version!");
                 return;
             }
 
+            // ok, lets download it!...
             Console.WriteLine("\t\tUpdated version v{0} is available", update.Version);
 
             var downloadFolder = Fluent.IO.Path.Get(context.Config.DownloadFolder, target.Name).FullPath;
@@ -90,7 +97,7 @@ namespace Sidewinder.Updater
                 });
             }
 
-
+            // should we update any related packages?
             if (!target.UpdateDependencies)
                 return;
 
@@ -103,9 +110,52 @@ namespace Sidewinder.Updater
                         Name = dep.Id,
                         NuGetFeedUrl = target.NuGetFeedUrl,
                         UpdateDependencies = true
-                        // version?
                     }));
             }
+        }
+
+        /// <summary>
+        /// This will attempt to find the package on the feed nominated. If the package does not
+        /// exist on the feed and that feed is a custom one it will attempt to find the package
+        /// from the official nuget feed as a fallback.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="target"></param>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        protected virtual bool FindPackage(UpdaterContext context, TargetPackage target, out IPackage package)
+        {
+            var repo = PackageRepositoryFactory.Default.CreateRepository(target.NuGetFeedUrl);
+            package = repo.FindPackage(target.Name);
+
+            if (package == null)
+            {
+                Console.WriteLine("\t\t**WARNING** Package {0} does not exist on feed {1}",
+                    target.Name,
+                    target.NuGetFeedUrl);
+
+                if (string.Compare(target.NuGetFeedUrl, Constants.NuGet.OfficialFeedUrl,
+                    StringComparison.InvariantCultureIgnoreCase) == 0)
+                {
+                    return false;
+                }
+
+                Console.WriteLine("\t\tAttempting to find it on the official feed...");
+                repo = PackageRepositoryFactory.Default.CreateRepository(Constants.NuGet.OfficialFeedUrl);
+                package = repo.FindPackage(target.Name);
+
+                if (package == null)
+                {
+                    Console.WriteLine("\t\t**WARNING** Package {0} does not exist on feed {1}",
+                                        target.Name,
+                                        target.NuGetFeedUrl);
+                    return false;
+                }
+            }
+
+            // update the target feed just in case we get it from the fallback (official) feed
+            target.NuGetFeedUrl = repo.Source;
+            return true;
         }
 
         protected virtual void DownloadFile(string downloadFolder, IPackageFile file)
