@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Sidewinder.Interfaces.Entities;
+using System.Linq;
 
 namespace Sidewinder
 {
@@ -21,10 +22,21 @@ namespace Sidewinder
                     Console.WriteLine("\tDetected DistributeFiles command...executing...");
                     retCode = UpdaterFactory.Setup(config =>
                                                        {
-                                                           // parse packages
+                                                           var feed = command.Feed;
+                                                           if (string.IsNullOrWhiteSpace(feed))
+                                                               feed = Constants.NuGet.OfficialFeedUrl;
 
-                                                           config.InstallInto(command.InstallFolder);
+                                                           config.Update(new TargetPackage
+                                                                             {
+                                                                                 Force = command.Force,
+                                                                                 Name = command.Package,
+                                                                                 NuGetFeedUrl = feed,
+                                                                                 UpdateDependencies = command.Dependencies
+                                                                             })
+                                                               .InstallInto(command.InstallFolder);
 
+                                                           // if a hint is supplied then use it otherwise
+                                                           // the default will be net40
                                                            if (command.Net11)
                                                                config.TargetFrameworkVersion11();
                                                            if (command.Net20)
