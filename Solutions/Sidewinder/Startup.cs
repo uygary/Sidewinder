@@ -1,6 +1,7 @@
 using System;
 using System.IO;
-using Sidewinder.Interfaces.Entities;
+using Sidewinder.Core;
+using Sidewinder.Core.Interfaces.Entities;
 
 namespace Sidewinder
 {

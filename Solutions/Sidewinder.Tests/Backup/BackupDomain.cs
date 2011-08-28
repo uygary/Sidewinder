@@ -1,7 +1,8 @@
 using System.IO;
 using NUnit.Framework;
-using Sidewinder.Interfaces;
-using Sidewinder.Interfaces.Entities;
+using Sidewinder.Core;
+using Sidewinder.Core.Interfaces;
+using Sidewinder.Core.Interfaces.Entities;
 using Sidewinder.Tests.StandIns;
 
 namespace Sidewinder.Tests.Backup

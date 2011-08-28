@@ -1,4 +1,4 @@
-using Sidewinder.Updater;
+using Sidewinder.Core.Updater;
 
 namespace Sidewinder.Tests.StandIns
 {

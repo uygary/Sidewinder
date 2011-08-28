@@ -78,6 +78,10 @@
     <Folder Include="CleanUp\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sidewinder.Core\Sidewinder.Core.csproj">
+      <Project>{046526FB-37E7-45E4-AB5E-E5053E23DD71}</Project>
+      <Name>Sidewinder.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sidewinder\Sidewinder.csproj">
       <Project>{058948F5-E41B-4A63-9E25-8DC38B15CDAB}</Project>
       <Name>Sidewinder</Name>

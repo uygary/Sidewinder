@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Fluent.IO;
-using Sidewinder.Interfaces.Entities;
 using FluentAssertions;
+using Sidewinder.Core.Interfaces.Entities;
 
 namespace Sidewinder.Tests.Copy
 {

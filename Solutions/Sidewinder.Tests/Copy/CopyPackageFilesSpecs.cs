@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using Sidewinder.Distributor;
-using Sidewinder.Interfaces;
-using Sidewinder.Interfaces.Entities;
+using Sidewinder.Core.Distributor;
+using Sidewinder.Core.Interfaces;
+using Sidewinder.Core.Interfaces.Entities;
 using StoryQ;
 
 namespace Sidewinder.Tests.Copy
