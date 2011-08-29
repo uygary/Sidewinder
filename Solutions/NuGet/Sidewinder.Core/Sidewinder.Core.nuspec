@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Sidewinder</id>
+    <id>Sidewinder.Core</id>
     <version>1.0.0.0</version>
-    <title>Sidewinder</title>
+    <title>Sidewinder.Core</title>
     <authors>James Simmonds</authors>
     <owners>James Simmonds</owners>
     <licenseUrl>http://sidewinder.codeplex.com/license</licenseUrl>
     <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=sidewinder&amp;DownloadId=270857</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Provides a console application to pull down NuGet packages and install them into any folder.</description>
-    <summary>This is a cmdline wrapper over the Sidewinder.Core package. This can be used to install a NuGet package (including dependencies) into any folder - it can also backup the folder first.</summary>
+    <description>Provides the core functionality to update your application via a nuget package</description>
+    <summary>Provides the core functionality to update your application via a nuget package. This includes backing it up, checking for updates, downloading and installing them</summary>
     <language>en-GB</language>
     <tags>Sidewinder nuget update auto</tags>
     <dependencies>
-      <dependency id="Args" version="1.0.3" />
-      <dependency id="Sidewinder.Core" version="1.1.0.0" />
+      <dependency id="NuGet.Core" version="1.4.20615.9012" />
+      <dependency id="FluentPath" version="1.0.0" />
+      <dependency id="DotNetZip" version="1.9.1.8" />
     </dependencies>
   </metadata>
 </package>

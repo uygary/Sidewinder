@@ -11,7 +11,7 @@ namespace Sidewinder.Core.Updater
     /// the installation. Sidewinder is downloaded as part of any update run
     /// but only if it does not already exist of a newer version is available.
     /// </summary>
-    public class FindSidewinder : IPipelineStep<UpdaterContext>
+    public class AddSidewinderToUpdates : IPipelineStep<UpdaterContext>
     {
         public void EntryConditions(UpdaterContext context)
         {
@@ -29,7 +29,8 @@ namespace Sidewinder.Core.Updater
                     context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
                                                       new TargetPackage
                                                           {
-                                                              Name = Constants.Sidewinder.NuGetPackageName
+                                                              Name = Constants.Sidewinder.NuGetPackageName,
+                                                              UpdateDependencies = true
                                                           });
                     Console.WriteLine("\tAdded Sidewinder to targets");
                 }
@@ -53,10 +54,11 @@ namespace Sidewinder.Core.Updater
             if (context.Config.TargetPackages.ContainsKey(Constants.Sidewinder.NuGetPackageName))
                 context.Config.TargetPackages.Remove(Constants.Sidewinder.NuGetPackageName);
             context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
-                                                                  new TargetPackage
+                                                                  new TargetPackage()
                                                                   {
                                                                       Name = Constants.Sidewinder.NuGetPackageName,
-                                                                      Version = ver
+                                                                      Version = ver,
+                                                                      UpdateDependencies = true
                                                                   });
             Console.WriteLine("\tAdded Sidewinder {0}to targets (update)", ver == null ? string.Empty : ver + " ");
             return true;

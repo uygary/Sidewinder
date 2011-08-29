@@ -20,7 +20,7 @@ namespace Sidewinder
                     var command = Args.Configuration.Configure<CmdlineArgs>().CreateAndBind(args);
 
                     Console.WriteLine("Updating package {0}...", command.Package);
-                    retCode = UpdaterFactory.Setup(config =>
+                    retCode = CmdlineUpdateFactory.Setup(config =>
                                                        {
                                                            var feed = command.Feed;
                                                            if (string.IsNullOrWhiteSpace(feed))

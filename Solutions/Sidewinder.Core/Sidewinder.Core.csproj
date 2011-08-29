@@ -60,6 +60,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Constants.cs" />
+    <Compile Include="CmdlineUpdateFactory.cs" />
     <Compile Include="DirectoryWalker.cs" />
     <Compile Include="DistributorConfigBuilder.cs" />
     <Compile Include="DistributorFactory.cs" />
@@ -89,11 +90,12 @@
     <Compile Include="SerialisationHelper.cs" />
     <Compile Include="SmartLocation.cs" />
     <Compile Include="UpdateConfigBuilder.cs" />
-    <Compile Include="UpdaterFactory.cs" />
+    <Compile Include="AppUpdateFactory.cs" />
     <Compile Include="Updater\BackupApplication.cs" />
+    <Compile Include="Updater\CmdlineUpdateAgent.cs" />
     <Compile Include="Updater\DiscoverInstalledPackages.cs" />
     <Compile Include="Updater\EmbeddedUpdateAgent.cs" />
-    <Compile Include="Updater\FindSidewinder.cs" />
+    <Compile Include="Updater\AddSidewinderToUpdates.cs" />
     <Compile Include="Updater\GetNuGetPackages.cs" />
     <Compile Include="Updater\LaunchSidewinder.cs" />
     <Compile Include="Updater\WriteUpdateCommandFile.cs" />

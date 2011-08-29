@@ -12,17 +12,16 @@ namespace Sidewinder.Core.Updater
     /// <summary>
     /// This contains all the code to self update this application via NuGet
     /// </summary>
-    public class EmbeddedUpdateAgent : IUpdateAgent
+    public class CmdlineUpdateAgent : IUpdateAgent
     {
         protected UpdateConfig myConfig;
         protected Pipeline<UpdaterContext> myPipeline;
 
-        public EmbeddedUpdateAgent(UpdateConfig config)
+        public CmdlineUpdateAgent(UpdateConfig config)
         {
             myConfig = config;
-            myPipeline = Pipeline<UpdaterContext>.Run(new AddSidewinderToUpdates())
-                .Then(new DiscoverInstalledPackages())
-                .Then(new GetNuGetPackages())                
+            myPipeline = Pipeline<UpdaterContext>.Run(new DiscoverInstalledPackages())
+                .Then(new GetNuGetPackages())
                 .Then(new BackupApplication())
                 .Then(new WriteUpdateCommandFile())
                 .Then(new LaunchSidewinder());

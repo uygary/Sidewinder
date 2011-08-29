@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Updater;
 
@@ -7,7 +8,7 @@ namespace Sidewinder.Core
     /// <summary>
     /// This contains all the code to self update this application via NuGet
     /// </summary>
-    public class UpdaterFactory
+    public class CmdlineUpdateFactory
     {
         public static IUpdateAgent Setup(Action<UpdateConfigBuilder> setup)
         {
@@ -15,7 +16,7 @@ namespace Sidewinder.Core
             setup(builder);
             var config = builder.Build();
 
-            var agent = new EmbeddedUpdateAgent(config);
+            var agent = new CmdlineUpdateAgent(config);
             return agent;
         }
     }
