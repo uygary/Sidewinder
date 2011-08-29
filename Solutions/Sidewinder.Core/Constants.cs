@@ -13,6 +13,11 @@
 
         public class Sidewinder
         {
+#if TESTING
+            public const string OfficialFeedUrl = "http://www.myget.org/F/sidewinder/";
+#else
+            public const string OfficialFeedUrl = NuGet.OfficialFeedUrl;
+#endif
             public const string CommandFile = "_sidewinder.xml";
             public const string VersionFile = "_sidewinder_versions.xml";
             public const string ExeFilename = "sidewinder.exe";

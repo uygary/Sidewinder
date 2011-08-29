@@ -7,6 +7,7 @@
 		<pSolutionFile/>
 		<pReleaseNumber/>
 		<pProjectFolder/>
+		<pConfiguration>Debug</pConfiguration>
 
 		<SolutionPath>$(pProjectFolder)\Solutions\$(pSolutionFile)</SolutionPath>
 		<ReleaseFolder>$(pProjectFolder)\Releases\v$(pReleaseNumber)</ReleaseFolder>
@@ -21,6 +22,7 @@
 		<Error Text="Please set parameter pSolutionFile!" Condition="$(pSolutionFile) == ''"/>
 		<Error Text="Please set parameter pReleaseNumber!" Condition="$(pReleaseNumber) == ''"/>
 		<Error Text="Please set parameter pProjectFolder!" Condition="$(pProjectFolder) == ''"/>
+		<Error Text="Please set parameter pConfiguration!" Condition="$(pConfiguration) == ''"/>
 	</Target>
 
 	<Target Name="ExecuteCopyAndBuild">
@@ -97,6 +99,6 @@
 		<ItemGroup>
 			<SolutionToBuild Include="$(TargetFolder)\*.sln" />
 		</ItemGroup>
-		<MSBuild Projects="@(SolutionToBuild)" />
+		<MSBuild Projects="@(SolutionToBuild)" Properties="Configuration=$(pConfiguration)"/>
 	</Target>
 </Project>

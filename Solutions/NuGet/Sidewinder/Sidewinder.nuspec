@@ -14,9 +14,5 @@
     <summary>This is a cmdline wrapper over the Sidewinder.Core package. This can be used to install a NuGet package (including dependencies) into any folder - it can also backup the folder first.</summary>
     <language>en-GB</language>
     <tags>Sidewinder nuget update auto</tags>
-    <dependencies>
-      <dependency id="Args" version="1.0.3" />
-      <dependency id="Sidewinder.Core" version="1.1.0.0" />
-    </dependencies>
   </metadata>
 </package>

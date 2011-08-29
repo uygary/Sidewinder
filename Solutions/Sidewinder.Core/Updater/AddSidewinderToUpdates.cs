@@ -30,7 +30,8 @@ namespace Sidewinder.Core.Updater
                                                       new TargetPackage
                                                           {
                                                               Name = Constants.Sidewinder.NuGetPackageName,
-                                                              UpdateDependencies = true
+                                                              UpdateDependencies = true,
+                                                              NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
                                                           });
                     Console.WriteLine("\tAdded Sidewinder to targets");
                 }
@@ -54,11 +55,12 @@ namespace Sidewinder.Core.Updater
             if (context.Config.TargetPackages.ContainsKey(Constants.Sidewinder.NuGetPackageName))
                 context.Config.TargetPackages.Remove(Constants.Sidewinder.NuGetPackageName);
             context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
-                                                                  new TargetPackage()
+                                                                  new TargetPackage
                                                                   {
                                                                       Name = Constants.Sidewinder.NuGetPackageName,
                                                                       Version = ver,
-                                                                      UpdateDependencies = true
+                                                                      UpdateDependencies = true,
+                                                                      NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
                                                                   });
             Console.WriteLine("\tAdded Sidewinder {0}to targets (update)", ver == null ? string.Empty : ver + " ");
             return true;

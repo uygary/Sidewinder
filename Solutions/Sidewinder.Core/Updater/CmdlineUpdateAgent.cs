@@ -29,7 +29,7 @@ namespace Sidewinder.Core.Updater
 
         public bool Execute()
         {
-            Console.WriteLine("\tRunning Update Pipeline...");
+            Console.WriteLine("\tRunning Cmdline Update Pipeline...");
             Console.WriteLine("\t\tConfig.Backup: {0}", myConfig.Backup);
             Console.WriteLine("\t\tConfig.BackupFolder: {0}", myConfig.BackupFolder);
             Console.WriteLine("\t\tConfig.DownloadFolder: {0}", myConfig.DownloadFolder);
