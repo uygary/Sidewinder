@@ -32,9 +32,9 @@ namespace Sidewinder.Tests.Copy
                               {
                                   Config = new DistributorConfig
                                                {
-                                                   InstallFolder = myInstallationFolder,
                                                    Command = new DistributeFiles
                                                                  {
+                                                                     InstallFolder = myInstallationFolder,
                                                                      TargetFrameworkVersion = new Version(4,0),
                                                                      DownloadFolder = myUpdateFolder,
                                                                      Updates = new List<UpdatedPackage>

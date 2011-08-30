@@ -14,7 +14,7 @@ namespace Sidewinder.Core.Interfaces.Entities
         public string TargetProcessFilename { get; set; }
         public List<UpdatedPackage> Updates { get; set; }
         public int SecondsToWait { get; set; }
-        public string InstallationFolder { get; set; }
+        public string InstallFolder { get; set; }
         public string DownloadFolder { get; set; }
 
         public DistributeFiles()

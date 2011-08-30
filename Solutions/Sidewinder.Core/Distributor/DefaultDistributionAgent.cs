@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 using Sidewinder.Core.Pipeline;
@@ -25,10 +26,14 @@ namespace Sidewinder.Core.Distributor
         public bool Execute()
         {
             Console.WriteLine("\tRunning Distribution Pipeline...");
-            Console.WriteLine("\t\tInstallFolder: {0}", myConfig.InstallFolder);
+            Console.WriteLine("\t\tCommand.InstallFolder: {0}", myConfig.Command.InstallFolder);
             Console.WriteLine("\t\tCommand.DownloadFolder: {0}", myConfig.Command.DownloadFolder);
             Console.WriteLine("\t\tCommand.SecondsToWait: {0}", myConfig.Command.SecondsToWait);
             Console.WriteLine("\t\tCommand.TargetProcessFilename: {0}", myConfig.Command.TargetProcessFilename);
+            Console.WriteLine("\t\tCommand.Updates...");
+            myConfig.Command.Updates.ToList().ForEach(update => Console.WriteLine("\t\t\t{0} -> v{1}", update.Target.Name,
+                                                                                  update.NewVersion));
+
             return myPipeline.Execute(new DistributorContext
             {
                 Config = myConfig

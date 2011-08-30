@@ -18,7 +18,7 @@ namespace Sidewinder.Core.Distributor
         public bool Execute(DistributorContext context)
         {
             InstalledPackages installed;
-            var versionPath = Path.Get(context.Config.InstallFolder, Constants.Sidewinder.VersionFile);
+            var versionPath = Path.Get(context.Config.Command.InstallFolder, Constants.Sidewinder.VersionFile);
 
             if (versionPath.Exists)
             {

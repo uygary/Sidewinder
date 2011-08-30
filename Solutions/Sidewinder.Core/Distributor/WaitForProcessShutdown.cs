@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Fluent.IO;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 
@@ -19,6 +20,10 @@ namespace Sidewinder.Core.Distributor
 
         public bool Execute(DistributorContext context)
         {
+            if (string.Compare(Path.Get(context.Config.Command.TargetProcessFilename).Parent().FullPath,
+                context.Config.Command.InstallFolder, StringComparison.InvariantCultureIgnoreCase) != 0)
+                return true;
+
             var attempt = 1;
             var timer = new Stopwatch();
             timer.Start();
