@@ -16,7 +16,7 @@ namespace Sidewinder.Core
             setup(builder);
             var config = builder.Build();
 
-            var agent = new EmbeddedUpdateAgent(config);
+            var agent = new DefaultUpdateAgent(config);
             return agent;
         }
     }

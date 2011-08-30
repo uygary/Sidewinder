@@ -18,6 +18,7 @@ namespace Sidewinder.Core.Distributor
             myConfig = config;
             myPipeline = Pipeline<DistributorContext>.Run(new WaitForProcessShutdown())
                 .Then(new CopyPackageFiles())
+                .Then(new UpdateInstalledPackages())
                 .Then(new CleanUp());
         }
 

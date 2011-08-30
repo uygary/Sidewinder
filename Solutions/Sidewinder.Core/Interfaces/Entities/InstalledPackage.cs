@@ -5,5 +5,10 @@ namespace Sidewinder.Core.Interfaces.Entities
     public class InstalledPackage : NuGetPackage
     {
         public DateTime LastUpdated { get; set; }
+
+        public InstalledPackage()
+        {
+            LastUpdated = DateTime.Now;
+        }
     }
 }

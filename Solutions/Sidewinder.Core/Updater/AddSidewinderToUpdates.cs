@@ -46,6 +46,14 @@ namespace Sidewinder.Core.Updater
                 Constants.NuGet.LibFolder,
                 "net40",
                 Constants.Sidewinder.ExeFilename).FullPath;
+
+            // (only if this is not the running app)
+            if (string.Compare(Path.Get(Process.GetCurrentProcess().MainModule.FileName).FullPath,
+                sidewinderPath, StringComparison.InvariantCultureIgnoreCase) == 0)
+            {
+                return true;
+            }
+
             if (Path.Get(sidewinderPath).Exists)
             {
                 var fileVersionInfo = FileVersionInfo.GetVersionInfo(sidewinderPath);

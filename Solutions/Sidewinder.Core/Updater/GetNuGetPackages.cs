@@ -51,7 +51,7 @@ namespace Sidewinder.Core.Updater
 
             if (target.Version == null)
             {
-                Console.WriteLine("\tGetting the latest version of {0} from {1}...",
+                Console.WriteLine("\tGetting the latest version of '{0}' from {1}...",
                                   target.Name,
                                   target.NuGetFeedUrl);
             }

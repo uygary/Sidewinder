@@ -14,13 +14,8 @@ namespace Sidewinder.Core.Interfaces.Entities
         public string TargetProcessFilename { get; set; }
         public List<UpdatedPackage> Updates { get; set; }
         public int SecondsToWait { get; set; }
-
-        private string myDownloadFolder;
-        public string DownloadFolder
-        {
-            get { return myDownloadFolder; }
-            set { myDownloadFolder = SmartLocation.GetLocation(value); }
-        }
+        public string InstallationFolder { get; set; }
+        public string DownloadFolder { get; set; }
 
         public DistributeFiles()
         {

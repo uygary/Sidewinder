@@ -22,6 +22,10 @@
             public const string VersionFile = "_sidewinder_versions.xml";
             public const string ExeFilename = "sidewinder.exe";
             public const string NuGetPackageName = "sidewinder";
+            public const string DefaultDownloadFolder = "_update";
+            public const string DefaultBackupFolder = "_backup";
+
+
         }
     }
 }

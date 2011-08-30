@@ -17,23 +17,38 @@ namespace Sidewinder.Core.Distributor
 
         public bool Execute(DistributorContext context)
         {
+            InstalledPackages installed;
             var versionPath = Path.Get(context.Config.InstallFolder, Constants.Sidewinder.VersionFile);
 
-            if (!versionPath.Exists)
-                return true;
+            if (versionPath.Exists)
+            {
+                Console.WriteLine("\tFound installed versions file @{0}...", versionPath.FullPath);
+                installed = SerialisationHelper<InstalledPackages>.DataContractDeserializeFromFile(versionPath.FullPath);
+            }
+            else
+            {
+                Console.WriteLine("\tCreating installed versions file @{0}...", versionPath.FullPath);
+                installed = new InstalledPackages();
+            }
 
-            var path = versionPath.FullPath;
-            Console.WriteLine("\tFound installed versions file @{0}...", path);
-            var versions = SerialisationHelper<InstalledPackages>.DataContractDeserializeFromFile(path);
+            context.Config.Command.Updates.ForEach(update =>
+                                                       {
+                                                           if (installed.ContainsKey(update.Target.Name))
+                                                               installed.Remove(update.Target.Name);
+                                                           installed.Add(update.Target.Name, new InstalledPackage
+                                                                                                 {
+                                                                                                     Name = update.Target.Name,
+                                                                                                     NuGetFeedUrl = update.Target.NuGetFeedUrl,
+                                                                                                     Version = update.NewVersion
+                                                                                                 });
+                                                       });
 
-            //context.Config.Command.Updates
-
+            SerialisationHelper<InstalledPackages>.DataContractSerialize(versionPath.FullPath, installed);
             return true;
         }
 
         public void ExitConditions(DistributorContext context)
-        {
-            // TODO: check all the download\package folders have been deleted (except for sidewinder)
+        {            
         }
     }
 }

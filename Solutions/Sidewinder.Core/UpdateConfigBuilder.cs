@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using Fluent.IO;
 using Sidewinder.Core.Interfaces.Entities;
@@ -9,9 +8,6 @@ namespace Sidewinder.Core
 {
     public class UpdateConfigBuilder
     {
-        public const string DefaultDownloadFolder = "_update";
-        public const string DefaultBackupFolder = "_backup";
-
         private readonly UpdateConfig myConfig;
 
         public UpdateConfigBuilder()
@@ -20,12 +16,13 @@ namespace Sidewinder.Core
                            {        
                                Backup = true,
                                TargetPackages = new Dictionary<string, TargetPackage>(),
+                               InstallFolder = SmartLocation.GetBinFolder(),
                                // try to guess the runtime from the app we are running inside
                                TargetFrameworkVersion = GetRuntimeVersion(),
                                BackupFoldersToIgnore = new List<string>
                                                            {
-                                                               DefaultDownloadFolder,
-                                                               DefaultBackupFolder
+                                                               Constants.Sidewinder.DefaultDownloadFolder,
+                                                               Constants.Sidewinder.DefaultBackupFolder
                                                            }
                            };
         }
@@ -191,34 +188,24 @@ namespace Sidewinder.Core
             var config = new UpdateConfig
                              {
                                  Backup = myConfig.Backup,                                 
-                                 BackupFolder = GetFolderOrDefault(myConfig.BackupFolder, DefaultBackupFolder),
-                                 InstallFolder = GetFolderOrDefault(myConfig.InstallFolder, Path.Get(Process.GetCurrentProcess().MainModule.FileName).Parent().FullPath), 
+                                 BackupFolder = GetFolderOrDefault(myConfig.BackupFolder, GetDefaultBackupFolder()),
+                                 DownloadFolder = GetFolderOrDefault(myConfig.DownloadFolder, GetDefaultDownloadFolder()),
+                                 InstallFolder = myConfig.InstallFolder, 
                                  TargetPackages = myConfig.TargetPackages,
                                  BackupFoldersToIgnore = myConfig.BackupFoldersToIgnore,
                                  TargetFrameworkVersion = myConfig.TargetFrameworkVersion
                              };
-
-            if (string.IsNullOrWhiteSpace(myConfig.DownloadFolder))
-            {
-                // use default download folder and take either the specified install folder
-                // OR assume the install folder is parent of default location
-                config.DownloadFolder = SmartLocation.GetLocation(DefaultDownloadFolder);
-                config.InstallFolder = GetFolderOrDefault(myConfig.InstallFolder,
-                                                          Path.Get(config.DownloadFolder).Parent().FullPath);
-
-            }
-            else
-            {
-                // download folder specified - this means the installation folder must also be provided
-                config.DownloadFolder = GetFolderOrDefault(myConfig.DownloadFolder, DefaultDownloadFolder);
-                config.InstallFolder = SmartLocation.GetLocation(myConfig.InstallFolder);
-            }
-
-            // finally append the target package name to the download folder to allow
-            // multiple packages to be downloaded (future feature)
-            //config.DownloadFolder = Path.Get(config.DownloadFolder, config.TargetPackages).FullPath;
-
             return config;
+        }
+
+        private string GetDefaultBackupFolder()
+        {
+            return Path.Get(myConfig.InstallFolder, Constants.Sidewinder.DefaultBackupFolder).FullPath;
+        }
+
+        private string GetDefaultDownloadFolder()
+        {
+            return Path.Get(myConfig.InstallFolder, Constants.Sidewinder.DefaultDownloadFolder).FullPath;
         }
 
         private static string GetFolderOrDefault(string folder, string defaultFolder)
