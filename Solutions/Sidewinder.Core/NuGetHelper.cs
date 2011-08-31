@@ -7,7 +7,7 @@ namespace Sidewinder.Core
     /// <summary>
     /// Provides helper methods for matching assembly versions to NuGet framework (lib) folders
     /// </summary>
-    public class Framework
+    public class NuGetHelper
     {
         public static LinkedList<string> SupportedLibFrameworks = new LinkedList<string>(
             new[]

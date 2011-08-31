@@ -15,11 +15,10 @@ namespace Sidewinder.Core.Updater
 
         public bool Execute(UpdaterContext context)
         {
-            var sidewinderPath = Fluent.IO.Path.Get(context.Config.DownloadFolder,
-                Constants.Sidewinder.NuGetPackageName,
-                "lib",                
-                Framework.GetBestLibFrameworkFolder(context.Config.TargetFrameworkVersion),
-                Constants.Sidewinder.ExeFilename).FullPath;
+            var sidewinderPath = NuGetHelper.GetLibFrameworkPath(context.Config.DownloadFolder,
+                                                                 Constants.Sidewinder.NuGetPackageName,
+                                                                 context.Config.TargetFrameworkVersion)
+                .Combine(Constants.Sidewinder.ExeFilename).FullPath;
             Console.WriteLine("\tLaunching Sidewinder @{0}...", sidewinderPath);
 
             if (!File.Exists(sidewinderPath))

@@ -84,7 +84,7 @@
     <Compile Include="Distributor\DefaultDistributionAgent.cs" />
     <Compile Include="Distributor\UpdateInstalledPackages.cs" />
     <Compile Include="Distributor\WaitForProcessShutdown.cs" />
-    <Compile Include="Framework.cs" />
+    <Compile Include="NuGetHelper.cs" />
     <Compile Include="Interfaces\Entities\BackupConfig.cs" />
     <Compile Include="Interfaces\Entities\CmdlineArgs.cs" />
     <Compile Include="Interfaces\Entities\DistributorConfig.cs" />
