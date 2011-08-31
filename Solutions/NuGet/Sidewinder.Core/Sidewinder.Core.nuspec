@@ -15,7 +15,7 @@
     <language>en-GB</language>
     <tags>Sidewinder nuget update auto</tags>
     <dependencies>
-      <dependency id="NuGet.Core" version="1.4.20615.9012" />
+      <dependency id="NuGet.Core" version="1.5.20818.9011" />
       <dependency id="FluentPath" version="1.0.0" />
       <dependency id="DotNetZip" version="1.9.1.8" />
     </dependencies>
