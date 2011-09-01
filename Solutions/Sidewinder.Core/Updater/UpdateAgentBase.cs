@@ -22,16 +22,16 @@ namespace Sidewinder.Core.Updater
 
         public virtual bool Execute()
         {
-            Console.WriteLine("\tRunning Update Pipeline...");
-            Console.WriteLine("\t\tConfig.Backup: {0}", myConfig.Backup);
-            Console.WriteLine("\t\tConfig.BackupFolder: {0}", myConfig.BackupFolder);
-            Console.WriteLine("\t\tConfig.DownloadFolder: {0}", myConfig.DownloadFolder);
-            Console.WriteLine("\t\tConfig.InstallFolder: {0}", myConfig.InstallFolder);
-            Console.WriteLine("\t\tConfig.TargetFrameworkVersion: {0}", myConfig.TargetFrameworkVersion);
-            Console.WriteLine("\t\tConfig.TargetPackages...");
+            Console.WriteLine("Running Update Pipeline...");
+            Console.WriteLine("\tConfig.Backup: {0}", myConfig.Backup);
+            Console.WriteLine("\tConfig.BackupFolder: {0}", myConfig.BackupFolder);
+            Console.WriteLine("\tConfig.DownloadFolder: {0}", myConfig.DownloadFolder);
+            Console.WriteLine("\tConfig.InstallFolder: {0}", myConfig.InstallFolder);
+            Console.WriteLine("\tConfig.TargetFrameworkVersion: {0}", myConfig.TargetFrameworkVersion);
+            Console.WriteLine("\tConfig.TargetPackages...");
             myConfig.TargetPackages.ToList().ForEach(tp =>
                                                          {
-                                                             Console.Write("\t\t\t{0}", tp.Value.Name);
+                                                             Console.Write("\t\t{0}", tp.Value.Name);
 
                                                              if (tp.Value.Version != null)
                                                                  Console.Write(" v{0}", tp.Value.Version);

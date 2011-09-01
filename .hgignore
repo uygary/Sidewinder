@@ -34,3 +34,4 @@ _ReSharper*/
 *.user
 *.bin
 Automation/PushNuGetPackages.cmd
+Automation/PushNuGetToMyGet.cmd
