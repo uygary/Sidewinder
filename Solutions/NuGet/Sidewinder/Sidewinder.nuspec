@@ -10,9 +10,9 @@
     <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=sidewinder&amp;DownloadId=270857</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Provides a console application to pull down NuGet packages and install them into any folder.</description>
-    <summary>This is a cmdline wrapper over the Sidewinder.Core package. This can be used to install a NuGet package (including dependencies) into any folder - it can also backup the folder first.</summary>
+    <description>Provides a console application to pull down NuGet packages and deploy the content into any folder.</description>
+    <summary>This is a cmdline wrapper over the Sidewinder.Core package. This can be used to install the content of a NuGet package (including dependencies) into any folder - it can also backup the folder first.</summary>
     <language>en-GB</language>
-    <tags>Sidewinder nuget update auto</tags>
+    <tags>Sidewinder cmdline nuget update auto</tags>
   </metadata>
 </package>

@@ -6,8 +6,9 @@ namespace Sidewinder.Core.Interfaces.Entities
     public class UpdateConfig
     {
         public bool Backup { get; set; }
+        public bool JustThis { get; set; }
         public Version TargetFrameworkVersion { get; set; }
-        public Dictionary<string, TargetPackage> TargetPackages { get; set; }
+        public TargetPackages TargetPackages { get; set; }
         public List<string> BackupFoldersToIgnore { get; set; }
 
         private string myBackupFolder;

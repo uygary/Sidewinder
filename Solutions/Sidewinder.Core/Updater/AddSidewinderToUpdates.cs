@@ -26,8 +26,7 @@ namespace Sidewinder.Core.Updater
                 if (!context.Config.TargetPackages.ContainsKey(Constants.Sidewinder.NuGetPackageName))
                 {
                     // get the latest sidewinder from the official nuget feed
-                    context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
-                                                      new TargetPackage
+                    context.Config.TargetPackages.Add(new TargetPackage
                                                           {
                                                               Name = Constants.Sidewinder.NuGetPackageName,
                                                               UpdateDependencies = true,
@@ -62,14 +61,13 @@ namespace Sidewinder.Core.Updater
 
             if (context.Config.TargetPackages.ContainsKey(Constants.Sidewinder.NuGetPackageName))
                 context.Config.TargetPackages.Remove(Constants.Sidewinder.NuGetPackageName);
-            context.Config.TargetPackages.Add(Constants.Sidewinder.NuGetPackageName,
-                                                                  new TargetPackage
-                                                                  {
-                                                                      Name = Constants.Sidewinder.NuGetPackageName,
-                                                                      Version = ver,
-                                                                      UpdateDependencies = true,
-                                                                      NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
-                                                                  });
+            context.Config.TargetPackages.Add(new TargetPackage
+                                                  {
+                                                      Name = Constants.Sidewinder.NuGetPackageName,
+                                                      Version = ver,
+                                                      UpdateDependencies = true,
+                                                      NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
+                                                  });
             Console.WriteLine("\tAdded Sidewinder {0}to targets (update)", ver == null ? string.Empty : ver + " ");
             return true;
         }

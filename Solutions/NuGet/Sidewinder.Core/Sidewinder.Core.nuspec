@@ -10,8 +10,8 @@
     <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=sidewinder&amp;DownloadId=270857</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Provides the core functionality to update your application via a nuget package</description>
-    <summary>Provides the core functionality to update your application via a nuget package. This includes backing it up, checking for updates, downloading and installing them</summary>
+    <description>Provides the core functionality to deploy updates to your application via a nuget package</description>
+    <summary>Provides the core functionality to deploy updates to your application via a nuget package. This includes backing it up, checking for nuget package updates, downloading and deploying the files in them</summary>
     <language>en-GB</language>
     <tags>Sidewinder nuget update auto</tags>
     <dependencies>

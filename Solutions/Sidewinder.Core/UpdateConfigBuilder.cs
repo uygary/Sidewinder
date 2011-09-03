@@ -15,7 +15,7 @@ namespace Sidewinder.Core
             myConfig = new UpdateConfig
                            {        
                                Backup = true,
-                               TargetPackages = new Dictionary<string, TargetPackage>(),
+                               TargetPackages = new TargetPackages(),
                                InstallFolder = SmartLocation.GetBinFolder(),
                                // try to guess the runtime from the app we are running inside
                                TargetFrameworkVersion = GetRuntimeVersion(),
@@ -162,12 +162,12 @@ namespace Sidewinder.Core
         public UpdateConfigBuilder Update(TargetPackage package)
         {
             if (myConfig.TargetPackages == null)
-                myConfig.TargetPackages = new Dictionary<string, TargetPackage>();
+                myConfig.TargetPackages = new TargetPackages();
 
             if (string.IsNullOrWhiteSpace(package.NuGetFeedUrl))
                 package.NuGetFeedUrl = Constants.NuGet.OfficialFeedUrl;
 
-            myConfig.TargetPackages.Add(package.Name, package);
+            myConfig.TargetPackages.Add(package);
             return this;
         }
 

@@ -85,6 +85,7 @@
     <Compile Include="Distributor\DefaultDistributionAgent.cs" />
     <Compile Include="Distributor\UpdateInstalledPackages.cs" />
     <Compile Include="Distributor\WaitForProcessShutdown.cs" />
+    <Compile Include="Interfaces\Entities\TargetPackages.cs" />
     <Compile Include="NuGetHelper.cs" />
     <Compile Include="Interfaces\Entities\BackupConfig.cs" />
     <Compile Include="Interfaces\Entities\CmdlineArgs.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="UpdateConfigBuilder.cs" />
     <Compile Include="AppUpdateFactory.cs" />
     <Compile Include="Updater\BackupApplication.cs" />
+    <Compile Include="Updater\AddInstalledPackagesToUpdates.cs" />
     <Compile Include="Updater\UpdateAgentBase.cs" />
     <Compile Include="Updater\DiscoverInstalledPackages.cs" />
     <Compile Include="Updater\DefaultUpdateAgent.cs" />
