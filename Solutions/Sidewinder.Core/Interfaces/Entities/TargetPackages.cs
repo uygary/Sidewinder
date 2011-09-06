@@ -11,6 +11,16 @@ namespace Sidewinder.Core.Interfaces.Entities
     {
         private Dictionary<string, TargetPackage> myTargets;
 
+        public TargetPackages()
+        {
+            myTargets = new Dictionary<string, TargetPackage>();
+        }
+
+        public TargetPackages(IEnumerable<TargetPackage> packages)
+        {
+            packages.ToList().ForEach(Add);
+        }
+
         public void Add(TargetPackage package)
         {
             myTargets.Add(NormaliseKey(package.Name), package);

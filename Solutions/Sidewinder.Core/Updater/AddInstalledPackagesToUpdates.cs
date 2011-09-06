@@ -1,4 +1,5 @@
-﻿using Sidewinder.Core.Interfaces;
+﻿using System;
+using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 using System.Linq;
 
@@ -17,7 +18,10 @@ namespace Sidewinder.Core.Updater
         public bool Execute(UpdaterContext context)
         {
             if (context.InstalledPackages == null || context.Config.JustThis)
+            {
+                Console.WriteLine("\tNo additional packages installed or to check");
                 return true;
+            }
 
             context.InstalledPackages.ToList().ForEach(ip =>
                                                            {
@@ -25,6 +29,7 @@ namespace Sidewinder.Core.Updater
                                                                    return;
 
                                                                context.Config.TargetPackages.Add(ip.Value);
+                                                               Console.WriteLine("\tAdded '{0}' to Targets", ip.Value.Name);
                                                            });
             return true;
         }

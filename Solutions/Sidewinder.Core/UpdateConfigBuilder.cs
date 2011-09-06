@@ -204,7 +204,8 @@ namespace Sidewinder.Core
                                  InstallFolder = myConfig.InstallFolder, 
                                  TargetPackages = myConfig.TargetPackages,
                                  BackupFoldersToIgnore = myConfig.BackupFoldersToIgnore,
-                                 TargetFrameworkVersion = myConfig.TargetFrameworkVersion
+                                 TargetFrameworkVersion = myConfig.TargetFrameworkVersion,
+                                 JustThis = myConfig.JustThis
                              };
             return config;
         }
