@@ -33,7 +33,8 @@ namespace Sidewinder
                                                                                  NuGetFeedUrl = feed,
                                                                                  UpdateDependencies = command.Dependencies
                                                                              })
-                                                               .InstallInto(command.InstallFolder);
+                                                               .InstallInto(command.InstallFolder)
+                                                               .JustThesePackages();
 
                                                            // if a hint is supplied then use it otherwise
                                                            // the default will be net40

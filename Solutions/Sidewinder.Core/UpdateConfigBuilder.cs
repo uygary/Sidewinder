@@ -177,6 +177,17 @@ namespace Sidewinder.Core
             return this;
         }
 
+        /// <summary>
+        /// Ensures that only the packages you have specified are updated - otherwise 
+        /// all installed packages will be checked for updates.
+        /// </summary>
+        /// <returns></returns>
+        public UpdateConfigBuilder JustThesePackages()
+        {
+            myConfig.JustThis = true;
+            return this;
+        }
+
         public UpdateConfigBuilder DoNotBackup()
         {
             myConfig.Backup = false;
