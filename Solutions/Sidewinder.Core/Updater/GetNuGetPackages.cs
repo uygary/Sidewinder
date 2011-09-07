@@ -21,6 +21,22 @@ namespace Sidewinder.Core.Updater
 
         public bool Execute(UpdaterContext context)
         {
+            Console.WriteLine("\tConfig.TargetPackages...");
+            context.Config.TargetPackages.ToList().ForEach(tp =>
+            {
+                Console.Write("\t\t{0}", tp.Value.Name);
+
+                if (tp.Value.Version != null)
+                    Console.Write(" v{0}", tp.Value.Version);
+
+                if (string.Compare(Constants.NuGet.OfficialFeedUrl,
+                                   tp.Value.NuGetFeedUrl,
+                                   StringComparison.InvariantCultureIgnoreCase) != 0)
+                    Console.Write(" ({0})", tp.Value.NuGetFeedUrl);
+
+                Console.WriteLine();
+            });
+
             context.Config.TargetPackages.ToList().ForEach(
                 target => GetNuGetPackage(context, target.Value));
 

@@ -28,21 +28,7 @@ namespace Sidewinder.Core.Updater
             Console.WriteLine("\tConfig.DownloadFolder: {0}", myConfig.DownloadFolder);
             Console.WriteLine("\tConfig.InstallFolder: {0}", myConfig.InstallFolder);
             Console.WriteLine("\tConfig.TargetFrameworkVersion: {0}", myConfig.TargetFrameworkVersion);
-            Console.WriteLine("\tConfig.TargetPackages...");
-            myConfig.TargetPackages.ToList().ForEach(tp =>
-                                                         {
-                                                             Console.Write("\t\t{0}", tp.Value.Name);
 
-                                                             if (tp.Value.Version != null)
-                                                                 Console.Write(" v{0}", tp.Value.Version);
-
-                                                             if (string.Compare(Constants.NuGet.OfficialFeedUrl,
-                                                                                tp.Value.NuGetFeedUrl,
-                                                                                StringComparison.InvariantCultureIgnoreCase) != 0)
-                                                                 Console.Write(" ({0})", tp.Value.NuGetFeedUrl);
-
-                                                             Console.WriteLine();
-                                                         });
             return myPipeline.Execute(new UpdaterContext
                                    {
                                        Config = myConfig

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Fluent.IO;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
@@ -28,6 +29,24 @@ namespace Sidewinder.Core.Updater
             var path = versionPath.FullPath;
             Console.WriteLine("\tFound installed versions file @{0}...", path);
             context.InstalledPackages = SerialisationHelper<InstalledPackages>.DataContractDeserializeFromFile(path);
+
+            Console.WriteLine("\tConfig.InstalledPackages...");
+            context.InstalledPackages.ToList().ForEach(pkg =>
+            {
+                Console.Write("\t\t{0}", pkg.Value.Name);
+
+                if (pkg.Value.Version != null)
+                    Console.Write(" v{0}", pkg.Value.Version);
+
+                Console.Write(" Last Updated:{0}", pkg.Value.LastUpdated);
+
+                if (string.Compare(Constants.NuGet.OfficialFeedUrl,
+                                   pkg.Value.NuGetFeedUrl,
+                                   StringComparison.InvariantCultureIgnoreCase) != 0)
+                    Console.Write(" ({0})", pkg.Value.NuGetFeedUrl);
+
+                Console.WriteLine();
+            });
             return true;
         }
 

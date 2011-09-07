@@ -7,24 +7,24 @@ namespace Sidewinder.Core.Interfaces.Entities
     /// <summary>
     /// Provides a controlled wrapper around a dictionary of <see cref="TargetPackage"/> items
     /// </summary>
-    public class TargetPackages
+    public class TargetPackages : PackagesBase<TargetPackage>
     {
-        private Dictionary<string, TargetPackage> myTargets;
+        //private Dictionary<string, TargetPackage> myTargets;
 
-        public TargetPackages()
-        {
-            myTargets = new Dictionary<string, TargetPackage>();
-        }
+        //public TargetPackages()
+        //{
+        //    myTargets = new Dictionary<string, TargetPackage>();
+        //}
 
-        public TargetPackages(IEnumerable<TargetPackage> packages)
-        {
-            packages.ToList().ForEach(Add);
-        }
+        //public TargetPackages(IEnumerable<TargetPackage> packages)
+        //{
+        //    packages.ToList().ForEach(Add);
+        //}
 
-        public void Add(TargetPackage package)
-        {
-            myTargets.Add(NormaliseKey(package.Name), package);
-        }
+        //public void Add(TargetPackage package)
+        //{
+        //    myTargets.Add(NormaliseKey(package.Name), package);
+        //}
 
         /// <summary>
         /// Adds a package using the installed details specified. It will only download if
@@ -45,24 +45,24 @@ namespace Sidewinder.Core.Interfaces.Entities
                     });
         }
 
-        public bool ContainsKey(string key)
-        {
-            return myTargets.ContainsKey(NormaliseKey(key));
-        }
+        //public bool ContainsKey(string key)
+        //{
+        //    return myTargets.ContainsKey(NormaliseKey(key));
+        //}
 
-        public void Remove(string key)
-        {
-            myTargets.Remove(NormaliseKey(key));
-        }
+        //public void Remove(string key)
+        //{
+        //    myTargets.Remove(NormaliseKey(key));
+        //}
 
-        public List<KeyValuePair<string, TargetPackage>> ToList()
-        {
-            return myTargets.ToList();
-        }
+        //public List<KeyValuePair<string, TargetPackage>> ToList()
+        //{
+        //    return myTargets.ToList();
+        //}
 
-        private static string NormaliseKey(string key)
-        {
-            return key.ToLowerInvariant();
-        }
+        //private static string NormaliseKey(string key)
+        //{
+        //    return key.ToLowerInvariant();
+        //}
     }
 }

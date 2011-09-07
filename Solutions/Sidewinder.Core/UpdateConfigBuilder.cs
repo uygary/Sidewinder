@@ -119,7 +119,19 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public UpdateConfigBuilder Update(string name)
         {
-            return Update(name, Assembly.GetEntryAssembly().GetName().Version, Constants.NuGet.OfficialFeedUrl);
+            return Update(name, null, Constants.NuGet.OfficialFeedUrl);
+        }
+
+        /// <summary>
+        /// This will add the named package to the list to update using the version number
+        /// specfied as the current installed version from the default (official) nuget feed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public UpdateConfigBuilder Update(string name, Version version)
+        {
+            return Update(name, version, Constants.NuGet.OfficialFeedUrl);
         }
 
         /// <summary>
@@ -131,12 +143,12 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public UpdateConfigBuilder Update(string name, string feedUrl)
         {
-            return Update(name, Assembly.GetEntryAssembly().GetName().Version, feedUrl);
+            return Update(name, null, feedUrl);
         }
 
         /// <summary>
         /// This will add the named, versioned package to the list to update. It will 
-        /// use the offical nuget feed as the source
+        /// use the specified feed to locate the package
         /// </summary>
         /// <param name="name"></param>
         /// <param name="version">The version number of the current package</param>
@@ -175,6 +187,15 @@ namespace Sidewinder.Core
         {
             myConfig.InstallFolder = folder;
             return this;
+        }
+
+        /// <summary>
+        /// Gets the version number of the currently running app
+        /// </summary>
+        /// <returns></returns>
+        public Version CurrentAppVersion()
+        {
+            return Assembly.GetEntryAssembly().GetName().Version;
         }
 
         /// <summary>

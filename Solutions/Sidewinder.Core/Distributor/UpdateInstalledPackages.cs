@@ -35,12 +35,13 @@ namespace Sidewinder.Core.Distributor
                                                        {
                                                            if (installed.ContainsKey(update.Target.Name))
                                                                installed.Remove(update.Target.Name);
-                                                           installed.Add(update.Target.Name, new InstalledPackage
-                                                                                                 {
-                                                                                                     Name = update.Target.Name,
-                                                                                                     NuGetFeedUrl = update.Target.NuGetFeedUrl,
-                                                                                                     Version = update.NewVersion
-                                                                                                 });
+                                                           installed.Add(new InstalledPackage
+                                                                             {
+                                                                                 Name = update.Target.Name,
+                                                                                 NuGetFeedUrl =
+                                                                                     update.Target.NuGetFeedUrl,
+                                                                                 Version = update.NewVersion
+                                                                             });
                                                        });
 
             SerialisationHelper<InstalledPackages>.DataContractSerialize(versionPath.FullPath, installed);
