@@ -87,7 +87,7 @@ namespace Sidewinder.Core.Updater
             // should we download it? no if...
             // o we already have this version
             // o not forcing an update
-            if (!target.Force  && ((target.Version != null) && (target.Version >= update.Version)))
+            if (!target.Force  && ((target.Version != null) && (target.Version >= update.Version.Version)))
             {
                 Console.WriteLine("\t\tNo update available...running the latest version!");
                 return;
@@ -113,7 +113,7 @@ namespace Sidewinder.Core.Updater
             {
                 context.Updates.Add(new UpdatedPackage
                 {
-                    NewVersion = update.Version,
+                    NewVersion = update.Version.Version,
                     Target = target
                 });
             }
