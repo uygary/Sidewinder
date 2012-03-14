@@ -6,7 +6,7 @@ using Sidewinder.Core.Updater;
 namespace Sidewinder.Core
 {
     /// <summary>
-    /// This contains all the code to self update this application via NuGet
+    /// This will build and configure a pipeline to download a set of nuget packages
     /// </summary>
     public class AppUpdateFactory
     {

@@ -18,7 +18,8 @@ namespace Sidewinder.Core.Distributor
         {
             myConfig = config;
             myPipeline = Pipeline<DistributorContext>.Run(new WaitForProcessShutdown())
-                .Then(new CopyPackageFiles())
+                .Then(new CopyContentFiles())
+                .Then(new CopyOtherPackageFiles())
                 .Then(new UpdateInstalledPackages())
                 .Then(new CleanUp());
         }
@@ -26,6 +27,7 @@ namespace Sidewinder.Core.Distributor
         public bool Execute()
         {
             Console.WriteLine("Running Distribution Pipeline...");
+            Console.WriteLine("\tCommand.ConflictResolution: {0}", myConfig.Command.ConflictResolution);
             Console.WriteLine("\tCommand.InstallFolder: {0}", myConfig.Command.InstallFolder);
             Console.WriteLine("\tCommand.DownloadFolder: {0}", myConfig.Command.DownloadFolder);
             Console.WriteLine("\tCommand.SecondsToWait: {0}", myConfig.Command.SecondsToWait);

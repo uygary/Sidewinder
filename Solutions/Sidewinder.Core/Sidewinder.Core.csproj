@@ -76,15 +76,31 @@
     <Compile Include="..\Build\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ConflictResolution\CopyAlwaysResolutionAction.cs" />
+    <Compile Include="ConflictResolution\CopyAskResolutionAction.cs" />
+    <Compile Include="ConflictResolution\CopyNeverResolutionAction.cs" />
+    <Compile Include="ConflictResolution\CopyResolutionActionBase.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Distributor\CopyContentFiles.cs" />
+    <Compile Include="Interfaces\Entities\ConflictResolutionTypes.cs" />
+    <Compile Include="Interfaces\Entities\PackageMetadataConfig.cs" />
+    <Compile Include="Interfaces\Exceptions\PackageMetadataException.cs" />
+    <Compile Include="Interfaces\IConflictResolutionAction.cs" />
+    <Compile Include="PackageMetadataBuilder.cs" />
+    <Compile Include="Interfaces\Exceptions\PackageBuildException.cs" />
+    <Compile Include="Interfaces\IPackageBuilderAgent.cs" />
+    <Compile Include="Interfaces\IAgent.cs" />
+    <Compile Include="PackageBuilderFactory.cs" />
+    <Compile Include="PackageBuilderConfigBuilder.cs" />
     <Compile Include="DirectoryWalker.cs" />
     <Compile Include="DistributorConfigBuilder.cs" />
     <Compile Include="DistributorFactory.cs" />
     <Compile Include="Distributor\CleanUp.cs" />
-    <Compile Include="Distributor\CopyPackageFiles.cs" />
+    <Compile Include="Distributor\CopyOtherPackageFiles.cs" />
     <Compile Include="Distributor\DefaultDistributionAgent.cs" />
     <Compile Include="Distributor\UpdateInstalledPackages.cs" />
     <Compile Include="Distributor\WaitForProcessShutdown.cs" />
+    <Compile Include="Interfaces\Entities\PackageBuilderConfig.cs" />
     <Compile Include="Interfaces\Entities\PackagesBase.cs" />
     <Compile Include="Interfaces\Entities\TargetPackages.cs" />
     <Compile Include="NuGetHelper.cs" />
@@ -103,6 +119,7 @@
     <Compile Include="Interfaces\IDistributionAgent.cs" />
     <Compile Include="Interfaces\IPipelineStep.cs" />
     <Compile Include="Interfaces\IUpdateAgent.cs" />
+    <Compile Include="PackageBuilder\DefaultPackageBuilderAgent.cs" />
     <Compile Include="Pipeline\Pipeline.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialisationHelper.cs" />
@@ -122,6 +139,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

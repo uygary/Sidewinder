@@ -67,6 +67,7 @@ namespace Sidewinder
                         Console.WriteLine("Press a key to continue...");
                         Console.ReadKey();
                     }
+                    // add other supported commands here
                 }
 
                 Environment.ExitCode = retCode;

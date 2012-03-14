@@ -31,5 +31,7 @@ namespace Sidewinder.Core.Interfaces.Entities
             get { return myInstallFolder; }
             set { myInstallFolder = SmartLocation.GetLocation(value); }
         }
+
+        public ConflictResolutionTypes ConflictResolution { get; set; }
     }
 }

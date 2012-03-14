@@ -15,6 +15,7 @@ namespace Sidewinder.Core
             myConfig = new UpdateConfig
                            {        
                                Backup = true,
+                               ConflictResolution = ConflictResolutionTypes.Ask,
                                TargetPackages = new TargetPackages(),
                                InstallFolder = SmartLocation.GetBinFolder(),
                                // try to guess the runtime from the app we are running inside
@@ -212,6 +213,34 @@ namespace Sidewinder.Core
         public UpdateConfigBuilder DoNotBackup()
         {
             myConfig.Backup = false;
+            return this;
+        }
+
+        /// <summary>
+        /// By default, resolution of a conflict where a content file already exists is
+        /// manual - the new file will be left in the update folder and the user must decide
+        /// the course of action to take (merge/overwrite etc). If this method is called 
+        /// then any content files that exist in the installation folder will be overwritten
+        /// by the version in the update package.
+        /// </summary>
+        /// <returns></returns>
+        public UpdateConfigBuilder OverwriteFiles()
+        {
+            myConfig.ConflictResolution = ConflictResolutionTypes.Overwrite;
+            return this;
+        }
+
+        /// <summary>
+        /// By default, resolution of a conflict where a content file already exists is
+        /// manual - the new file will be left in the update folder and the user must decide
+        /// the course of action to take (merge/overwrite etc). If this method is called 
+        /// then the user is prompted to skip or overwrite the conflicted file. If skipped
+        /// the file will be left in the update folder for the user to deal with post update.
+        /// </summary>
+        /// <returns></returns>
+        public UpdateConfigBuilder AskUserToOverwrite()
+        {
+            myConfig.ConflictResolution = ConflictResolutionTypes.Ask;
             return this;
         }
 

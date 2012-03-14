@@ -1,8 +1,7 @@
 ﻿
 namespace Sidewinder.Core.Interfaces
 {
-    public interface IDistributionAgent
+    public interface IDistributionAgent : IAgent
     {
-        bool Execute();
     }
 }

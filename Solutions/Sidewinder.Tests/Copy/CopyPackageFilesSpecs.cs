@@ -14,7 +14,7 @@ namespace Sidewinder.Tests.Copy
 
         public CopyPackageFilesSpecs()
         {
-            myStep = new CopyPackageFiles();
+            myStep = new CopyContentFiles();
 
             myStory = new Story("Copy the content of a NuGet package to another folder")
                 .InOrderTo("update the content of an application")
@@ -23,14 +23,45 @@ namespace Sidewinder.Tests.Copy
         }
 
         [Test]
-        public void CopyPackageFilesHappyPath()
+        public void CopyContentFilesToEmptyDestinationWithOverwriteResolution()
         {
-            myStory.WithScenario("The installation folder is empty")
-                .Given(TheDirectory_ContainsThePackageFiles, @"testdata\update")
+            myStory.WithScenario("The installation folder is empty, overwrite resolution is used")
+                .Given(The_DirectoryContainsThePackageFiles, @"testdata\update")
                     .And(TheInstallLocation_IsUsed, @"testdata\install_write")
                     .And(TheInstallationLocationIsCleaned)
+                    .And(TheOverwriteResolutionActionIsUsed)
                 .When(TheFilesAreCopied)
-                .Then(TheInstallationFolderContentIsCorrect)
+                .Then(TheInstallationFolderContainsTheContentFiles)
+                .ExecuteWithReport();
+        }
+
+        [Test]
+        public void CopyContentFilesToConflictingDestinationWithOverwriteResolution()
+        {
+            myStory.WithScenario("The installation folder has conflicts, overwrite resolution is used")
+                .Given(The_DirectoryContainsThePackageFiles, @"testdata\update")
+                    .And(TheInstallLocation_IsUsed, @"testdata\install_write")
+                    .And(TheInstallationLocationIsCleaned)
+                    .And(TheConflictingContentFilesAreCopiedToTheInstallationLocation)
+                    .And(TheOverwriteResolutionActionIsUsed)
+                .When(TheFilesAreCopied)
+                .Then(TheInstallationFolderContainsTheContentFiles)
+                    .And(AllTheContentFilesHaveBeenUpdated)
+                .ExecuteWithReport();
+        }
+
+        [Test]
+        public void CopyContentFilesToConflictingDestinationWithManualResolution()
+        {
+            myStory.WithScenario("The installation folder has conflicts, manual resolution is used")
+                .Given(The_DirectoryContainsThePackageFiles, @"testdata\update")
+                    .And(TheInstallLocation_IsUsed, @"testdata\install_write")
+                    .And(TheInstallationLocationIsCleaned)
+                    .And(TheConflictingContentFilesAreCopiedToTheInstallationLocation)
+                    .And(TheManualResolutionActionIsUsed)
+                .When(TheFilesAreCopied)
+                .Then(TheInstallationFolderContainsTheContentFiles)
+                    .And(AllTheContentFilesHaveNotBeenUpdated)
                 .ExecuteWithReport();
         }
     }

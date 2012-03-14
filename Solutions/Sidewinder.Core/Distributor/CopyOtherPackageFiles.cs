@@ -8,7 +8,7 @@ namespace Sidewinder.Core.Distributor
     /// <summary>
     /// This step will copy the files from each nuget package update
     /// </summary>
-    public class CopyPackageFiles : IPipelineStep<DistributorContext>
+    public class CopyOtherPackageFiles : IPipelineStep<DistributorContext>
     {
         public void EntryConditions(DistributorContext context)
         {
@@ -28,23 +28,12 @@ namespace Sidewinder.Core.Distributor
 
             updates.ForEach(update =>
                                 {
-                                    Console.WriteLine("\tProcessing update package {0}->{1}...", 
+                                    Console.WriteLine("\tProcessing update package (bin/tools) {0}->{1}...", 
                                         update.Target.Name,
                                         context.Config.Command.InstallFolder);
 
                                     // create it just in case
-                                    Path.Get(context.Config.Command.InstallFolder).CreateDirectory();
-
-                                    // copy the content files
-                                    var contentPath = Path.Get(context.Config.Command.DownloadFolder,
-                                                           update.Target.Name,
-                                                           Constants.NuGet.ContentFolder);
-                                    if (contentPath.Exists)
-                                    {
-                                        Console.Write("\t\tCopying Content files...");
-                                        contentPath.Copy(context.Config.Command.InstallFolder, Overwrite.Never, true);
-                                        Console.WriteLine("done!");
-                                    }
+                                    Path.Get(context.Config.Command.InstallFolder).CreateDirectory();                                   
 
                                     // copy binaries - this will find the best match lib\framework folder within the
                                     // package matched against the target framework requested

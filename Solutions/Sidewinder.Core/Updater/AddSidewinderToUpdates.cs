@@ -7,9 +7,8 @@ using Sidewinder.Core.Interfaces.Entities;
 namespace Sidewinder.Core.Updater
 {
     /// <summary>
-    /// This will attempt to find the sidewinder instance that will complete
-    /// the installation. Sidewinder is downloaded as part of any update run
-    /// but only if it does not already exist of a newer version is available.
+    /// Sidewinder is downloaded as part of any update run
+    /// but only if it does not already exist or a newer version is available.
     /// </summary>
     public class AddSidewinderToUpdates : IPipelineStep<UpdaterContext>
     {
