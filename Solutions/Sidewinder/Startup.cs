@@ -27,7 +27,7 @@ namespace Sidewinder
                                                                feed = Constants.NuGet.OfficialFeedUrl;
 
                                                            config.Update(new TargetPackage
-                                                                             {
+                                                                             {                                                                                 
                                                                                  Force = command.Force,
                                                                                  Name = command.Package,
                                                                                  NuGetFeedUrl = feed,
@@ -35,6 +35,11 @@ namespace Sidewinder
                                                                              })
                                                                .InstallInto(command.InstallFolder)
                                                                .JustThesePackages();
+
+                                                           if (command.Overwrite)
+                                                               config.OverwriteFiles();
+                                                           else if (command.Ask)
+                                                               config.AskUserToOverwrite();
 
                                                            // if a hint is supplied then use it otherwise
                                                            // the default will be net40

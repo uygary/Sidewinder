@@ -19,20 +19,20 @@ namespace Sidewinder.Tests.Builders
                 .IWant("the content of the nuget package distributed to my application installation folder");
         }
 
-        [Test]
-        public void SettingMetadataProperties()
-        {
-            var metadata = new PackageMetadataConfig
-                                     {
+        //[Test]
+        //public void SettingMetadataProperties()
+        //{
+        //    var metadata = new PackageMetadataConfig
+        //                             {
 
-                                     };
+        //                             };
 
-            myStory.WithScenario("")
-                .Given(TheBuilderIsCreated)
-                    .And(TheMetadataIsSetFrom, metadata)
-                .When(ThePackageBuilderBuildsTheConfig)
-                .Then(TheMetadataPropertyIsSet)
-                .ExecuteWithReport();
-        }
+        //    myStory.WithScenario("")
+        //        .Given(TheBuilderIsCreated)
+        //            .And(TheMetadataIsSetFrom, metadata)
+        //        .When(ThePackageBuilderBuildsTheConfig)
+        //        .Then(TheMetadataPropertyIsSet)
+        //        .ExecuteWithReport();
+        //}
     }
 }

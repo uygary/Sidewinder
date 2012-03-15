@@ -17,7 +17,14 @@ namespace Sidewinder.Tests.Upgrade
 
         private void ItIsDeserialisedIntoTheCommand()
         {
-            _commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(_commandFile);
+            try
+            {
+                _commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(_commandFile);
+            }
+            catch (Exception e)
+            {
+                var bob = e;
+            }
         }
 
         private void TheConflictResolutionInstructionShouldBe_(ConflictResolutionTypes expected)

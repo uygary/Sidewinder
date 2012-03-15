@@ -54,7 +54,7 @@ namespace Sidewinder.Core.Distributor
                                     var dest = Path.Get(context.Config.Command.InstallFolder,
                                         filePath.DirectoryName, filePath.FileName);
 
-                                    if (!resolution.Resolve(source.FullPath, dest.FullPath)) 
+                                    if (dest.Exists && !resolution.Resolve(source.FullPath, dest.FullPath)) 
                                         return;
 
                                     source.Copy(dest, Overwrite.Always);

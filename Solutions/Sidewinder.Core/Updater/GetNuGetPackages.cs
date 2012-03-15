@@ -94,7 +94,11 @@ namespace Sidewinder.Core.Updater
             }
 
             // ok, lets download it!...
-            Console.WriteLine("\t\tUpdated version v{0} is available", update.Version);
+            Console.Write("\t\tUpdated version v{0} is available", update.Version);
+
+            if (target.Force)
+                Console.Write(" ** FORCE **");
+            Console.WriteLine();
 
             var downloadFolder = Fluent.IO.Path.Get(context.Config.DownloadFolder, target.Name).FullPath;
             Console.WriteLine("\tDownloading package '{0}' content to: {1}...", target.Name, downloadFolder);

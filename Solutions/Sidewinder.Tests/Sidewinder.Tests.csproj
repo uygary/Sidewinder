@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Backup\BackupSpecs.cs" />
     <Compile Include="Backup\BackupDomain.cs" />
+    <Compile Include="BaseSpec.cs" />
     <Compile Include="Builders\PackageBuilderConfigBuilderSpecs.cs" />
     <Compile Include="Builders\PackageBuilderConfigBuilderDomain.cs" />
     <Compile Include="Copy\ConflictResolutionActionDomain.cs" />
@@ -182,7 +183,7 @@
     <Content Include="TestData\Update\TestPkg\lib\net40\net40.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\_sidewinder_v1.2.xml">
+    <Content Include="TestData\sidewinder-v1.2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

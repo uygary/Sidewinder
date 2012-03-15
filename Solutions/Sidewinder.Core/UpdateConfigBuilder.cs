@@ -250,6 +250,7 @@ namespace Sidewinder.Core
                              {
                                  Backup = myConfig.Backup,                                 
                                  BackupFolder = GetFolderOrDefault(myConfig.BackupFolder, GetDefaultBackupFolder()),
+                                 ConflictResolution = myConfig.ConflictResolution,
                                  DownloadFolder = GetFolderOrDefault(myConfig.DownloadFolder, GetDefaultDownloadFolder()),
                                  InstallFolder = myConfig.InstallFolder, 
                                  TargetPackages = myConfig.TargetPackages,
