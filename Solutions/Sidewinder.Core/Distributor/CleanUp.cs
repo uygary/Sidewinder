@@ -17,7 +17,14 @@ namespace Sidewinder.Core.Distributor
 
         public bool Execute(DistributorContext context)
         {
-            // delete all update package folders apart from sidewinder
+            // if we are manually resolving conflicts then leave all the package updates intact
+            if (context.Config.Command.ConflictResolution == ConflictResolutionTypes.Manual)
+            {
+                return true;
+            }
+
+            // if we asked or overwrote the content then we should have resolved any
+            // conflicts so delete all update package folders apart from sidewinder
             Path.Get(context.Config.Command.DownloadFolder)
                 .Directories()
                 .Where(path => (string.Compare(path.FileName, Constants.Sidewinder.NuGetPackageName) != 0))
@@ -29,6 +36,7 @@ namespace Sidewinder.Core.Distributor
         public void ExitConditions(DistributorContext context)
         {
             // TODO: check all the download\package folders have been deleted (except for sidewinder)
+            // If not ConflictResolutionTypes.Manual)
         }
     }
 }
