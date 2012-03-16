@@ -9,6 +9,7 @@ namespace Sidewinder.Core.Interfaces.Entities
         public bool JustThis { get; set; }
         public Version TargetFrameworkVersion { get; set; }
         public TargetPackages TargetPackages { get; set; }
+        public ConflictResolutionTypes ConflictResolution { get; set; }
         public List<string> BackupFoldersToIgnore { get; set; }
 
         private string myBackupFolder;
@@ -30,8 +31,6 @@ namespace Sidewinder.Core.Interfaces.Entities
         {
             get { return myInstallFolder; }
             set { myInstallFolder = SmartLocation.GetLocation(value); }
-        }
-
-        public ConflictResolutionTypes ConflictResolution { get; set; }
+        }        
     }
 }

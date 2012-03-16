@@ -37,9 +37,11 @@ namespace Sidewinder
                                                                .JustThesePackages();
 
                                                            if (command.Overwrite)
-                                                               config.OverwriteFiles();
-                                                           else if (command.Ask)
-                                                               config.AskUserToOverwrite();
+                                                               config.OverwriteContentFiles();
+                                                           else if (command.Manual)
+                                                               config.UserWillManuallyResolveContentConflicts();
+                                                           else 
+                                                               config.AskUserToResolveContentConflicts();
 
                                                            // if a hint is supplied then use it otherwise
                                                            // the default will be net40

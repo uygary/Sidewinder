@@ -87,17 +87,17 @@ namespace Sidewinder.Core.Updater
             // should we download it? no if...
             // o we already have this version
             // o not forcing an update
-            if (!target.Force  && ((target.Version != null) && (target.Version >= update.Version.Version)))
+            if (!target.Force && !IsNewVersion(target.Version, update.Version.Version))
             {
                 Console.WriteLine("\t\tNo update available...running the latest version!");
                 return;
             }
 
             // ok, lets download it!...
-            Console.Write("\t\tUpdated version v{0} is available", update.Version);
+            Console.Write("\t\tUpdated version v{0} is available", update.Version.Version);
 
             if (target.Force)
-                Console.Write(" ** FORCE **");
+                Console.Write(" ** FORCED **");
             Console.WriteLine();
 
             var downloadFolder = Fluent.IO.Path.Get(context.Config.DownloadFolder, target.Name).FullPath;
@@ -137,6 +137,23 @@ namespace Sidewinder.Core.Updater
                         UpdateDependencies = true
                     }));
             }
+        }
+
+        private bool IsNewVersion(Version current, Version update)
+        {
+            if (current == null)
+                return false;
+            if (update == null)
+                return false;
+
+            var cVal = (current.Major*1000) + (current.Minor*100) + (current.Revision*10) + (current.Build);
+            var uVal = (update.Major * 1000) + (update.Minor * 100) + (update.Revision * 10) + (update.Build);
+
+#if TESTING
+            Console.WriteLine("\tChecking cVal={0} against uVal={1}", cVal, uVal);
+#endif
+
+            return uVal > cVal;
         }
 
         /// <summary>

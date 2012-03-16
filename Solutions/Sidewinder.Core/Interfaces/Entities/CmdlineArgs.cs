@@ -8,7 +8,7 @@
         public bool Force { get; set; }
         public bool Dependencies { get; set; }
         public bool Overwrite { get; set; }
-        public bool Ask { get; set; }
+        public bool Manual { get; set; }
 
         // target framework switches
         public bool Net40 { get; set; }

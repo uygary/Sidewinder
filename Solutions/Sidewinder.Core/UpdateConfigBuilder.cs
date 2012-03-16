@@ -217,14 +217,11 @@ namespace Sidewinder.Core
         }
 
         /// <summary>
-        /// By default, resolution of a conflict where a content file already exists is
-        /// manual - the new file will be left in the update folder and the user must decide
-        /// the course of action to take (merge/overwrite etc). If this method is called 
-        /// then any content files that exist in the installation folder will be overwritten
+        /// Any content files that exist in the installation folder will be overwritten
         /// by the version in the update package.
         /// </summary>
         /// <returns></returns>
-        public UpdateConfigBuilder OverwriteFiles()
+        public UpdateConfigBuilder OverwriteContentFiles()
         {
             myConfig.ConflictResolution = ConflictResolutionTypes.Overwrite;
             return this;
@@ -232,15 +229,24 @@ namespace Sidewinder.Core
 
         /// <summary>
         /// By default, resolution of a conflict where a content file already exists is
-        /// manual - the new file will be left in the update folder and the user must decide
-        /// the course of action to take (merge/overwrite etc). If this method is called 
-        /// then the user is prompted to skip or overwrite the conflicted file. If skipped
-        /// the file will be left in the update folder for the user to deal with post update.
+        /// to ask the user to confirm/skip overwrite the file. The user will be prompted in the
+        /// distribution stage when the content files are copied from the downloaded package.
         /// </summary>
         /// <returns></returns>
-        public UpdateConfigBuilder AskUserToOverwrite()
+        public UpdateConfigBuilder AskUserToResolveContentConflicts()
         {
             myConfig.ConflictResolution = ConflictResolutionTypes.Ask;
+            return this;
+        }
+
+        /// <summary>
+        /// Use this option if you want to manually resolve any file conflicts - the package
+        /// will be left in the _updated folder (usually this is deleted post install) and the
+        /// user can select which files to update.
+        /// </summary>
+        public UpdateConfigBuilder  UserWillManuallyResolveContentConflicts()
+        {
+            myConfig.ConflictResolution = ConflictResolutionTypes.Manual;
             return this;
         }
 
