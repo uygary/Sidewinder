@@ -85,9 +85,11 @@ namespace Sidewinder.Core.Updater
             }
 
             // should we download it? no if...
-            // o we already have this version
-            // o not forcing an update
-            if (!target.Force && !IsNewVersion(target.Version, update.Version.Version))
+            // o we already have the current version
+            // o not forcing the update
+            if (!target.Force && 
+                AlreadyInstalled(target) &&
+                !IsNewVersion(target.Version, update.Version.Version))
             {
                 Console.WriteLine("\t\tNo update available...running the latest version!");
                 return;
@@ -139,7 +141,12 @@ namespace Sidewinder.Core.Updater
             }
         }
 
-        private bool IsNewVersion(Version current, Version update)
+        protected virtual bool AlreadyInstalled(TargetPackage target)
+        {
+            return target.Version != null;
+        }
+
+        protected virtual bool IsNewVersion(Version current, Version update)
         {
             if (current == null)
                 return false;
