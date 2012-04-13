@@ -10,7 +10,7 @@
     <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=sidewinder&amp;DownloadId=270857</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>v1.3 adds support for dealing with Content file overwrite conflicts (overwrite always, ask user, skip). Copy files step split into two (content + other)</releaseNotes>
+    <releaseNotes>v1.4 fixes issue with conflict resolution where update files where deleted even if you selected not to overwrite (deploy) them. Added auto launch of 'readme.txt' in package root</releaseNotes>
     <description>Provides the core functionality to deploy updates to your application via a nuget package</description>
     <summary>Provides the core functionality to deploy updates to your application via a nuget package. This includes backing it up, checking for nuget package updates, downloading and deploying the files in them</summary>
     <language>en-GB</language>

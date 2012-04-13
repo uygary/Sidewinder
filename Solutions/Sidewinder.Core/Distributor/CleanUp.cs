@@ -19,14 +19,14 @@ namespace Sidewinder.Core.Distributor
         public bool Execute(DistributorContext context)
         {
             // if we are manually resolving conflicts then leave all the package updates intact
-            if (context.Config.Command.ConflictResolution == ConflictResolutionTypes.Manual)
+            if (context.Config.Command.ConflictResolution != ConflictResolutionTypes.Overwrite)
             {
                 Console.WriteLine("\t** Packages remain in {0} for manual conflict resolution **", context.Config.Command.DownloadFolder);
                 return true;
             }
 
-            // if we asked or overwrote the content then we should have resolved any
-            // conflicts so delete all update package folders apart from sidewinder            
+            // if we overwrote the content then we are good to remove the update packages
+            // as there is no conflicts to resolve.
             var foldersToDelete = Path.Get(context.Config.Command.DownloadFolder)
                 .Directories()
                 .Where(path => (string.Compare(path.FileName, Constants.Sidewinder.NuGetPackageName) != 0));

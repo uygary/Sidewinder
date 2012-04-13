@@ -21,6 +21,7 @@ namespace Sidewinder.Core.Distributor
                 .Then(new CopyContentFiles())
                 .Then(new CopyOtherPackageFiles())
                 .Then(new UpdateInstalledPackages())
+                .Then(new LaunchReadme())
                 .Then(new CleanUp());
         }
 

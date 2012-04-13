@@ -7,17 +7,17 @@ namespace Sidewinder.Core.ConflictResolution
     {
         public bool Resolve(string source, string dest)
         {
-            Console.Write("Overwrite {0}? (Y/N)", source);
-
-            var key = Convert.ToChar(Console.In.Read());
-
-            switch (key)
+            Console.WriteLine();
+            
+            while (true)
             {
-                case 'Y':
-                case 'y':
-                    return true;
-                default:
-                    return false;
+                Console.Write("Overwrite {0}? (Y/N)", source);
+                var response = Console.In.ReadLine();
+
+                if (response == "y") return true;
+                if (response == "Y") return true;
+                if (response == "n") return false;
+                if (response == "N") return false;
             }
         }
     }
