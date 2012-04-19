@@ -11,7 +11,7 @@ namespace Sidewinder.Core.ConflictResolution
             
             while (true)
             {
-                Console.Write("Overwrite {0}? (Y/N)", source);
+                Console.Write("Overwrite {0}? (Y/N)", dest);
                 var response = Console.In.ReadLine();
 
                 if (response == "y") return true;
