@@ -10,7 +10,7 @@
     <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=sidewinder&amp;DownloadId=270857</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>v1.4 fixes issue with conflict resolution where update files where deleted even if you selected not to overwrite (deploy) them. Added auto launch of 'readme.txt' in package root</releaseNotes>
+    <releaseNotes>v1.5 allows you to control the logging verbosity. New cmdline switch is /loglevel debug|info|warn|error and can also set this in the fluent config interface. You can also roll your own logger.</releaseNotes>
     <description>Provides a console application to pull down NuGet packages and deploy the content into any folder.</description>
     <summary>This is a cmdline wrapper over the Sidewinder.Core package. This can be used to install the content of a NuGet package (including dependencies) into any folder - it can also backup the folder first.</summary>
     <language>en-GB</language>
