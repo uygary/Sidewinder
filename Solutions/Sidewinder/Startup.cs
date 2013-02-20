@@ -1,25 +1,37 @@
 using System;
 using System.IO;
 using Sidewinder.Core;
+using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 
 namespace Sidewinder
 {
     internal class Startup
     {
+        private class ExitCode
+        {
+            public const int CommandExecuteSuccess = 0;            
+            public const int UpdateAvailable = 0;
+            public const int NoUpdateAvailable = -1;
+            public const int NoCommandFile = -2;
+            public const int CommandExecuteFailure = -3;
+            public const int Fatal = -99;
+        }
+
         private static void Main(string[] args)
         {
+            // default logger
+            Logger.Initialise(new ConsoleLogger(Level.Debug));                
+
             try
             {
-                var retCode = 0;
-                SidewinderCommands commands;
+                var retCode = ExitCode.NoUpdateAvailable;
 
                 if (args.Length > 0)
                 {
                     // https://github.com/littlebits/args
                     var command = Args.Configuration.Configure<CmdlineArgs>().CreateAndBind(args);
 
-                    Console.WriteLine("Updating package {0}...", command.Package);
                     retCode = AppUpdateFactory.Setup(config =>
                                                        {
                                                            var feed = command.Feed;
@@ -27,20 +39,21 @@ namespace Sidewinder
                                                                feed = Constants.NuGet.OfficialFeedUrl;
 
                                                            config.Update(new TargetPackage
-                                                                             {                                                                                 
+                                                                             {
                                                                                  Force = command.Force,
                                                                                  Name = command.Package,
                                                                                  NuGetFeedUrl = feed,
                                                                                  UpdateDependencies = command.Dependencies
                                                                              })
                                                                .InstallInto(command.InstallFolder)
-                                                               .JustThesePackages();
+                                                               .JustThesePackages()
+                                                               .SetLoggingLevel(command.LogLevel);
 
                                                            if (command.Overwrite)
                                                                config.OverwriteContentFiles();
                                                            else if (command.Manual)
                                                                config.UserWillManuallyResolveContentConflicts();
-                                                           else 
+                                                           else
                                                                config.AskUserToResolveContentConflicts();
 
                                                            // if a hint is supplied then use it otherwise
@@ -53,36 +66,45 @@ namespace Sidewinder
                                                                config.TargetFrameworkVersion40();
                                                        })
                                   .Execute()
-                                  ? 0
-                                  : -1;
-                }
-                else if (!GetCommandFile(out commands))
-                {
-                    Console.WriteLine("**WARNING** No command file detected - aborting!");
+                                  ? ExitCode.UpdateAvailable
+                                  : ExitCode.NoUpdateAvailable;
                 }
                 else
                 {
+                    SidewinderCommands commands;
 
-                    if (commands.DistributeFiles != null)
+                    if (!GetCommandFile(out commands))
                     {
-                        Console.WriteLine("\tDetected DistributeFiles command...executing...");
-                        retCode = DistributorFactory.Setup(config => config.CommandIs(commands.DistributeFiles))
-                                      .Execute()
-                                      ? 0
-                                      : -1;
-
-                        Console.WriteLine("Press a key to continue...");
-                        Console.ReadKey();
+                        Logger.Warn("**WARNING** No command file detected - aborting!");
+                        retCode = ExitCode.NoCommandFile;
                     }
-                    // add other supported commands here
+                    else
+                    {
+                        // reinitialise if logging level different
+                        if (commands.LogLevel != Logger.Level)
+                            Logger.Initialise(new ConsoleLogger(commands.LogLevel));
+
+                        if (commands.DistributeFiles != null)
+                        {
+                            Logger.Info("\tDetected DistributeFiles command...executing...");
+                            retCode = DistributorFactory.Setup(config => config.CommandIs(commands.DistributeFiles))
+                                          .Execute()
+                                          ? ExitCode.CommandExecuteSuccess
+                                          : ExitCode.CommandExecuteFailure;
+
+                            Console.WriteLine("Press a key to continue...");
+                            Console.ReadKey();
+                        }
+                        // FUTURE - add other supported commands here
+                    }
                 }
 
                 Environment.ExitCode = retCode;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                throw;
+                Logger.Error(ex.ToString());
+                Environment.ExitCode = ExitCode.Fatal;
             }
         }
 
@@ -90,7 +112,7 @@ namespace Sidewinder
         {
             commands = null;
 
-            Console.WriteLine("Sidewinder is looking for command file...");
+            Logger.Debug("Sidewinder is looking for command file...");
             var commandFile = Fluent.IO.Path.Get(SmartLocation.GetBinFolder(), Constants.Sidewinder.CommandFile).FullPath;
 
             for (int i = 0; i < 4; i++)
@@ -108,12 +130,12 @@ namespace Sidewinder
         {
             commands = null;
 
-            Console.WriteLine("\tLooking here...{0}...", commandFile);
+            Logger.Debug("\tLooking here...{0}...", commandFile);
 
             if (!File.Exists(commandFile))
                 return false;
 
-            Console.WriteLine("\t\tFound at {0}", commandFile);
+            Logger.Info("\t\tFound command file at {0}", commandFile);
             commands = SerialisationHelper<SidewinderCommands>.DataContractDeserializeFromFile(commandFile);
             return true;
         }

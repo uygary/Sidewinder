@@ -74,25 +74,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backup\BackupSpecs.cs" />
-    <Compile Include="Backup\BackupDomain.cs" />
-    <Compile Include="BaseSpec.cs" />
-    <Compile Include="Builders\PackageBuilderConfigBuilderSpecs.cs" />
-    <Compile Include="Builders\PackageBuilderConfigBuilderDomain.cs" />
-    <Compile Include="Copy\ConflictResolutionActionDomain.cs" />
-    <Compile Include="Copy\ConflictResolutionActionSpecs.cs" />
-    <Compile Include="Copy\CopyPackageFilesDomain.cs" />
-    <Compile Include="Copy\CopyPackageFilesSpecs.cs" />
+    <Compile Include="Backup\BackupDomain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Backup\BackupSpecs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Copy\ConflictResolutionActionDomain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Copy\ConflictResolutionActionSpecs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Copy\CopyPackageFilesDomain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Copy\CopyPackageFilesSpecs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Upgrade\UpgradeDomain.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Upgrade\UpgradeSpecs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UsingConsoleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StandIns\TestBackupStep.cs" />
-    <Compile Include="Upgrade\UpgradeDomain.cs" />
-    <Compile Include="Upgrade\UpgradeSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CleanUp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sidewinder.Core\Sidewinder.Core.csproj">
@@ -123,6 +134,7 @@
     <Content Include="TestData\Install_backup\_nestedupdate\_nestedupdate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData\sidewinder-v1.4.xml" />
     <Content Include="TestData\Update\Conflict\Content\content.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

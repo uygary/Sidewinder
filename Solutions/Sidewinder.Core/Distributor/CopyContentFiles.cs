@@ -32,7 +32,7 @@ namespace Sidewinder.Core.Distributor
             updates.ForEach(update
                 =>
                     {
-                        Console.WriteLine("\tProcessing update package (content) {0}->{1}...",
+                        Logger.Info("\tProcessing update package (content) {0}->{1}...",
                                             update.Target.Name,
                                             context.Config.Command.InstallFolder);
 
@@ -46,7 +46,7 @@ namespace Sidewinder.Core.Distributor
                         if (!contentPath.Exists)
                             return;
 
-                        Console.Write("\t\tCopying Content files...");
+                        Logger.Debug("\t\tCopying Content files...");
                         contentPath.AllFiles().ForEach(source
                             =>
                                 {
@@ -59,7 +59,7 @@ namespace Sidewinder.Core.Distributor
 
                                     source.Copy(dest, Overwrite.Always);
                                 });
-                        Console.WriteLine("done!");
+                        Logger.Debug("done!");
                     });
             return true;
         }

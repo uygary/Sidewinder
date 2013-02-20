@@ -87,6 +87,9 @@
     <Compile Include="Interfaces\Entities\PackageMetadataConfig.cs" />
     <Compile Include="Interfaces\Exceptions\PackageMetadataException.cs" />
     <Compile Include="Interfaces\IConflictResolutionAction.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="PackageMetadataBuilder.cs" />
     <Compile Include="Interfaces\Exceptions\PackageBuildException.cs" />
     <Compile Include="Interfaces\IPackageBuilderAgent.cs" />

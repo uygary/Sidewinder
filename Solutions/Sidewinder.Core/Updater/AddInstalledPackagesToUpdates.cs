@@ -19,7 +19,7 @@ namespace Sidewinder.Core.Updater
         {
             if (context.InstalledPackages == null || context.Config.JustThis)
             {
-                Console.WriteLine("\tNo additional packages installed or to check");
+                Logger.Info("\tNo additional packages installed or to check");
                 return true;
             }
 
@@ -29,7 +29,7 @@ namespace Sidewinder.Core.Updater
                                                                    return;
 
                                                                context.Config.TargetPackages.Add(ip.Value);
-                                                               Console.WriteLine("\tAdded '{0}' to Targets", ip.Value.Name);
+                                                               Logger.Debug("\tAdded '{0}' to Targets", ip.Value.Name);
                                                            });
             return true;
         }

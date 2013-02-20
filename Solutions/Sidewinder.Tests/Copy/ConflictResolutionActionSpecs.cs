@@ -4,13 +4,13 @@ using StoryQ;
 namespace Sidewinder.Tests.Copy
 {
     [TestFixture]
-    public partial class ConflictResolutionActionSpecs
+    public class ConflictResolutionActionSpecs
     {
-        private readonly Feature myStory;
+        private readonly Feature _story;
 
         public ConflictResolutionActionSpecs()
         {
-            myStory = new Story("Testing the conflict resolution actions")
+            _story = new Story("Testing the conflict resolution actions")
                 .InOrderTo("ensure the right action is taken")
                 .AsA("component copying a file")
                 .IWant("the component to indicate the correct action based upon it behaviour");
@@ -19,41 +19,54 @@ namespace Sidewinder.Tests.Copy
         [Test]
         public void CopyAlwaysAction()
         {
-            myStory.WithScenario("The file should always be copied")
-                .Given(TheCopyAlwaysResolutionComponentIsUsed)
-                .When(TheComponentIsExecuted)
-                .Then(TheResultShouldBeTrue)
-                .ExecuteWithReport();
+            using (var domain = new ConflictResolutionActionDomain())
+            {
+                _story.WithScenario("The file should always be copied")
+                    .Given(domain.TheCopyAlwaysResolutionComponentIsUsed)
+                    .When(domain.TheComponentIsExecuted)
+                    .Then(domain.TheResultShouldBeTrue)
+                    .ExecuteWithReport();
+            }
         }
 
         [Test]
         public void CopyNeverAction()
         {
-            myStory.WithScenario("The file should never be copied")
-                .Given(TheCopyNeverResolutionComponentIsUsed)
-                .When(TheComponentIsExecuted)
-                .Then(TheResultShouldBeFalse)
-                .ExecuteWithReport();
+            using (var domain = new ConflictResolutionActionDomain())
+            {
+                _story.WithScenario("The file should never be copied")
+                    .Given(domain.TheCopyNeverResolutionComponentIsUsed)
+                    .When(domain.TheComponentIsExecuted)
+                    .Then(domain.TheResultShouldBeFalse)
+                    .ExecuteWithReport();
+            }
         }
 
         [Test]
         public void CopyConsoleAskWithYesResponse()
         {
-            myStory.WithScenario("The user should be prompted for action and answers 'Y' to overwrite")
-                .Given(TheCopyConsoleAskResolutionComponentIsUsedWithResponse_, 'Y')
-                .When(TheComponentIsExecuted)
-                .Then(TheResultShouldBeTrue)         
-                .ExecuteWithReport();
+            using (var domain = new ConflictResolutionActionDomain())
+            {
+
+                _story.WithScenario("The user should be prompted for action and answers 'Y' to overwrite")
+                    .Given(domain.TheCopyConsoleAskResolutionComponentIsUsedWithResponse_, 'Y')
+                    .When(domain.TheComponentIsExecuted)
+                    .Then(domain.TheResultShouldBeTrue)
+                    .ExecuteWithReport();
+            }
         }
 
         [Test]
         public void CopyConsoleAskWithNoResponse()
         {
-            myStory.WithScenario("The user should be prompted for action and answers 'N' to overwrite")
-                .Given(TheCopyConsoleAskResolutionComponentIsUsedWithResponse_, 'N')
-                .When(TheComponentIsExecuted)
-                .Then(TheResultShouldBeFalse)
-                .ExecuteWithReport();
+            using (var domain = new ConflictResolutionActionDomain())
+            {
+                _story.WithScenario("The user should be prompted for action and answers 'N' to overwrite")
+                    .Given(domain.TheCopyConsoleAskResolutionComponentIsUsedWithResponse_, 'N')
+                    .When(domain.TheComponentIsExecuted)
+                    .Then(domain.TheResultShouldBeFalse)
+                    .ExecuteWithReport();
+            }
         }
     }
 }

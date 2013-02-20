@@ -1,16 +1,14 @@
 
 using System;
 using System.IO;
-using System.Text;
 using Sidewinder.Core.ConflictResolution;
 
 using FluentAssertions;
 using Sidewinder.Core.Interfaces;
 
 namespace Sidewinder.Tests.Copy
-{
-    
-    public partial class ConflictResolutionActionSpecs : IDisposable
+{    
+    public class ConflictResolutionActionDomain : IDisposable
     {
         private string _source;
         private string _dest;
@@ -18,38 +16,34 @@ namespace Sidewinder.Tests.Copy
         private bool _result;
 
         private StringReader _consoleIn;
-        private StringWriter _consoleOut;
 
-        private void TheCopyAlwaysResolutionComponentIsUsed()
+        public void TheCopyAlwaysResolutionComponentIsUsed()
         {
             _sut = new CopyAlwaysResolutionAction();
         }
 
-        private void TheCopyNeverResolutionComponentIsUsed()
+        public void TheCopyNeverResolutionComponentIsUsed()
         {
             _sut = new CopyNeverResolutionAction();
         }
 
-        private void TheComponentIsExecuted()
+        public void TheComponentIsExecuted()
         {
             _result = _sut.Resolve(_source, _dest);
         }
 
-        private void TheResultShouldBeTrue()
+        public void TheResultShouldBeTrue()
         {
             _result.Should().BeTrue();
         }
 
-        private void TheResultShouldBeFalse()
+        public void TheResultShouldBeFalse()
         {
             _result.Should().BeFalse();
         }
 
-        private void TheCopyConsoleAskResolutionComponentIsUsedWithResponse_(char key)
+        public void TheCopyConsoleAskResolutionComponentIsUsedWithResponse_(char key)
         {
-            _consoleOut = new StringWriter(new StringBuilder());
-            Console.SetOut(_consoleOut);
-
             _consoleIn = new StringReader(new string(key, 1));
             Console.SetIn(_consoleIn);
 
@@ -60,8 +54,6 @@ namespace Sidewinder.Tests.Copy
         {
             if (_consoleIn != null)
                 _consoleIn.Dispose();
-            if (_consoleOut != null)
-                _consoleOut.Dispose();
         }
     }
 }

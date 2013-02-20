@@ -9,27 +9,27 @@ namespace Sidewinder.Tests.Backup
 {
     public partial class BackupSpecs
     {
-        private string myDirectoryToBackup;
-        private string myBackupToDirectory;
-        private IPipelineStep<UpdaterContext> myBackupStep;
+        private string _directoryToBackup;
+        private string _backupToDirectory;
+        private IPipelineStep<UpdaterContext> _backupStep;
 
         private void TheDirectory_ShouldBeBackedUp(string directory)
         {
-            myDirectoryToBackup = SmartLocation.GetLocation(directory);
+            _directoryToBackup = SmartLocation.GetLocation(directory);
         }
 
         private void ItIsBackedup()
         {
-            myBackupStep = new TestBackupStep();
+            _backupStep = new TestBackupStep();
 
             var config = new UpdateConfig
                              {
                                  Backup = true,
-                                 BackupFolder = myBackupToDirectory,
-                                 InstallFolder = myDirectoryToBackup,
+                                 BackupFolder = _backupToDirectory,
+                                 InstallFolder = _directoryToBackup,
                              };
 
-            myBackupStep.Execute(new UpdaterContext
+            _backupStep.Execute(new UpdaterContext
                                      {
                                          Config = config
                                      });
@@ -37,13 +37,13 @@ namespace Sidewinder.Tests.Backup
 
         private void TheBackupArtifactsAreCreated()
         {
-            string backupFile = Path.Combine(myBackupToDirectory, TestBackupStep.BackupFile);
+            string backupFile = Path.Combine(_backupToDirectory, TestBackupStep.BackupFile);
             Assert.That(File.Exists(backupFile), Is.True);
         }
 
         private void TheBackupLocation_IsUsed(string archive)
         {
-            myBackupToDirectory = archive;
+            _backupToDirectory = archive;
         }
     }
 }

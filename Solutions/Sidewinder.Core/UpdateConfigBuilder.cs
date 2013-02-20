@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Fluent.IO;
+using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 
 namespace Sidewinder.Core
 {
     public class UpdateConfigBuilder
     {
-        private readonly UpdateConfig myConfig;
+        private readonly UpdateConfig _config;
 
         public UpdateConfigBuilder()
         {
-            myConfig = new UpdateConfig
+            _config = new UpdateConfig
                            {        
                                Backup = true,
+                               LoggingLevel = Level.Debug,
                                ConflictResolution = ConflictResolutionTypes.Ask,
                                TargetPackages = new TargetPackages(),
                                InstallFolder = SmartLocation.GetBinFolder(),
@@ -50,7 +52,7 @@ namespace Sidewinder.Core
 
         public UpdateConfigBuilder TargetFrameworkVersion(Version version)
         {
-            myConfig.TargetFrameworkVersion = version;
+            _config.TargetFrameworkVersion = version;
             return this;
         }
 
@@ -174,19 +176,19 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public UpdateConfigBuilder Update(TargetPackage package)
         {
-            if (myConfig.TargetPackages == null)
-                myConfig.TargetPackages = new TargetPackages();
+            if (_config.TargetPackages == null)
+                _config.TargetPackages = new TargetPackages();
 
             if (string.IsNullOrWhiteSpace(package.NuGetFeedUrl))
                 package.NuGetFeedUrl = Constants.NuGet.OfficialFeedUrl;
 
-            myConfig.TargetPackages.Add(package);
+            _config.TargetPackages.Add(package);
             return this;
         }
 
         public UpdateConfigBuilder InstallInto(string folder)
         {
-            myConfig.InstallFolder = folder;
+            _config.InstallFolder = folder;
             return this;
         }
 
@@ -206,13 +208,13 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public UpdateConfigBuilder JustThesePackages()
         {
-            myConfig.JustThis = true;
+            _config.JustThis = true;
             return this;
         }
 
         public UpdateConfigBuilder DoNotBackup()
         {
-            myConfig.Backup = false;
+            _config.Backup = false;
             return this;
         }
 
@@ -223,7 +225,7 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public UpdateConfigBuilder OverwriteContentFiles()
         {
-            myConfig.ConflictResolution = ConflictResolutionTypes.Overwrite;
+            _config.ConflictResolution = ConflictResolutionTypes.Overwrite;
             return this;
         }
 
@@ -235,7 +237,7 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public UpdateConfigBuilder AskUserToResolveContentConflicts()
         {
-            myConfig.ConflictResolution = ConflictResolutionTypes.Ask;
+            _config.ConflictResolution = ConflictResolutionTypes.Ask;
             return this;
         }
 
@@ -246,7 +248,29 @@ namespace Sidewinder.Core
         /// </summary>
         public UpdateConfigBuilder  UserWillManuallyResolveContentConflicts()
         {
-            myConfig.ConflictResolution = ConflictResolutionTypes.Manual;
+            _config.ConflictResolution = ConflictResolutionTypes.Manual;
+            return this;
+        }
+
+        public UpdateConfigBuilder SetLoggingLevel(Level level)
+        {
+            _config.LoggingLevel = level;
+            return this;
+        }
+
+        public UpdateConfigBuilder SetLoggingLevel(string level)
+        {
+            Level enumLevel;
+
+            if (!Enum.TryParse(level, true, out enumLevel))
+                enumLevel = Level.Debug;
+            _config.LoggingLevel = enumLevel;
+            return this;
+        }
+
+        public UpdateConfigBuilder UseLogger(ILogger logger)
+        {
+            _config.Logger = logger;
             return this;
         }
 
@@ -254,27 +278,29 @@ namespace Sidewinder.Core
         {
             var config = new UpdateConfig
                              {
-                                 Backup = myConfig.Backup,                                 
-                                 BackupFolder = GetFolderOrDefault(myConfig.BackupFolder, GetDefaultBackupFolder()),
-                                 ConflictResolution = myConfig.ConflictResolution,
-                                 DownloadFolder = GetFolderOrDefault(myConfig.DownloadFolder, GetDefaultDownloadFolder()),
-                                 InstallFolder = myConfig.InstallFolder, 
-                                 TargetPackages = myConfig.TargetPackages,
-                                 BackupFoldersToIgnore = myConfig.BackupFoldersToIgnore,
-                                 TargetFrameworkVersion = myConfig.TargetFrameworkVersion,
-                                 JustThis = myConfig.JustThis
+                                 Backup = _config.Backup,
+                                 Logger = _config.Logger,
+                                 LoggingLevel = _config.LoggingLevel,
+                                 BackupFolder = GetFolderOrDefault(_config.BackupFolder, GetDefaultBackupFolder()),
+                                 ConflictResolution = _config.ConflictResolution,
+                                 DownloadFolder = GetFolderOrDefault(_config.DownloadFolder, GetDefaultDownloadFolder()),
+                                 InstallFolder = _config.InstallFolder, 
+                                 TargetPackages = _config.TargetPackages,
+                                 BackupFoldersToIgnore = _config.BackupFoldersToIgnore,
+                                 TargetFrameworkVersion = _config.TargetFrameworkVersion,
+                                 JustThis = _config.JustThis
                              };
             return config;
         }
 
         private string GetDefaultBackupFolder()
         {
-            return Path.Get(myConfig.InstallFolder, Constants.Sidewinder.DefaultBackupFolder).FullPath;
+            return Path.Get(_config.InstallFolder, Constants.Sidewinder.DefaultBackupFolder).FullPath;
         }
 
         private string GetDefaultDownloadFolder()
         {
-            return Path.Get(myConfig.InstallFolder, Constants.Sidewinder.DefaultDownloadFolder).FullPath;
+            return Path.Get(_config.InstallFolder, Constants.Sidewinder.DefaultDownloadFolder).FullPath;
         }
 
         private static string GetFolderOrDefault(string folder, string defaultFolder)

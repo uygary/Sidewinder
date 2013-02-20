@@ -1,5 +1,6 @@
 using System;
 using Sidewinder.Core;
+using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 using FluentAssertions;
 
@@ -35,6 +36,11 @@ namespace Sidewinder.Tests.Upgrade
         private void TheCommandContainsTheDistributeCommand()
         {
             _commands.DistributeFiles.Should().NotBeNull();
+        }
+
+        private void TheLogLevelShouldBe_(Level expected)
+        {
+            _commands.LogLevel.Should().Be(expected);
         }
     }
 }

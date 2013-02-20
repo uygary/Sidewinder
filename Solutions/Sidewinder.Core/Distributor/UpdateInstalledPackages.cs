@@ -22,12 +22,12 @@ namespace Sidewinder.Core.Distributor
 
             if (versionPath.Exists)
             {
-                Console.WriteLine("\tFound installed versions file @{0}...", versionPath.FullPath);
+                Logger.Debug("\tFound installed versions file @{0}...", versionPath.FullPath);
                 installed = SerialisationHelper<InstalledPackages>.DataContractDeserializeFromFile(versionPath.FullPath);
             }
             else
             {
-                Console.WriteLine("\tCreating installed versions file @{0}...", versionPath.FullPath);
+                Logger.Debug("\tCreating installed versions file @{0}...", versionPath.FullPath);
                 installed = new InstalledPackages();
             }
 

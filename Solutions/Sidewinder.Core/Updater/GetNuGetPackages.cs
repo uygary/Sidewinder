@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using NuGet;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
@@ -21,21 +22,23 @@ namespace Sidewinder.Core.Updater
 
         public bool Execute(UpdaterContext context)
         {
-            Console.WriteLine("\tConfig.TargetPackages...");
-            context.Config.TargetPackages.ToList().ForEach(tp =>
-            {
-                Console.Write("\t\t{0}", tp.Value.Name);
+            Logger.Debug("\tConfig.TargetPackages...");
+            context.Config.TargetPackages.ToList()
+                .ForEach(tp =>
+                             {
+                                 var sb = new StringBuilder();
+                                 sb.AppendFormat("\t\t{0}", tp.Value.Name);
 
-                if (tp.Value.Version != null)
-                    Console.Write(" v{0}", tp.Value.Version);
+                                 if (tp.Value.Version != null)
+                                     sb.AppendFormat(" v{0}", tp.Value.Version);
 
-                if (string.Compare(Constants.NuGet.OfficialFeedUrl,
-                                   tp.Value.NuGetFeedUrl,
-                                   StringComparison.InvariantCultureIgnoreCase) != 0)
-                    Console.Write(" ({0})", tp.Value.NuGetFeedUrl);
+                                 if (string.Compare(Constants.NuGet.OfficialFeedUrl,
+                                                    tp.Value.NuGetFeedUrl,
+                                                    StringComparison.InvariantCultureIgnoreCase) != 0)
+                                     sb.AppendFormat(" ({0})", tp.Value.NuGetFeedUrl);
 
-                Console.WriteLine();
-            });
+                                 Logger.Debug(sb.ToString());
+                             });
 
             context.Config.TargetPackages.ToList().ForEach(
                 target => GetNuGetPackage(context, target.Value));
@@ -43,7 +46,7 @@ namespace Sidewinder.Core.Updater
             // if there are no updates then abort the pipeline
             if (context.Updates.Count == 0)
             {
-                Console.WriteLine("\tNo updates found!");
+                Logger.Info("\tNo updates found!");
                 return false;
             }
 
@@ -67,15 +70,11 @@ namespace Sidewinder.Core.Updater
 
             if (target.Version == null)
             {
-                Console.WriteLine("\tGetting the latest version of '{0}' from {1}...",
-                                  target.Name,
-                                  target.NuGetFeedUrl);
+                Logger.Debug("\tGetting the latest version of '{0}' from {1}...", target.Name, target.NuGetFeedUrl);
             }
             else
             {
-                Console.WriteLine("\tChecking {0} for update to {1} v{2}...",
-                                  target.NuGetFeedUrl, target.Name,
-                                  target.Version);
+                Logger.Debug("\tChecking {0} for update to {1} v{2}...", target.NuGetFeedUrl, target.Name, target.Version);
             }
 
             IPackage update;
@@ -91,25 +90,22 @@ namespace Sidewinder.Core.Updater
                 AlreadyInstalled(target) &&
                 !IsNewVersion(target.Version, update.Version.Version))
             {
-                Console.WriteLine("\t\tNo update available...running the latest version!");
+                Logger.Info("\t\tNo update available...running the latest version!");
                 return;
             }
 
             // ok, lets download it!...
-            Console.Write("\t\tUpdated version v{0} is available", update.Version.Version);
-
-            if (target.Force)
-                Console.Write(" ** FORCED **");
-            Console.WriteLine();
+            Logger.Debug("\t\tUpdated version v{0} is available {1}", update.Version.Version, 
+                target.Force ? " ** FORCED **" : string.Empty);
 
             var downloadFolder = Fluent.IO.Path.Get(context.Config.DownloadFolder, target.Name).FullPath;
-            Console.WriteLine("\tDownloading package '{0}' content to: {1}...", target.Name, downloadFolder);
+            Logger.Debug("\tDownloading package '{0}' content to: {1}...", target.Name, downloadFolder);
 
             Fluent.IO.Path.CreateDirectory(downloadFolder);
             var files = update.GetFiles();
             files.ToList().ForEach(file =>
             {
-                Console.WriteLine("\t\t{0}", file.Path);
+                Logger.Debug("\t\t{0}", file.Path);
                 DownloadFile(downloadFolder, file);
             });
 
@@ -128,7 +124,7 @@ namespace Sidewinder.Core.Updater
             if (!target.UpdateDependencies)
                 return;
 
-            Console.WriteLine("\t\tChecking for updates to dependent packages...");
+            Logger.Debug("\t\tChecking for updates to dependent packages...");
             if (update.Dependencies != null)
             {
                 update.Dependencies.ToList().ForEach(
@@ -157,7 +153,7 @@ namespace Sidewinder.Core.Updater
             var uVal = (update.Major * 1000) + (update.Minor * 100) + (update.Revision * 10) + (update.Build);
 
 #if TESTING
-            Console.WriteLine("\tChecking cVal={0} against uVal={1}", cVal, uVal);
+            Logger.Debug("\tChecking cVal={0} against uVal={1}", cVal, uVal);
 #endif
 
             return uVal > cVal;
@@ -179,7 +175,7 @@ namespace Sidewinder.Core.Updater
 
             if (package == null)
             {
-                Console.WriteLine("\t\t**WARNING** Package {0} does not exist on feed {1}",
+                Logger.Warn("\t\t**WARNING** Package {0} does not exist on feed {1}",
                     target.Name,
                     target.NuGetFeedUrl);
 
@@ -189,13 +185,13 @@ namespace Sidewinder.Core.Updater
                     return false;
                 }
 
-                Console.WriteLine("\t\tAttempting to find it on the official feed...");
+                Logger.Debug("\t\tAttempting to find it on the official feed...");
                 repo = PackageRepositoryFactory.Default.CreateRepository(Constants.NuGet.OfficialFeedUrl);
                 package = repo.FindPackage(target.Name);
 
                 if (package == null)
                 {
-                    Console.WriteLine("\t\t**WARNING** Package {0} does not exist on feed {1}",
+                    Logger.Warn("\t\t**WARNING** Package {0} does not exist on feed {1}",
                                         target.Name,
                                         target.NuGetFeedUrl);
                     return false;
@@ -211,7 +207,7 @@ namespace Sidewinder.Core.Updater
         {
             using (var stream = file.GetStream())
             {
-                var filename = Path.GetFileName(file.Path);
+                var filename = Path.GetFileName(file.Path) ?? file.Path;
                 var folder = Fluent.IO.Path.Get(downloadFolder).Combine(file.Path).Parent().FullPath;
                 Directory.CreateDirectory(folder);
 
@@ -219,6 +215,5 @@ namespace Sidewinder.Core.Updater
                     stream.CopyTo(destination);
             }
         }
-
     }
 }

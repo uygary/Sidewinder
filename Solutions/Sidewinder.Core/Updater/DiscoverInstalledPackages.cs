@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Fluent.IO;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
@@ -27,26 +28,28 @@ namespace Sidewinder.Core.Updater
                 return true;
 
             var path = versionPath.FullPath;
-            Console.WriteLine("\tFound installed versions file @{0}...", path);
+            Logger.Info("\tFound installed versions file @{0}...", path);
             context.InstalledPackages = SerialisationHelper<InstalledPackages>.DataContractDeserializeFromFile(path);
 
-            Console.WriteLine("\tConfig.InstalledPackages...");
-            context.InstalledPackages.ToList().ForEach(pkg =>
-            {
-                Console.Write("\t\t{0}", pkg.Value.Name);
+            Logger.Debug("\tConfig.InstalledPackages...");
+            context.InstalledPackages.ToList()
+                .ForEach(pkg =>
+                             {
+                                 var sb = new StringBuilder();
+                                 sb.AppendFormat("\t\t{0}", pkg.Value.Name);
 
-                if (pkg.Value.Version != null)
-                    Console.Write(" v{0}", pkg.Value.Version);
+                                 if (pkg.Value.Version != null)
+                                     sb.AppendFormat(" v{0}", pkg.Value.Version);
 
-                Console.Write(" Last Updated:{0}", pkg.Value.LastUpdated);
+                                 sb.AppendFormat(" Last Updated:{0}", pkg.Value.LastUpdated);
 
-                if (string.Compare(Constants.NuGet.OfficialFeedUrl,
-                                   pkg.Value.NuGetFeedUrl,
-                                   StringComparison.InvariantCultureIgnoreCase) != 0)
-                    Console.Write(" ({0})", pkg.Value.NuGetFeedUrl);
+                                 if (string.Compare(Constants.NuGet.OfficialFeedUrl,
+                                                    pkg.Value.NuGetFeedUrl,
+                                                    StringComparison.InvariantCultureIgnoreCase) != 0)
+                                     sb.AppendFormat(" ({0})", pkg.Value.NuGetFeedUrl);
 
-                Console.WriteLine();
-            });
+                                 Logger.Debug(sb.ToString());
+                             });
             return true;
         }
 

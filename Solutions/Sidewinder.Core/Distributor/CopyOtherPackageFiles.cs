@@ -28,7 +28,7 @@ namespace Sidewinder.Core.Distributor
 
             updates.ForEach(update =>
                                 {
-                                    Console.WriteLine("\tProcessing update package (bin/tools) {0}->{1}...", 
+                                    Logger.Info("\tProcessing update package (bin/tools) {0}->{1}...", 
                                         update.Target.Name,
                                         context.Config.Command.InstallFolder);
 
@@ -41,9 +41,9 @@ namespace Sidewinder.Core.Distributor
                                                                                 update.Target.Name,
                                                                                 context.Config.Command.TargetFrameworkVersion);
 
-                                    Console.Write("\t\tCopying Binaries from {0}...", binPath.FullPath);
+                                    Logger.Debug("\t\tCopying Binaries from {0}...", binPath.FullPath);
                                     binPath.Copy(context.Config.Command.InstallFolder, Overwrite.Always, true);
-                                    Console.WriteLine("done!");
+                                    Logger.Debug("done!");
 
                                     // copy tools
                                     var toolsPath = Path.Get(context.Config.Command.DownloadFolder,
@@ -51,9 +51,9 @@ namespace Sidewinder.Core.Distributor
                                                            Constants.NuGet.ToolsFolder);
                                     if (toolsPath.Exists)
                                     {
-                                        Console.Write("\t\tCopying Tool files...");
+                                        Logger.Debug("\t\tCopying Tool files...");
                                         toolsPath.Copy(context.Config.Command.InstallFolder, Overwrite.Always, true);
-                                        Console.WriteLine("done!");
+                                        Logger.Debug("done!");
                                     }
                                 });
             return true;

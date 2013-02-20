@@ -21,7 +21,7 @@ namespace Sidewinder.Core.Distributor
             // if we are manually resolving conflicts then leave all the package updates intact
             if (context.Config.Command.ConflictResolution != ConflictResolutionTypes.Overwrite)
             {
-                Console.WriteLine("\t** Packages remain in {0} for manual conflict resolution **", context.Config.Command.DownloadFolder);
+                Logger.Warn("\t** Packages remain in {0} for manual conflict resolution **", context.Config.Command.DownloadFolder);
                 return true;
             }
 
@@ -31,12 +31,12 @@ namespace Sidewinder.Core.Distributor
                 .Directories()
                 .Where(path => (string.Compare(path.FileName, Constants.Sidewinder.NuGetPackageName) != 0));
 
-            Console.WriteLine("\tRemoving these update packages from {0}...", context.Config.Command.DownloadFolder);
-            foldersToDelete.MakeRelativeTo(context.Config.Command.DownloadFolder).ForEach(fp => 
-                Console.WriteLine("\t\t{0}", fp.FileName));
+            Logger.Debug("\tRemoving these update packages from {0}...", context.Config.Command.DownloadFolder);
+            foldersToDelete.MakeRelativeTo(context.Config.Command.DownloadFolder).ForEach(fp =>
+                Logger.Debug("\t\t{0}", fp.FileName));
 
             foldersToDelete.Delete(true);
-            Console.WriteLine("\tDone"); 
+            Logger.Debug("\tDone"); 
             return true;
         }
 

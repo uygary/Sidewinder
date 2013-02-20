@@ -5,7 +5,13 @@ namespace Sidewinder.Core.Interfaces.Entities
 {
     public class SidewinderCommands
     {
+        public Level LogLevel { get; set; }
         public DistributeFiles DistributeFiles { get; set; }
+
+        public SidewinderCommands()
+        {
+            LogLevel = Level.Debug;
+        }
     }
 
     public class DistributeFiles
@@ -15,29 +21,26 @@ namespace Sidewinder.Core.Interfaces.Entities
         public List<UpdatedPackage> Updates { get; set; }
         public int SecondsToWait { get; set; }
         public ConflictResolutionTypes ConflictResolution { get; set; }
-
-        //public string InstallFolder { get; set; }
-        //public string DownloadFolder { get; set; }
-
-        private string myDownloadFolder;
+        
+        private string _downloadFolder;
         public string DownloadFolder
         {
-            get { return myDownloadFolder; }
-            set { myDownloadFolder = SmartLocation.GetLocation(value); }
+            get { return _downloadFolder; }
+            set { _downloadFolder = SmartLocation.GetLocation(value); }
         }
 
-        private string myInstallFolder;
+        private string _installFolder;
         public string InstallFolder
         {
-            get { return myInstallFolder; }
-            set { myInstallFolder = SmartLocation.GetLocation(value); }
+            get { return _installFolder; }
+            set { _installFolder = SmartLocation.GetLocation(value); }
         }
 
         public DistributeFiles()
         {
             // default timeout to wait for the running process to terminate
             SecondsToWait = 10;
-            ConflictResolution = ConflictResolutionTypes.Ask;
+            ConflictResolution = ConflictResolutionTypes.Ask;            
         }
     }
 }

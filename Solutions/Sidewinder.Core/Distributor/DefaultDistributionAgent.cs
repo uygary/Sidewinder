@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 using Sidewinder.Core.Pipeline;
@@ -11,13 +10,13 @@ namespace Sidewinder.Core.Distributor
     /// </summary>
     public class DefaultDistributionAgent : IDistributionAgent
     {
-        protected DistributorConfig myConfig;
-        protected Pipeline<DistributorContext> myPipeline;
+        protected DistributorConfig _config;
+        protected Pipeline<DistributorContext> _pipeline;
 
         public DefaultDistributionAgent(DistributorConfig config)
         {
-            myConfig = config;
-            myPipeline = Pipeline<DistributorContext>.Run(new WaitForProcessShutdown())
+            _config = config;
+            _pipeline = Pipeline<DistributorContext>.Run(new WaitForProcessShutdown())
                 .Then(new CopyContentFiles())
                 .Then(new CopyOtherPackageFiles())
                 .Then(new UpdateInstalledPackages())
@@ -27,19 +26,19 @@ namespace Sidewinder.Core.Distributor
 
         public bool Execute()
         {
-            Console.WriteLine("Running Distribution Pipeline...");
-            Console.WriteLine("\tCommand.ConflictResolution: {0}", myConfig.Command.ConflictResolution);
-            Console.WriteLine("\tCommand.InstallFolder: {0}", myConfig.Command.InstallFolder);
-            Console.WriteLine("\tCommand.DownloadFolder: {0}", myConfig.Command.DownloadFolder);
-            Console.WriteLine("\tCommand.SecondsToWait: {0}", myConfig.Command.SecondsToWait);
-            Console.WriteLine("\tCommand.TargetProcessFilename: {0}", myConfig.Command.TargetProcessFilename);
-            Console.WriteLine("\tCommand.Updates...");
-            myConfig.Command.Updates.ToList().ForEach(update => Console.WriteLine("\t\t{0} -> v{1}", update.Target.Name,
-                                                                                  update.NewVersion));
+            Logger.Debug("Running Distribution Pipeline...");
+            Logger.Debug("\tCommand.ConflictResolution: {0}", _config.Command.ConflictResolution);
+            Logger.Debug("\tCommand.InstallFolder: {0}", _config.Command.InstallFolder);
+            Logger.Debug("\tCommand.DownloadFolder: {0}", _config.Command.DownloadFolder);
+            Logger.Debug("\tCommand.SecondsToWait: {0}", _config.Command.SecondsToWait);
+            Logger.Debug("\tCommand.TargetProcessFilename: {0}", _config.Command.TargetProcessFilename);
+            Logger.Debug("\tCommand.Updates...");
+            _config.Command.Updates.ToList().ForEach(update => Logger.Debug("\t\t{0} -> v{1}", update.Target.Name,
+                update.NewVersion));
 
-            return myPipeline.Execute(new DistributorContext
+            return _pipeline.Execute(new DistributorContext
             {
-                Config = myConfig
+                Config = _config
             });
         }
     }

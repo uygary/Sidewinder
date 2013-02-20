@@ -11,26 +11,28 @@ namespace Sidewinder.Core.Interfaces.Entities
         public TargetPackages TargetPackages { get; set; }
         public ConflictResolutionTypes ConflictResolution { get; set; }
         public List<string> BackupFoldersToIgnore { get; set; }
+        public ILogger Logger { get; set; }
+        public Level LoggingLevel { get; set; }
 
-        private string myBackupFolder;
+        private string _backupFolder;
         public string BackupFolder
         {
-            get { return myBackupFolder; }
-            set { myBackupFolder = SmartLocation.GetLocation(value); }
+            get { return _backupFolder; }
+            set { _backupFolder = SmartLocation.GetLocation(value); }
         }
         
-        private string myDownloadFolder;
+        private string _downloadFolder;
         public string DownloadFolder
         {
-            get { return myDownloadFolder; }
-            set { myDownloadFolder = SmartLocation.GetLocation(value); }
+            get { return _downloadFolder; }
+            set { _downloadFolder = SmartLocation.GetLocation(value); }
         }
 
-        private string myInstallFolder;
+        private string _installFolder;
         public string InstallFolder
         {
-            get { return myInstallFolder; }
-            set { myInstallFolder = SmartLocation.GetLocation(value); }
+            get { return _installFolder; }
+            set { _installFolder = SmartLocation.GetLocation(value); }
         }        
     }
 }

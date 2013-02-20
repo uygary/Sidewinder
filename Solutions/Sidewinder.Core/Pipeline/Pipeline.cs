@@ -30,18 +30,18 @@ namespace Sidewinder.Core.Pipeline
             timer.Start();
             foreach (var step in mySteps)
             {
-                Console.WriteLine("Executing step: {0}", step.GetType().Name);
+                Logger.Debug("Executing step: {0}", step.GetType().Name);
                 step.EntryConditions(context);
                 if (!step.Execute(context))
                 {
-                    Console.WriteLine("**WARNING** Pipeline aborting!");
+                    Logger.Warn("**WARNING** Pipeline aborting!");
                     return false;
                 }
                 step.ExitConditions(context);
             }
 
             timer.Stop();
-            Console.WriteLine("Pipeline<{0}> completed in {1}s", typeof(T).Name, timer.Elapsed.TotalSeconds);
+            Logger.Debug("Pipeline<{0}> completed in {1}s", typeof(T).Name, timer.Elapsed.TotalSeconds);
 
             return true;
         }

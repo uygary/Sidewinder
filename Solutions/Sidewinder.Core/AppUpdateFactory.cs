@@ -16,6 +16,9 @@ namespace Sidewinder.Core
             setup(builder);
             var config = builder.Build();
 
+            var logger = config.Logger ?? new ConsoleLogger(config.LoggingLevel);
+            Logger.Initialise(logger).Debug("Logger is {0}", logger.GetType().Name);
+
             var agent = new DefaultUpdateAgent(config);
             return agent;
         }

@@ -31,7 +31,7 @@ namespace Sidewinder.Core.Updater
                                                               UpdateDependencies = true,
                                                               NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
                                                           });
-                    Console.WriteLine("\tAdded Sidewinder to targets");
+                    Logger.Debug("\tAdded Sidewinder to targets");
                 }
 
                 return true;
@@ -67,7 +67,7 @@ namespace Sidewinder.Core.Updater
                                                       UpdateDependencies = true,
                                                       NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
                                                   });
-            Console.WriteLine("\tAdded Sidewinder {0}to targets (update)", ver == null ? string.Empty : ver + " ");
+            Logger.Debug("\tAdded Sidewinder {0}to targets (update)", ver == null ? string.Empty : ver + " ");
             return true;
         }
 

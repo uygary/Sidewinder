@@ -28,7 +28,7 @@ namespace Sidewinder.Core.Updater
             if (!context.Config.Backup)
                 return true;
 
-            Console.WriteLine("\tBacking up existing application @{0} to {1}", context.Config.InstallFolder,
+            Logger.Info("\tBacking up existing application @{0} to {1}", context.Config.InstallFolder,
                 context.Config.BackupFolder);
             if (!Directory.Exists(context.Config.InstallFolder))
                 throw new DirectoryNotFoundException(string.Format("Unable to backup folder '{0}' as it does not exist",
@@ -64,7 +64,7 @@ namespace Sidewinder.Core.Updater
             entries.ToList().ForEach(entry =>
             {
                 zip.RemoveEntry(entry);
-                Console.WriteLine("\t\tRemoved entry '{0}'", entry.FileName);
+                Logger.Debug("\t\tRemoved entry '{0}'", entry.FileName);
             });
             return true;
         }
