@@ -1,0 +1,1 @@
+This is required to ensure this folder is copied as part of the build process
