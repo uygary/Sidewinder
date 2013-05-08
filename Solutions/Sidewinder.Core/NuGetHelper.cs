@@ -12,6 +12,10 @@ namespace Sidewinder.Core
         public static LinkedList<string> SupportedLibFrameworks = new LinkedList<string>(
             new[]
                 {
+                    // framework 4.5
+                    "net45",
+                    "45",
+                    // framework 4.0
                     "net40-full",
                     "net4-full",
                     "net40-client",
@@ -43,6 +47,8 @@ namespace Sidewinder.Core
 
         public static string GetBestLibFrameworkFolder(Version version)
         {
+            if (version.Major >= 4 && version.Minor >= 5)
+                return "net45";
             if (version.Major >= 4)
                 return "net40-full";
             if (version.Major >= 2)
@@ -54,6 +60,8 @@ namespace Sidewinder.Core
 
         public static Version GetPreviousFrameworkVersion(Version version)
         {
+            if (version.Major >= 4 && version.Minor >= 5)
+                return new Version(4,0);
             if (version.Major >= 4)
                 return new Version(2,0);
             if (version.Major >= 2)

@@ -12,6 +12,7 @@
         public bool Manual { get; set; }
 
         // target framework switches
+        public bool Net45 { get; set; }
         public bool Net40 { get; set; }
         public bool Net20 { get; set; }
         public bool Net11 { get; set; }

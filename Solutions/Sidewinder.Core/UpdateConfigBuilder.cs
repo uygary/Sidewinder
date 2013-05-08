@@ -50,6 +50,11 @@ namespace Sidewinder.Core
             return TargetFrameworkVersion(new Version(4, 0));
         }
 
+        public UpdateConfigBuilder TargetFrameworkVersion45()
+        {
+            return TargetFrameworkVersion(new Version(4, 5));
+        }
+
         public UpdateConfigBuilder TargetFrameworkVersion(Version version)
         {
             _config.TargetFrameworkVersion = version;

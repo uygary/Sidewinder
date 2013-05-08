@@ -64,6 +64,8 @@ namespace Sidewinder
                                                                config.TargetFrameworkVersion20();
                                                            if (command.Net40)
                                                                config.TargetFrameworkVersion40();
+                                                           if (command.Net45)
+                                                               config.TargetFrameworkVersion45();
                                                        })
                                   .Execute()
                                   ? ExitCode.UpdateAvailable
