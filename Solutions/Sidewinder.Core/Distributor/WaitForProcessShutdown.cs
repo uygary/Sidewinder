@@ -20,8 +20,8 @@ namespace Sidewinder.Core.Distributor
 
         public bool Execute(DistributorContext context)
         {
-            if (string.Compare(Path.Get(context.Config.Command.TargetProcessFilename).Parent().FullPath,
-                context.Config.Command.InstallFolder, StringComparison.InvariantCultureIgnoreCase) != 0)
+            if (string.Compare(Path.Get(context.Config.Command.TargetProcessFilename).Parent().FullPath.TrimEnd('\\', '/'),
+                context.Config.Command.InstallFolder.TrimEnd('\\', '/'), StringComparison.InvariantCultureIgnoreCase) != 0)
                 return true;
 
             var attempt = 1;
@@ -36,9 +36,7 @@ namespace Sidewinder.Core.Distributor
                 {
                     var running = Process.GetProcesses().ToList();
 
-                    if (running.FirstOrDefault(p => (String.CompareOrdinal(p.ProcessName, "System") != 0) &&
-                                                    (String.CompareOrdinal(p.ProcessName, "Idle") != 0) &&
-                                                    (String.CompareOrdinal(p.MainModule.FileName, context.Config.Command.TargetProcessFilename) == 0)) == null)
+                    if (running.All(x => x.Id != context.Config.Command.TargetProcessId))
                         return true;
                 }
                 catch (Exception ex)

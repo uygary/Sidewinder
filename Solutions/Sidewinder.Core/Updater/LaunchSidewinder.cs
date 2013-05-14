@@ -26,10 +26,12 @@ namespace Sidewinder.Core.Updater
                 return false;
             }
 
-            Process.Start(new ProcessStartInfo
-                              {
-                                  FileName = sidewinderPath
-                              });
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+                {
+                    FileName = sidewinderPath
+                };
+
+            Process.Start(processStartInfo);
             return true;
         }
 

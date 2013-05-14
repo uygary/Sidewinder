@@ -6,6 +6,7 @@ namespace Sidewinder.Core.Interfaces.Entities
     public class SidewinderCommands
     {
         public Level LogLevel { get; set; }
+        public string LogPath { get; set; }
         public DistributeFiles DistributeFiles { get; set; }
 
         public SidewinderCommands()
@@ -17,6 +18,7 @@ namespace Sidewinder.Core.Interfaces.Entities
     public class DistributeFiles
     {
         public Version TargetFrameworkVersion { get; set; }
+        public int TargetProcessId { get; set; }
         public string TargetProcessFilename { get; set; }
         public List<UpdatedPackage> Updates { get; set; }
         public int SecondsToWait { get; set; }

@@ -29,7 +29,7 @@ namespace Sidewinder.Core.Distributor
             // as there is no conflicts to resolve.
             var foldersToDelete = Path.Get(context.Config.Command.DownloadFolder)
                 .Directories()
-                .Where(path => (string.Compare(path.FileName, Constants.Sidewinder.NuGetPackageName) != 0));
+                .Where(path => (string.Compare(path.FileName, Constants.Sidewinder.NuGetPackageName, StringComparison.InvariantCultureIgnoreCase) != 0));
 
             Logger.Debug("\tRemoving these update packages from {0}...", context.Config.Command.DownloadFolder);
             foldersToDelete.MakeRelativeTo(context.Config.Command.DownloadFolder).ForEach(fp =>
