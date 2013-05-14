@@ -279,6 +279,12 @@ namespace Sidewinder.Core
             return this;
         }
 
+        public UpdateConfigBuilder UseLogPath(string logPath)
+        {
+            _config.LogPath = logPath;
+            return this;
+        }
+
         public UpdateConfig Build()
         {
             var config = new UpdateConfig
@@ -290,6 +296,7 @@ namespace Sidewinder.Core
                                  ConflictResolution = _config.ConflictResolution,
                                  DownloadFolder = GetFolderOrDefault(_config.DownloadFolder, GetDefaultDownloadFolder()),
                                  InstallFolder = _config.InstallFolder, 
+                                 LogPath = _config.LogPath,
                                  TargetPackages = _config.TargetPackages,
                                  BackupFoldersToIgnore = _config.BackupFoldersToIgnore,
                                  TargetFrameworkVersion = _config.TargetFrameworkVersion,

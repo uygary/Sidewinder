@@ -83,6 +83,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Distributor\LaunchReadme.cs" />
     <Compile Include="Distributor\CopyContentFiles.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="Interfaces\Entities\ConflictResolutionTypes.cs" />
     <Compile Include="Interfaces\Entities\PackageMetadataConfig.cs" />
     <Compile Include="Interfaces\Exceptions\PackageMetadataException.cs" />
