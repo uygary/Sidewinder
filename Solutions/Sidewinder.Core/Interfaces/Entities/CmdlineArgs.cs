@@ -10,6 +10,7 @@
         public bool Dependencies { get; set; }
         public bool Overwrite { get; set; }
         public bool Manual { get; set; }
+        public bool SkipOfficialFeed { get; set; }
 
         // target framework switches
         public bool Net40 { get; set; }

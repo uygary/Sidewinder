@@ -49,6 +49,8 @@ namespace Sidewinder
                                                                .JustThesePackages()
                                                                .SetLoggingLevel(command.LogLevel);
 
+                                                           if (command.SkipOfficialFeed)
+                                                               config.SkipOfficialFeed();
                                                            if (command.Overwrite)
                                                                config.OverwriteContentFiles();
                                                            else if (command.Manual)
