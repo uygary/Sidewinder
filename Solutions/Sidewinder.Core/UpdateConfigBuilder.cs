@@ -14,7 +14,8 @@ namespace Sidewinder.Core
         public UpdateConfigBuilder()
         {
             _config = new UpdateConfig
-                           {        
+                           { 
+                               SkipOfficialFeed = false,
                                Backup = true,
                                LoggingLevel = Level.Debug,
                                ConflictResolution = ConflictResolutionTypes.Ask,
@@ -279,10 +280,17 @@ namespace Sidewinder.Core
             return this;
         }
 
+        public UpdateConfigBuilder SkipOfficialFeed()
+        {
+            _config.SkipOfficialFeed = true;
+            return this;
+        }
+
         public UpdateConfig Build()
         {
             var config = new UpdateConfig
                              {
+                                 SkipOfficialFeed = _config.SkipOfficialFeed,
                                  Backup = _config.Backup,
                                  Logger = _config.Logger,
                                  LoggingLevel = _config.LoggingLevel,

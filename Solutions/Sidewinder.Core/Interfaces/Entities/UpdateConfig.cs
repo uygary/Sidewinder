@@ -5,6 +5,7 @@ namespace Sidewinder.Core.Interfaces.Entities
 {
     public class UpdateConfig
     {
+        public bool SkipOfficialFeed { get; set; }
         public bool Backup { get; set; }
         public bool JustThis { get; set; }
         public Version TargetFrameworkVersion { get; set; }

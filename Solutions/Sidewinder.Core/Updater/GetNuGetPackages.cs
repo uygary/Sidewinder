@@ -32,9 +32,8 @@ namespace Sidewinder.Core.Updater
                                  if (tp.Value.Version != null)
                                      sb.AppendFormat(" v{0}", tp.Value.Version);
 
-                                 if (string.Compare(Constants.NuGet.OfficialFeedUrl,
-                                                    tp.Value.NuGetFeedUrl,
-                                                    StringComparison.InvariantCultureIgnoreCase) != 0)
+                                 if (!Constants.NuGet.OfficialFeedUrl.Equals(tp.Value.NuGetFeedUrl,
+                                     StringComparison.InvariantCultureIgnoreCase))
                                      sb.AppendFormat(" ({0})", tp.Value.NuGetFeedUrl);
 
                                  Logger.Debug(sb.ToString());
@@ -149,6 +148,7 @@ namespace Sidewinder.Core.Updater
             if (update == null)
                 return false;
 
+            // TODO: support pre-release version declarations
             var cVal = (current.Major*1000) + (current.Minor*100) + (current.Revision*10) + (current.Build);
             var uVal = (update.Major * 1000) + (update.Minor * 100) + (update.Revision * 10) + (update.Build);
 
@@ -179,9 +179,15 @@ namespace Sidewinder.Core.Updater
                     target.Name,
                     target.NuGetFeedUrl);
 
-                if (string.Compare(target.NuGetFeedUrl, Constants.NuGet.OfficialFeedUrl,
-                    StringComparison.InvariantCultureIgnoreCase) == 0)
+                if (target.NuGetFeedUrl.Equals(Constants.NuGet.OfficialFeedUrl,
+                    StringComparison.InvariantCultureIgnoreCase))
                 {
+                    return false;
+                }
+
+                if (context.Config.SkipOfficialFeed)
+                {
+                    Logger.Info("SkipOfficialFeed specified so not looking there for the package!");
                     return false;
                 }
 
@@ -191,9 +197,9 @@ namespace Sidewinder.Core.Updater
 
                 if (package == null)
                 {
-                    Logger.Warn("\t\t**WARNING** Package {0} does not exist on feed {1}",
+                    Logger.Warn("\t\t**WARNING** Package {0} does not exist on the offical feed {1}",
                                         target.Name,
-                                        target.NuGetFeedUrl);
+                                        Constants.NuGet.OfficialFeedUrl);
                     return false;
                 }
             }
