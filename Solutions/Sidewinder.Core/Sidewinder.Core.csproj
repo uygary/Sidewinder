@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{046526FB-37E7-45E4-AB5E-E5053E23DD71}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sidewinder.Core</RootNamespace>
+    <AssemblyName>Sidewinder.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Testing|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;TESTING</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Sidewinder.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fluent.IO">
+      <HintPath>..\packages\FluentPath.1.0.0\lib\Net4\Fluent.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=1.6.30117.9648, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NuGet.Core.1.6.2\lib\net40\NuGet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Build\Common\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Build\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ConflictResolution\CopyAlwaysResolutionAction.cs" />
+    <Compile Include="ConflictResolution\CopyAskResolutionAction.cs" />
+    <Compile Include="ConflictResolution\CopyNeverResolutionAction.cs" />
+    <Compile Include="ConflictResolution\CopyResolutionActionBase.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Distributor\LaunchReadme.cs" />
+    <Compile Include="Distributor\CopyContentFiles.cs" />
+    <Compile Include="Interfaces\Entities\ConflictResolutionTypes.cs" />
+    <Compile Include="Interfaces\Entities\PackageMetadataConfig.cs" />
+    <Compile Include="Interfaces\Exceptions\PackageMetadataException.cs" />
+    <Compile Include="Interfaces\IConflictResolutionAction.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="PackageMetadataBuilder.cs" />
+    <Compile Include="Interfaces\Exceptions\PackageBuildException.cs" />
+    <Compile Include="Interfaces\IPackageBuilderAgent.cs" />
+    <Compile Include="Interfaces\IAgent.cs" />
+    <Compile Include="PackageBuilderFactory.cs" />
+    <Compile Include="PackageBuilderConfigBuilder.cs" />
+    <Compile Include="DirectoryWalker.cs" />
+    <Compile Include="DistributorConfigBuilder.cs" />
+    <Compile Include="DistributorFactory.cs" />
+    <Compile Include="Distributor\CleanUp.cs" />
+    <Compile Include="Distributor\CopyOtherPackageFiles.cs" />
+    <Compile Include="Distributor\DefaultDistributionAgent.cs" />
+    <Compile Include="Distributor\UpdateInstalledPackages.cs" />
+    <Compile Include="Distributor\WaitForProcessShutdown.cs" />
+    <Compile Include="Interfaces\Entities\PackageBuilderConfig.cs" />
+    <Compile Include="Interfaces\Entities\PackagesBase.cs" />
+    <Compile Include="Interfaces\Entities\TargetPackages.cs" />
+    <Compile Include="NuGetHelper.cs" />
+    <Compile Include="Interfaces\Entities\BackupConfig.cs" />
+    <Compile Include="Interfaces\Entities\CmdlineArgs.cs" />
+    <Compile Include="Interfaces\Entities\DistributorConfig.cs" />
+    <Compile Include="Interfaces\Entities\DistributorContext.cs" />
+    <Compile Include="Interfaces\Entities\InstalledPackage.cs" />
+    <Compile Include="Interfaces\Entities\InstalledPackages.cs" />
+    <Compile Include="Interfaces\Entities\NuGetPackage.cs" />
+    <Compile Include="Interfaces\Entities\SidewinderCommands.cs" />
+    <Compile Include="Interfaces\Entities\TargetPackage.cs" />
+    <Compile Include="Interfaces\Entities\UpdateConfig.cs" />
+    <Compile Include="Interfaces\Entities\UpdatedPackage.cs" />
+    <Compile Include="Interfaces\Entities\UpdaterContext.cs" />
+    <Compile Include="Interfaces\IDistributionAgent.cs" />
+    <Compile Include="Interfaces\IPipelineStep.cs" />
+    <Compile Include="Interfaces\IUpdateAgent.cs" />
+    <Compile Include="PackageBuilder\DefaultPackageBuilderAgent.cs" />
+    <Compile Include="Pipeline\Pipeline.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerialisationHelper.cs" />
+    <Compile Include="SmartLocation.cs" />
+    <Compile Include="UpdateConfigBuilder.cs" />
+    <Compile Include="AppUpdateFactory.cs" />
+    <Compile Include="Updater\BackupApplication.cs" />
+    <Compile Include="Updater\AddInstalledPackagesToUpdates.cs" />
+    <Compile Include="Updater\UpdateAgentBase.cs" />
+    <Compile Include="Updater\DiscoverInstalledPackages.cs" />
+    <Compile Include="Updater\DefaultUpdateAgent.cs" />
+    <Compile Include="Updater\AddSidewinderToUpdates.cs" />
+    <Compile Include="Updater\GetNuGetPackages.cs" />
+    <Compile Include="Updater\LaunchSidewinder.cs" />
+    <Compile Include="Updater\WriteUpdateCommandFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
