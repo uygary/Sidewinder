@@ -34,6 +34,13 @@ namespace Sidewinder.Core.Interfaces.Entities
         {
             get { return _installFolder; }
             set { _installFolder = SmartLocation.GetLocation(value); }
-        }        
+        }
+
+        private string _logPath;
+        public string LogPath
+        {
+            get { return _logPath; }
+            set { _logPath = SmartLocation.GetLocation(value); }
+        }
     }
 }
