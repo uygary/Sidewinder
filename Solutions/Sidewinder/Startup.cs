@@ -84,9 +84,15 @@ namespace Sidewinder
                     }
                     else
                     {
-                        // reinitialise if logging level different
-                        if (commands.LogLevel != Logger.Level)
+                        if (commands.LogPath != null)
+                        {
+                            Logger.Initialise(new FileLogger(commands.LogLevel, commands.LogPath));
+                        }
+                        else if (commands.LogLevel != Logger.Level)
+                        {
+                            // reinitialise if logging level different
                             Logger.Initialise(new ConsoleLogger(commands.LogLevel));
+                        }
 
                         if (commands.DistributeFiles != null)
                         {
