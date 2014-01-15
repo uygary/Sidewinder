@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Fluent.IO;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
@@ -281,6 +283,26 @@ namespace Sidewinder.Core
             return this;
         }
 
+        public UpdateConfigBuilder LaunchAfterUpdate(string pathToExecutable, string arguments = null)
+        {
+            _config.LaunchProcess = pathToExecutable;
+            _config.LaunchProcessArguments = arguments;
+            return this;
+        }
+
+        public UpdateConfigBuilder RelaunchSelfAfterUpdate()
+        {
+            _config.LaunchProcess = Path.Current.Combine(Process.GetCurrentProcess().MainModule.FileName).ToString();
+            _config.LaunchProcessArguments = string.Join(" ", Environment.GetCommandLineArgs());
+            return this;
+        }
+
+        public UpdateConfigBuilder UseCustomFeedForSidewinder(string feedUrl)
+        {
+            _config.CustomSidewinderFeedUrl = feedUrl;
+            return this;
+        }
+
         public UpdateConfig Build()
         {
             var config = new UpdateConfig
@@ -296,7 +318,10 @@ namespace Sidewinder.Core
                                  TargetPackages = _config.TargetPackages,
                                  BackupFoldersToIgnore = _config.BackupFoldersToIgnore,
                                  TargetFrameworkVersion = _config.TargetFrameworkVersion,
-                                 JustThis = _config.JustThis
+                                 JustThis = _config.JustThis,
+                                 LaunchProcess = _config.LaunchProcess,
+                                 LaunchProcessArguments = _config.LaunchProcessArguments,
+                                 CustomSidewinderFeedUrl = _config.CustomSidewinderFeedUrl
                              };
             return config;
         }
