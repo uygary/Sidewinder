@@ -81,6 +81,7 @@
     <Compile Include="ConflictResolution\CopyNeverResolutionAction.cs" />
     <Compile Include="ConflictResolution\CopyResolutionActionBase.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Distributor\LaunchProcess.cs" />
     <Compile Include="Distributor\LaunchReadme.cs" />
     <Compile Include="Distributor\CopyContentFiles.cs" />
     <Compile Include="Interfaces\Entities\ConflictResolutionTypes.cs" />
