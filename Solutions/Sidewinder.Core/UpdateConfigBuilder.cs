@@ -35,7 +35,13 @@ namespace Sidewinder.Core
 
         private static Version GetRuntimeVersion()
         {
-            return new Version(Assembly.GetEntryAssembly().ImageRuntimeVersion.TrimStart('v'));
+            return new Version(GetApplicationAssembly().ImageRuntimeVersion.TrimStart('v'));
+        }
+
+        private static Assembly GetApplicationAssembly()
+        {
+            return Assembly.GetEntryAssembly() // can be null if invoked from a unit-test. See http://msdn.microsoft.com/en-us/library/system.reflection.assembly.getentryassembly(v=vs.100).aspx
+                ?? Assembly.GetCallingAssembly();
         }
 
         public UpdateConfigBuilder TargetFrameworkVersion11()
@@ -201,7 +207,7 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public Version CurrentAppVersion()
         {
-            return Assembly.GetEntryAssembly().GetName().Version;
+            return GetApplicationAssembly().GetName().Version;
         }
 
         /// <summary>
