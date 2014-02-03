@@ -22,7 +22,6 @@ namespace Sidewinder.Core.Interfaces.Entities
         public int SecondsToWait { get; set; }
         public ConflictResolutionTypes ConflictResolution { get; set; }
         public string LaunchProcess { get; set; }
-        public string LaunchProcessArguments { get; set; }
 
         private string _downloadFolder;
         public string DownloadFolder

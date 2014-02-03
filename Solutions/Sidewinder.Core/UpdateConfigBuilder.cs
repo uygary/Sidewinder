@@ -289,17 +289,15 @@ namespace Sidewinder.Core
             return this;
         }
 
-        public UpdateConfigBuilder LaunchAfterUpdate(string pathToExecutable, string arguments = null)
+        public UpdateConfigBuilder LaunchAfterUpdate(string cmdLine)
         {
-            _config.LaunchProcess = pathToExecutable;
-            _config.LaunchProcessArguments = arguments;
+            _config.LaunchProcess = cmdLine;
             return this;
         }
 
         public UpdateConfigBuilder RelaunchSelfAfterUpdate()
         {
-            _config.LaunchProcess = Path.Current.Combine(Process.GetCurrentProcess().MainModule.FileName).ToString();
-            _config.LaunchProcessArguments = string.Join(" ", Environment.GetCommandLineArgs());
+            _config.LaunchProcess = Environment.CommandLine;
             return this;
         }
 
@@ -326,7 +324,6 @@ namespace Sidewinder.Core
                                  TargetFrameworkVersion = _config.TargetFrameworkVersion,
                                  JustThis = _config.JustThis,
                                  LaunchProcess = _config.LaunchProcess,
-                                 LaunchProcessArguments = _config.LaunchProcessArguments,
                                  CustomSidewinderFeedUrl = _config.CustomSidewinderFeedUrl
                              };
             return config;
