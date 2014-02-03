@@ -34,7 +34,6 @@ namespace Sidewinder.Core.Distributor
             Logger.Debug("\tCommand.SecondsToWait: {0}", _config.Command.SecondsToWait);
             Logger.Debug("\tCommand.TargetProcessFilename: {0}", _config.Command.TargetProcessFilename);
             Logger.Debug("\tCommand.LaunchProcess: {0}", _config.Command.LaunchProcess);
-            Logger.Debug("\tCommand.LaunchProcessArguments: {0}", _config.Command.LaunchProcessArguments);
             Logger.Debug("\tCommand.Updates...");
             _config.Command.Updates.ToList().ForEach(update => Logger.Debug("\t\t{0} -> v{1}", update.Target.Name,
                 update.NewVersion));

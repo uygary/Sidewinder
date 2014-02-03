@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using Fluent.IO;
+﻿using System.Diagnostics;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
 
@@ -24,7 +22,6 @@ namespace Sidewinder.Core.Distributor
             using (Process.Start(new ProcessStartInfo
             {
                 FileName = context.Config.Command.LaunchProcess,
-                Arguments = context.Config.Command.LaunchProcessArguments,
                 UseShellExecute = true
             })) { }
 

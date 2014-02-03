@@ -15,7 +15,6 @@ namespace Sidewinder.Core.Interfaces.Entities
         public ILogger Logger { get; set; }
         public Level LoggingLevel { get; set; }
         public string LaunchProcess { get; set; }
-        public string LaunchProcessArguments { get; set; }
         public string CustomSidewinderFeedUrl { get; set; }
 
         private string _backupFolder;
