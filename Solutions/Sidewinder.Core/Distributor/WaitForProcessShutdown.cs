@@ -20,8 +20,8 @@ namespace Sidewinder.Core.Distributor
 
         public bool Execute(DistributorContext context)
         {
-            if (string.Compare(Path.Get(context.Config.Command.TargetProcessFilename).Parent().FullPath,
-                context.Config.Command.InstallFolder, StringComparison.InvariantCultureIgnoreCase) != 0)
+            if (string.Compare(Path.Get(context.Config.Command.TargetProcessFilename).Parent().FullPath.TrimEnd('\\'),
+                context.Config.Command.InstallFolder.TrimEnd('\\'), StringComparison.InvariantCultureIgnoreCase) != 0)
                 return true;
 
             var attempt = 1;
