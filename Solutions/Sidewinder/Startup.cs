@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using Sidewinder.Core;
 using Sidewinder.Core.Interfaces;
@@ -21,7 +22,7 @@ namespace Sidewinder
         private static void Main(string[] args)
         {
             // default logger
-            Logger.Initialise(new ConsoleLogger(Level.Debug));                
+            Logger.Initialise(new ConsoleLogger(Level.Debug));
 
             try
             {
@@ -93,9 +94,6 @@ namespace Sidewinder
                                           .Execute()
                                           ? ExitCode.CommandExecuteSuccess
                                           : ExitCode.CommandExecuteFailure;
-
-                            Console.WriteLine("Press a key to continue...");
-                            Console.ReadKey();
                         }
                         // FUTURE - add other supported commands here
                     }
@@ -107,6 +105,12 @@ namespace Sidewinder
             {
                 Logger.Error(ex.ToString());
                 Environment.ExitCode = ExitCode.Fatal;
+            }
+
+            if (Environment.ExitCode != ExitCode.CommandExecuteSuccess)
+            {
+                Console.WriteLine("Press a key to continue...");
+                Console.ReadKey();
             }
         }
 
