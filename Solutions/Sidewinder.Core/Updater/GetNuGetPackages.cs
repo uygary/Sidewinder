@@ -124,15 +124,17 @@ namespace Sidewinder.Core.Updater
                 return;
 
             Logger.Debug("\t\tChecking for updates to dependent packages...");
-            if (update.Dependencies != null)
+            if (update.DependencySets != null)
             {
-                update.Dependencies.ToList().ForEach(
-                    dep => GetNuGetPackage(context, new TargetPackage
-                    {
-                        Name = dep.Id,
-                        NuGetFeedUrl = target.NuGetFeedUrl,
-                        UpdateDependencies = true
-                    }));
+                update.DependencySets
+                    .SelectMany(_ => _.Dependencies ?? Enumerable.Empty<PackageDependency>()).ToList()
+                    .ForEach(
+                        dep => GetNuGetPackage(context, new TargetPackage
+                        {
+                            Name = dep.Id,
+                            NuGetFeedUrl = target.NuGetFeedUrl,
+                            UpdateDependencies = true
+                        }));
             }
         }
 
