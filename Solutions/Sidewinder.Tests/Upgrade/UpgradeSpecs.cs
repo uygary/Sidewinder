@@ -20,9 +20,9 @@ namespace Sidewinder.Tests.Upgrade
         }
 
         [Test]
-        public void UpgradeFrom1Dot2To1Dot3()
+        public void UpgradeFrom1Dot2()
         {
-            _story.WithScenario("Simulate an upgrade from v1.2 to v1.3")
+            _story.WithScenario("Simulate an upgrade from v1.2")
                 .Given(The_CommandFile, "sidewinder-v1.2.xml")
                 .When(ItIsDeserialisedIntoTheCommand)
                 .Then(TheCommandContainsTheDistributeCommand)
@@ -31,14 +31,38 @@ namespace Sidewinder.Tests.Upgrade
         }
 
         [Test]
-        public void UpgradeFrom1Dot4To1Dot5()
+        public void UpgradeFrom1Dot4()
         {
-            _story.WithScenario("Simulate an upgrade from v1.4 to v1.5")
+            _story.WithScenario("Simulate an upgrade from v1.4")
                 .Given(The_CommandFile, "sidewinder-v1.4.xml")
                 .When(ItIsDeserialisedIntoTheCommand)
                 .Then(TheCommandContainsTheDistributeCommand)
                     .And(TheLogLevelShouldBe_, Level.Debug)
                 .ExecuteWithReport();
+        }
+
+        [Test]
+        public void UpgradeFromPreTargetProcessId()
+        {
+            _story.WithScenario("Simulate an upgrade from a version that only supported TargetProcessName")
+                .Given(The_CommandFile, "sidewinder-v1.4.xml")
+                .When(ItIsDeserialisedIntoTheCommand)
+                .Then(TheCommandContainsTheDistributeCommand)
+                    .And(TheTargetProcessIdShouldBeNull)
+                    .And(TheTargetProcessFilenameShouldBe_, @"C:\temp\Debug\Wolfpack.Agent.exe")
+                .ExecuteWithReport(); 
+        }
+
+        [Test]
+        public void UpgradeFrom1Dot5Dot2()
+        {
+            _story.WithScenario("Simulate an upgrade from a version that supports TargetProcessId")
+                .Given(The_CommandFile, "sidewinder-v1.5.2.xml")
+                .When(ItIsDeserialisedIntoTheCommand)
+                .Then(TheCommandContainsTheDistributeCommand)
+                    .And(TheTargetProcessIdShouldBe_, 1234)
+                    .And(TheTargetProcessFilenameShouldBe_, @"C:\temp\Debug\Wolfpack.Agent.exe")
+                .ExecuteWithReport(); 
         }
     }
 }

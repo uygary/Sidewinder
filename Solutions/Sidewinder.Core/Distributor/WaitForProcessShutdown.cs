@@ -36,7 +36,17 @@ namespace Sidewinder.Core.Distributor
                 {
                     var running = Process.GetProcesses().ToList();
 
-                    if (running.All(x => x.Id != context.Config.Command.TargetProcessId))
+                    // v.1.5.2 introduced process location via id - if set then use it
+                    if (context.Config.Command.TargetProcessId.GetValueOrDefault() != 0)
+                    {
+                        if (running.All(x => x.Id != context.Config.Command.TargetProcessId.GetValueOrDefault()))
+                            return true;                        
+                    }
+                    // might not be set if jumping from the previous version so fallback 
+                    // to the original method of detecting whether the process is still running
+                    if (running.FirstOrDefault(p => (String.CompareOrdinal(p.ProcessName, "System") != 0) &&
+                        (String.CompareOrdinal(p.ProcessName, "Idle") != 0) &&
+                        (String.CompareOrdinal(p.MainModule.FileName, context.Config.Command.TargetProcessFilename) == 0)) == null)
                         return true;
                 }
                 catch (Exception ex)
