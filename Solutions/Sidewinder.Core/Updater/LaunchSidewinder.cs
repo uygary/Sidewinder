@@ -26,7 +26,7 @@ namespace Sidewinder.Core.Updater
                 return false;
             }
 
-            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            var processStartInfo = new ProcessStartInfo
                 {
                     FileName = sidewinderPath
                 };

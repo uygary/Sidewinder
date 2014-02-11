@@ -119,6 +119,9 @@
     <Content Include="TestData\Backups\dummy.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData\sidewinder-v1.5.2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestData\Install_backup\FolderA\foldera.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -134,7 +137,9 @@
     <Content Include="TestData\Install_backup\_nestedupdate\_nestedupdate.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestData\sidewinder-v1.4.xml" />
+    <Content Include="TestData\sidewinder-v1.4.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TestData\Update\Conflict\Content\content.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -42,5 +42,20 @@ namespace Sidewinder.Tests.Upgrade
         {
             _commands.LogLevel.Should().Be(expected);
         }
+
+        private void TheTargetProcessIdShouldBe_(int expected)
+        {
+            _commands.DistributeFiles.TargetProcessId.Should().Be(expected);
+        }
+
+        private void TheTargetProcessIdShouldBeNull()
+        {
+            _commands.DistributeFiles.TargetProcessId.Should().Be(null);
+        }
+
+        private void TheTargetProcessFilenameShouldBe_(string expected)
+        {
+            _commands.DistributeFiles.TargetProcessFilename.Should().Be(expected);
+        }
     }
 }
