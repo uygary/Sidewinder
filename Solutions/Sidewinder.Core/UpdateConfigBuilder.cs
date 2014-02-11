@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Fluent.IO;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
@@ -33,7 +35,13 @@ namespace Sidewinder.Core
 
         private static Version GetRuntimeVersion()
         {
-            return new Version(Assembly.GetEntryAssembly().ImageRuntimeVersion.TrimStart('v'));
+            return new Version(GetApplicationAssembly().ImageRuntimeVersion.TrimStart('v'));
+        }
+
+        private static Assembly GetApplicationAssembly()
+        {
+            return Assembly.GetEntryAssembly() // can be null if invoked from a unit-test. See http://msdn.microsoft.com/en-us/library/system.reflection.assembly.getentryassembly(v=vs.100).aspx
+                ?? Assembly.GetCallingAssembly();
         }
 
         public UpdateConfigBuilder TargetFrameworkVersion11()
@@ -204,7 +212,7 @@ namespace Sidewinder.Core
         /// <returns></returns>
         public Version CurrentAppVersion()
         {
-            return Assembly.GetEntryAssembly().GetName().Version;
+            return GetApplicationAssembly().GetName().Version;
         }
 
         /// <summary>
@@ -292,6 +300,24 @@ namespace Sidewinder.Core
             return this;
         }
 
+        public UpdateConfigBuilder LaunchAfterUpdate(string cmdLine)
+        {
+            _config.LaunchProcess = cmdLine;
+            return this;
+        }
+
+        public UpdateConfigBuilder RelaunchSelfAfterUpdate()
+        {
+            _config.LaunchProcess = Environment.CommandLine;
+            return this;
+        }
+
+        public UpdateConfigBuilder UseCustomFeedForSidewinder(string feedUrl)
+        {
+            _config.CustomSidewinderFeedUrl = feedUrl;
+            return this;
+        }
+
         public UpdateConfig Build()
         {
             var config = new UpdateConfig
@@ -308,7 +334,9 @@ namespace Sidewinder.Core
                                  TargetPackages = _config.TargetPackages,
                                  BackupFoldersToIgnore = _config.BackupFoldersToIgnore,
                                  TargetFrameworkVersion = _config.TargetFrameworkVersion,
-                                 JustThis = _config.JustThis
+                                 JustThis = _config.JustThis,
+                                 LaunchProcess = _config.LaunchProcess,
+                                 CustomSidewinderFeedUrl = _config.CustomSidewinderFeedUrl
                              };
             return config;
         }

@@ -87,7 +87,7 @@ namespace Sidewinder.Core.Updater
             // o not forcing the update
             if (!target.Force && 
                 AlreadyInstalled(target) &&
-                !IsNewVersion(target.Version, update.Version.Version))
+                !IsNewVersion(new SemanticVersion(target.Version), update.Version))
             {
                 Logger.Info("\t\tNo update available...running the latest version!");
                 return;
@@ -124,15 +124,17 @@ namespace Sidewinder.Core.Updater
                 return;
 
             Logger.Debug("\t\tChecking for updates to dependent packages...");
-            if (update.Dependencies != null)
+            if (update.DependencySets != null)
             {
-                update.Dependencies.ToList().ForEach(
-                    dep => GetNuGetPackage(context, new TargetPackage
-                    {
-                        Name = dep.Id,
-                        NuGetFeedUrl = target.NuGetFeedUrl,
-                        UpdateDependencies = true
-                    }));
+                update.DependencySets
+                    .SelectMany(_ => _.Dependencies ?? Enumerable.Empty<PackageDependency>()).ToList()
+                    .ForEach(
+                        dep => GetNuGetPackage(context, new TargetPackage
+                        {
+                            Name = dep.Id,
+                            NuGetFeedUrl = target.NuGetFeedUrl,
+                            UpdateDependencies = true
+                        }));
             }
         }
 
@@ -141,7 +143,7 @@ namespace Sidewinder.Core.Updater
             return target.Version != null;
         }
 
-        protected virtual bool IsNewVersion(Version current, Version update)
+        protected virtual bool IsNewVersion(SemanticVersion current, SemanticVersion update)
         {
             if (current == null)
                 return false;
@@ -149,14 +151,12 @@ namespace Sidewinder.Core.Updater
                 return false;
 
             // TODO: support pre-release version declarations
-            var cVal = (current.Major*1000) + (current.Minor*100) + (current.Revision*10) + (current.Build);
-            var uVal = (update.Major * 1000) + (update.Minor * 100) + (update.Revision * 10) + (update.Build);
 
 #if TESTING
             Logger.Debug("\tChecking cVal={0} against uVal={1}", cVal, uVal);
 #endif
 
-            return uVal > cVal;
+            return update > current;
         }
 
         /// <summary>

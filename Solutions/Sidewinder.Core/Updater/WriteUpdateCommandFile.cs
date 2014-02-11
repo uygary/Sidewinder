@@ -29,7 +29,8 @@ namespace Sidewinder.Core.Updater
                     TargetProcessFilename = currentProcess.MainModule.FileName,
                     TargetProcessId = currentProcess.Id,
                     DownloadFolder = context.Config.DownloadFolder,
-                    Updates = context.Updates
+                    Updates = context.Updates,
+                    LaunchProcess = context.Config.LaunchProcess
                 }
             };
 
