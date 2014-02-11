@@ -29,7 +29,9 @@ namespace Sidewinder.Core.Updater
                                                           {
                                                               Name = Constants.Sidewinder.NuGetPackageName,
                                                               UpdateDependencies = true,
-                                                              NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
+                                                              NuGetFeedUrl = !string.IsNullOrEmpty(context.Config.CustomSidewinderFeedUrl)
+                                                                  ? context.Config.CustomSidewinderFeedUrl
+                                                                  : Constants.Sidewinder.OfficialFeedUrl
                                                           });
                     Logger.Debug("\tAdded Sidewinder to targets");
                 }
@@ -65,7 +67,9 @@ namespace Sidewinder.Core.Updater
                                                       Name = Constants.Sidewinder.NuGetPackageName,
                                                       Version = ver,
                                                       UpdateDependencies = true,
-                                                      NuGetFeedUrl = Constants.Sidewinder.OfficialFeedUrl
+                                                      NuGetFeedUrl = !string.IsNullOrEmpty(context.Config.CustomSidewinderFeedUrl)
+                                                          ? context.Config.CustomSidewinderFeedUrl
+                                                          : Constants.Sidewinder.OfficialFeedUrl
                                                   });
             Logger.Debug("\tAdded Sidewinder {0}to targets (update)", ver == null ? string.Empty : ver + " ");
             return true;

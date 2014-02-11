@@ -21,6 +21,7 @@ namespace Sidewinder.Core.Distributor
                 .Then(new CopyOtherPackageFiles())
                 .Then(new UpdateInstalledPackages())
                 .Then(new LaunchReadme())
+                .Then(new LaunchProcess())
                 .Then(new CleanUp());
         }
 
@@ -33,6 +34,7 @@ namespace Sidewinder.Core.Distributor
             Logger.Debug("\tCommand.SecondsToWait: {0}", _config.Command.SecondsToWait);
             Logger.Debug("\tCommand.TargetProcessFilename: {0}", _config.Command.TargetProcessFilename);
             Logger.Debug("\tCommand.TargetProcessId: {0}", _config.Command.TargetProcessId.GetValueOrDefault());
+            Logger.Debug("\tCommand.LaunchProcess: {0}", _config.Command.LaunchProcess);
             Logger.Debug("\tCommand.Updates...");
             _config.Command.Updates.ToList().ForEach(update => Logger.Debug("\t\t{0} -> v{1}", update.Target.Name,
                 update.NewVersion));

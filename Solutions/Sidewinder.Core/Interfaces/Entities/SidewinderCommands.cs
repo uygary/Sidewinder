@@ -23,7 +23,8 @@ namespace Sidewinder.Core.Interfaces.Entities
         public List<UpdatedPackage> Updates { get; set; }
         public int SecondsToWait { get; set; }
         public ConflictResolutionTypes ConflictResolution { get; set; }
-        
+        public string LaunchProcess { get; set; }
+
         private string _downloadFolder;
         public string DownloadFolder
         {

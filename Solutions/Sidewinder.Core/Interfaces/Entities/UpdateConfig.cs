@@ -14,6 +14,8 @@ namespace Sidewinder.Core.Interfaces.Entities
         public List<string> BackupFoldersToIgnore { get; set; }
         public ILogger Logger { get; set; }
         public Level LoggingLevel { get; set; }
+        public string LaunchProcess { get; set; }
+        public string CustomSidewinderFeedUrl { get; set; }
 
         private string _backupFolder;
         public string BackupFolder
