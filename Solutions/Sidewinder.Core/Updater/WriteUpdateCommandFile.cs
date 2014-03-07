@@ -16,11 +16,14 @@ namespace Sidewinder.Core.Updater
             var commandFile = Path.Get(context.Config.DownloadFolder).Combine(Constants.Sidewinder.CommandFile).FullPath;
 
             Logger.Debug("\tWriting command file to {0}", commandFile);
-            Process currentProcess = Process.GetCurrentProcess();
+
+            var currentProcess = Process.GetCurrentProcess();
             var command = new SidewinderCommands
             {
                 LogLevel = Logger.Level,
                 LogPath = context.Config.LogPath,
+                NoWaitPrompt = context.Config.NoWaitPrompt,
+
                 DistributeFiles = new DistributeFiles
                 {
                     ConflictResolution = context.Config.ConflictResolution,
@@ -30,7 +33,8 @@ namespace Sidewinder.Core.Updater
                     TargetProcessId = currentProcess.Id,
                     DownloadFolder = context.Config.DownloadFolder,
                     Updates = context.Updates,
-                    LaunchProcess = context.Config.LaunchProcess
+                    LaunchProcess = context.Config.LaunchProcess,
+                    LaunchProcessArgs = context.Config.LaunchProcessArgs
                 }
             };
 

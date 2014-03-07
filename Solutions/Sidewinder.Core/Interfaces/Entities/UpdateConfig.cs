@@ -15,6 +15,7 @@ namespace Sidewinder.Core.Interfaces.Entities
         public ILogger Logger { get; set; }
         public Level LoggingLevel { get; set; }
         public string LaunchProcess { get; set; }
+        public string LaunchProcessArgs { get; set; }
         public string CustomSidewinderFeedUrl { get; set; }
 
         private string _backupFolder;
@@ -42,7 +43,14 @@ namespace Sidewinder.Core.Interfaces.Entities
         public string LogPath
         {
             get { return _logPath; }
-            set { _logPath = SmartLocation.GetLocation(value); }
+            set 
+            { 
+                _logPath = string.IsNullOrWhiteSpace(value) 
+                    ? value 
+                    : SmartLocation.GetLocation(value);
+            }
         }
+
+        public bool NoWaitPrompt { get; set; }
     }
 }

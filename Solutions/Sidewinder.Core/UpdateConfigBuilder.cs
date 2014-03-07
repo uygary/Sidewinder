@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using Fluent.IO;
 using Sidewinder.Core.Interfaces;
 using Sidewinder.Core.Interfaces.Entities;
@@ -17,6 +16,7 @@ namespace Sidewinder.Core
         {
             _config = new UpdateConfig
                            { 
+                               NoWaitPrompt = false,
                                SkipOfficialFeed = false,
                                Backup = true,
                                LoggingLevel = Level.Debug,
@@ -231,6 +231,11 @@ namespace Sidewinder.Core
             _config.Backup = false;
             return this;
         }
+        public UpdateConfigBuilder NoWaitPrompt()
+        {
+            _config.NoWaitPrompt = true;
+            return this;
+        }
 
         /// <summary>
         /// Any content files that exist in the installation folder will be overwritten
@@ -300,15 +305,18 @@ namespace Sidewinder.Core
             return this;
         }
 
-        public UpdateConfigBuilder LaunchAfterUpdate(string cmdLine)
+        public UpdateConfigBuilder LaunchAfterUpdate(string cmdLine, string args = null)
         {
             _config.LaunchProcess = cmdLine;
+            _config.LaunchProcessArgs = args;
             return this;
         }
 
         public UpdateConfigBuilder RelaunchSelfAfterUpdate()
         {
-            _config.LaunchProcess = Environment.CommandLine;
+            var cmdline = Environment.GetCommandLineArgs();
+            _config.LaunchProcess = cmdline[0];
+            _config.LaunchProcessArgs = string.Join(" ", cmdline.Skip(1).Select(x => x));
             return this;
         }
 
@@ -322,6 +330,7 @@ namespace Sidewinder.Core
         {
             var config = new UpdateConfig
                              {
+                                 NoWaitPrompt = _config.NoWaitPrompt,
                                  SkipOfficialFeed = _config.SkipOfficialFeed,
                                  Backup = _config.Backup,
                                  Logger = _config.Logger,
@@ -336,6 +345,7 @@ namespace Sidewinder.Core
                                  TargetFrameworkVersion = _config.TargetFrameworkVersion,
                                  JustThis = _config.JustThis,
                                  LaunchProcess = _config.LaunchProcess,
+                                 LaunchProcessArgs = _config.LaunchProcessArgs,
                                  CustomSidewinderFeedUrl = _config.CustomSidewinderFeedUrl
                              };
             return config;

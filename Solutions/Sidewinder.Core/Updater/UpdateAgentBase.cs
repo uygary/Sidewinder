@@ -27,6 +27,7 @@ namespace Sidewinder.Core.Updater
             Logger.Debug("\tConfig.DownloadFolder: {0}", _config.DownloadFolder);
             Logger.Debug("\tConfig.InstallFolder: {0}", _config.InstallFolder);
             Logger.Debug("\tConfig.TargetFrameworkVersion: {0}", _config.TargetFrameworkVersion);
+            Logger.Debug("\tConfig.NoWaitPrompt: {0}", _config.NoWaitPrompt);
 
             return _pipeline.Execute(new UpdaterContext
                                    {

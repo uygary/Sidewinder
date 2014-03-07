@@ -22,6 +22,7 @@ namespace Sidewinder.Core.Distributor
             using (Process.Start(new ProcessStartInfo
             {
                 FileName = context.Config.Command.LaunchProcess,
+                Arguments = context.Config.Command.LaunchProcessArgs,
                 UseShellExecute = true
             })) { }
 
