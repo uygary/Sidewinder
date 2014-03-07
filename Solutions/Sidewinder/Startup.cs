@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.IO;
 using Sidewinder.Core;
 using Sidewinder.Core.Interfaces;
@@ -9,7 +8,7 @@ namespace Sidewinder
 {
     internal class Startup
     {
-        private class ExitCode
+        private static class ExitCode
         {
             public const int CommandExecuteSuccess = 0;            
             public const int UpdateAvailable = 0;
@@ -24,55 +23,62 @@ namespace Sidewinder
             // default logger
             Logger.Initialise(new ConsoleLogger(Level.Debug));
 
+            var noWaitPrompt = false;
+
             try
             {
-                var retCode = ExitCode.NoUpdateAvailable;
+                var retCode = ExitCode.NoUpdateAvailable;                
 
                 if (args.Length > 0)
                 {
                     // https://github.com/littlebits/args
                     var command = Args.Configuration.Configure<CmdlineArgs>().CreateAndBind(args);
+                    noWaitPrompt = command.NoWaitPrompt;
 
-                    retCode = AppUpdateFactory.Setup(config =>
-                                                       {
-                                                           var feed = command.Feed;
-                                                           if (string.IsNullOrWhiteSpace(feed))
-                                                               feed = Constants.NuGet.OfficialFeedUrl;
+                    retCode = AppUpdateFactory.Setup(config 
+                        =>
+                            {
+                                var feed = command.Feed;
+                                if (string.IsNullOrWhiteSpace(feed))
+                                    feed = Constants.NuGet.OfficialFeedUrl;
 
-                                                           config.Update(new TargetPackage
-                                                                             {
-                                                                                 Force = command.Force,
-                                                                                 Name = command.Package,
-                                                                                 NuGetFeedUrl = feed,
-                                                                                 UpdateDependencies = command.Dependencies
-                                                                             })
-                                                               .InstallInto(command.InstallFolder)
-                                                               .JustThesePackages()
-                                                               .SetLoggingLevel(command.LogLevel);
+                                config.Update(new TargetPackage
+                                                    {
+                                                        Force = command.Force,
+                                                        Name = command.Package,
+                                                        NuGetFeedUrl = feed,
+                                                        UpdateDependencies = command.Dependencies
+                                                    })
+                                    .InstallInto(command.InstallFolder)
+                                    .JustThesePackages()
+                                    .SetLoggingLevel(command.LogLevel);
 
-                                                           if (command.SkipOfficialFeed)
-                                                               config.SkipOfficialFeed();
-                                                           if (command.Overwrite)
-                                                               config.OverwriteContentFiles();
-                                                           else if (command.Manual)
-                                                               config.UserWillManuallyResolveContentConflicts();
-                                                           else
-                                                               config.AskUserToResolveContentConflicts();
+                                if (command.SkipOfficialFeed)
+                                    config.SkipOfficialFeed();
+                                if (command.Overwrite)
+                                    config.OverwriteContentFiles();
+                                else if (command.Manual)
+                                    config.UserWillManuallyResolveContentConflicts();
+                                else
+                                    config.AskUserToResolveContentConflicts();
 
-                                                           // if a hint is supplied then use it otherwise
-                                                           // the default will be net40
-                                                           if (command.Net11)
-                                                               config.TargetFrameworkVersion11();
-                                                           if (command.Net20)
-                                                               config.TargetFrameworkVersion20();
-                                                           if (command.Net40)
-                                                               config.TargetFrameworkVersion40();
-                                                           if (command.Net45)
-                                                               config.TargetFrameworkVersion45();
-                                                       })
-                                  .Execute()
-                                  ? ExitCode.UpdateAvailable
-                                  : ExitCode.NoUpdateAvailable;
+                                // if a hint is supplied then use it otherwise
+                                // the default will be net40
+                                if (command.Net11)
+                                    config.TargetFrameworkVersion11();
+                                if (command.Net20)
+                                    config.TargetFrameworkVersion20();
+                                if (command.Net40)
+                                    config.TargetFrameworkVersion40();
+                                if (command.Net45)
+                                    config.TargetFrameworkVersion45();
+
+                                if (command.NoWaitPrompt)
+                                    config.NoWaitPrompt();
+                            })
+                            .Execute()
+                            ? ExitCode.UpdateAvailable
+                            : ExitCode.NoUpdateAvailable;
                 }
                 else
                 {
@@ -85,7 +91,9 @@ namespace Sidewinder
                     }
                     else
                     {
-                        if (commands.LogPath != null)
+                        noWaitPrompt = commands.NoWaitPrompt;
+
+                        if (!string.IsNullOrWhiteSpace(commands.LogPath))
                         {
                             Logger.Initialise(new FileLogger(commands.LogLevel, commands.LogPath));
                         }
@@ -115,7 +123,7 @@ namespace Sidewinder
                 Environment.ExitCode = ExitCode.Fatal;
             }
 
-            if (Environment.ExitCode != ExitCode.CommandExecuteSuccess)
+            if (noWaitPrompt == false && (Environment.ExitCode != ExitCode.CommandExecuteSuccess))
             {
                 Console.WriteLine("Press a key to continue...");
                 Console.ReadKey();

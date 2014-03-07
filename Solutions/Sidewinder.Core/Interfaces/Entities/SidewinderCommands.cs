@@ -7,6 +7,7 @@ namespace Sidewinder.Core.Interfaces.Entities
     {
         public Level LogLevel { get; set; }
         public string LogPath { get; set; }
+        public bool NoWaitPrompt { get; set; }
         public DistributeFiles DistributeFiles { get; set; }
 
         public SidewinderCommands()
@@ -24,6 +25,7 @@ namespace Sidewinder.Core.Interfaces.Entities
         public int SecondsToWait { get; set; }
         public ConflictResolutionTypes ConflictResolution { get; set; }
         public string LaunchProcess { get; set; }
+        public string LaunchProcessArgs { get; set; }
 
         private string _downloadFolder;
         public string DownloadFolder
