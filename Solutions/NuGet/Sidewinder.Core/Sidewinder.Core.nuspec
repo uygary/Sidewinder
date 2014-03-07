@@ -10,7 +10,7 @@
     <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=sidewinder&amp;DownloadId=270857</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>v1.5.2 adds support for .net 4.5 framework packages, improvements for process restart, custom feed for sidewinder package location and support semantic versions. Also upgraded to latest NuGet.Core package.</releaseNotes>
+    <releaseNotes>v1.5.3 adds /nowaitprompt and NoWaitPrompt() support to stop "Press a key..." prompt. Fixed bugs in process launch and when no logpath specified.</releaseNotes>
     <description>Provides the core functionality to deploy updates to your application via a nuget package</description>
     <summary>Provides the core functionality to deploy updates to your application via a nuget package. This includes backing it up, checking for nuget package updates, downloading and deploying the files in them</summary>
     <language>en-GB</language>
