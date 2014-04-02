@@ -10,7 +10,7 @@
     <projectUrl>http://sidewinder.codeplex.com/</projectUrl>
     <iconUrl>http://www.codeplex.com/Project/Download/FileDownload.aspx?ProjectName=sidewinder&amp;DownloadId=270857</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <releaseNotes>v1.5.3 adds /nowaitprompt and NoWaitPrompt() support to stop "Press a key..." prompt. Fixed bugs in process launch and when no logpath specified.</releaseNotes>
+    <releaseNotes>v1.5.4 - no code changes - just picks up the latest dotnetzip library v1.9.2.</releaseNotes>
     <description>Provides a console application to pull down NuGet packages and deploy the content into any folder.</description>
     <summary>This is a cmdline wrapper over the Sidewinder.Core package. This can be used to install the content of a NuGet package (including dependencies) into any folder - it can also backup the folder first.</summary>
     <language>en-GB</language>
