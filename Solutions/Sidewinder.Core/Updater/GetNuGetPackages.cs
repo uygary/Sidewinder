@@ -20,9 +20,20 @@ namespace Sidewinder.Core.Updater
                 throw new ArgumentException("Config.TargetPackages property is null", "context");
         }
 
+        /// <summary>
+        /// Get nuget packages (and optionally dependents)
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        /// <remarks>Needs to be refactored and split into two steps...very clunky/procedural ATM and ever expanding...
+        /// 1) to build a canonical list of download instructions 
+        /// 2) do the actual downloads
+        /// ...this would make it more testable too
+        /// </remarks>
         public bool Execute(UpdaterContext context)
         {
             Logger.Debug("\tConfig.TargetPackages...");
+
             context.Config.TargetPackages.ToList()
                 .ForEach(tp =>
                              {
@@ -55,7 +66,6 @@ namespace Sidewinder.Core.Updater
         public void ExitConditions(UpdaterContext context)
         {
         }
-
 
         protected virtual void GetNuGetPackage(UpdaterContext context, TargetPackage target)
         {
@@ -97,16 +107,7 @@ namespace Sidewinder.Core.Updater
             Logger.Debug("\t\tUpdated version v{0} is available {1}", update.Version.Version, 
                 target.Force ? " ** FORCED **" : string.Empty);
 
-            var downloadFolder = Fluent.IO.Path.Get(context.Config.DownloadFolder, target.Name).FullPath;
-            Logger.Debug("\tDownloading package '{0}' content to: {1}...", target.Name, downloadFolder);
-
-            Fluent.IO.Path.CreateDirectory(downloadFolder);
-            var files = update.GetFiles();
-            files.ToList().ForEach(file =>
-            {
-                Logger.Debug("\t\t{0}", file.Path);
-                DownloadFile(downloadFolder, file);
-            });
+            DownloadPackage(context, update);
 
             // add to list of updates (as long as it's not sidewinder itself)
             if (string.Compare(update.Id, Constants.Sidewinder.NuGetPackageName,
@@ -128,15 +129,65 @@ namespace Sidewinder.Core.Updater
             {
                 update.DependencySets
                     .SelectMany(_ => _.Dependencies ?? Enumerable.Empty<PackageDependency>()).ToList()
-                    .ForEach(
-                        dep => GetNuGetPackage(context, new TargetPackage
-                        {
-                            Name = dep.Id,
-                            NuGetFeedUrl = target.NuGetFeedUrl,
-                            UpdateDependencies = true
-                        }));
+                    .ForEach(dependency => GetPackageDependency(context, target.NuGetFeedUrl, target.Force, dependency));
             }
         }
+
+        protected virtual void GetPackageDependency(UpdaterContext context, string feedUrl, bool force, PackageDependency dependency)
+        {
+            Logger.Debug("Looking for updates to Package (Dependent) {0}...", dependency.Id);
+
+            IPackage update;
+            if (!FindDependency(context, feedUrl, dependency, out update))
+            {
+                Logger.Warn("Unable to locate Dependency {0}!", dependency.Id);
+                return;
+            }
+
+            if (!force)
+            {
+                if (context.InstalledPackages.ContainsKey(dependency.Id))
+                {
+                    var incumbentPackage = context.InstalledPackages[dependency.Id];
+                    if (!IsNewVersion(new SemanticVersion(incumbentPackage.Version), update.Version))
+                    {
+                        Logger.Debug("\t\tPackage already installed!");
+                        return;
+                    }
+                }
+            }
+
+            // ok, lets download it!...
+            Logger.Debug("\t\tv{0} is available {1}", update.Version.Version, 
+                force ? " ** FORCED DOWNLOAD **" : string.Empty);
+
+            DownloadPackage(context, update);
+
+            // add to list of updates (as long as it's not sidewinder itself)
+            if (string.Compare(update.Id, Constants.Sidewinder.NuGetPackageName,
+                StringComparison.InvariantCultureIgnoreCase) != 0)
+            {
+                context.Updates.Add(new UpdatedPackage
+                {
+                    NewVersion = update.Version.Version,
+                    Target = new TargetPackage
+                             {
+                                 Name = update.Id,
+                                 Version = update.Version.Version,
+                                 NuGetFeedUrl = feedUrl
+                             }
+                });
+            }
+
+            Logger.Debug("\t\tChecking for updates to dependent packages...");
+            if (update.DependencySets != null)
+            {
+                update.DependencySets
+                    .SelectMany(_ => _.Dependencies ?? Enumerable.Empty<PackageDependency>()).ToList()
+                    .ForEach(childDependency => GetPackageDependency(context, feedUrl, force, childDependency));
+            }
+        }
+
 
         protected virtual bool AlreadyInstalled(TargetPackage target)
         {
@@ -207,6 +258,58 @@ namespace Sidewinder.Core.Updater
             // update the target feed just in case we get it from the fallback (official) feed
             target.NuGetFeedUrl = repo.Source;
             return true;
+        }
+
+        protected virtual bool FindDependency(UpdaterContext context, string feedUrl, PackageDependency dependency,
+            out IPackage package)
+        {
+            const bool allowPreRelease = false;
+            const bool preferListed = true;
+
+            var repo = PackageRepositoryFactory.Default.CreateRepository(feedUrl);
+            package = repo.ResolveDependency(dependency, allowPreRelease, preferListed);
+
+            if (package != null)
+            {
+                Logger.Debug("\t\tDependency Package {0} v{1} located on {2}", dependency.Id, package.Version, feedUrl);
+                return true;
+            }
+
+            if (feedUrl.Equals(Constants.NuGet.OfficialFeedUrl, StringComparison.InvariantCultureIgnoreCase))
+            {
+                // we are alrady using the Official Feed so lets bail...
+                return false;
+            }
+            if (context.Config.SkipOfficialFeed)
+            {
+                // ditto if we are forced not to use Official...
+                Logger.Info("SkipOfficialFeed specified so not looking there for the package!");
+                return false;
+            }
+
+            Logger.Debug("\t\tAttempting to find dependency on the official feed...");
+            repo = PackageRepositoryFactory.Default.CreateRepository(Constants.NuGet.OfficialFeedUrl);
+            package = repo.ResolveDependency(dependency, allowPreRelease, preferListed);
+
+            if (package == null) 
+                return false;
+
+            Logger.Debug("\t\tDependency Package {0} v{1} located on Official NuGet feed", dependency.Id, package.Version);
+            return true;
+        }
+
+        protected virtual void DownloadPackage(UpdaterContext context, IPackage package)
+        {
+            var downloadFolder = Fluent.IO.Path.Get(context.Config.DownloadFolder, package.Id).FullPath;
+            Logger.Debug("\tDownloading package '{0}' content to: {1}...", package.Id, downloadFolder);
+
+            Fluent.IO.Path.CreateDirectory(downloadFolder);
+            var files = package.GetFiles();
+            files.ToList().ForEach(file =>
+            {
+                Logger.Debug("\t\t{0}", file.Path);
+                DownloadFile(downloadFolder, file);
+            });
         }
 
         protected virtual void DownloadFile(string downloadFolder, IPackageFile file)
